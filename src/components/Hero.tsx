@@ -36,10 +36,6 @@ export default function Hero() {
   const imgX = useTransform(sx, [-0.5, 0.5], ["-3%", "3%"]);
   const imgY = useTransform(sy, [-0.5, 0.5], ["-3%", "3%"]);
 
-  // Second image parallax (aerial) — opposite direction, slower
-  const img2X = useTransform(sx, [-0.5, 0.5], ["2%", "-2%"]);
-  const img2Y = useTransform(sy, [-0.5, 0.5], ["2%", "-2%"]);
-
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = e;
     const { width, height } = e.currentTarget.getBoundingClientRect();
@@ -58,24 +54,13 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      {/* Main hero image — follows mouse */}
+      {/* Hero image — follows mouse */}
       <motion.div className="absolute inset-0 z-0" style={{ x: imgX, y: imgY, scale: 1.08 }}>
         <Image src="/images/hero/hero-aurora.png" alt="Aurora sobre iceberg" fill priority className="object-cover" quality={90} />
       </motion.div>
 
-      {/* Second image — aerial, fades in subtly, opposite parallax */}
-      <motion.div
-        className="absolute inset-0 z-[1]"
-        style={{ x: img2X, y: img2Y, scale: 1.1 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.35 }}
-        transition={{ duration: 3, delay: 1 }}
-      >
-        <Image src="/images/hero/hero-aerial.png" alt="Vista aérea iceberg" fill className="object-cover object-top" quality={80} />
-      </motion.div>
-
       {/* Gradient overlay */}
-      <div className="absolute inset-0 z-[2]" style={{
+      <div className="absolute inset-0 z-[1]" style={{
         background: "linear-gradient(to bottom, rgba(10,13,31,0.3) 0%, rgba(38,33,92,0.15) 40%, rgba(10,13,31,0.75) 100%)",
       }} />
 
