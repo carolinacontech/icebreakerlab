@@ -1,22 +1,49 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function once<T extends EventTarget>(
-  el: T,
-  event: string,
-  fn: EventListenerOrEventListenerObject
-) {
-  const wrapped = (e: Event) => {
-    el.removeEventListener(event, wrapped);
-    (fn as (e: Event) => void)(e);
-  };
+function once<T extends EventTarget>(el: T, event: string, fn: (e: Event) => void) {
+  const wrapped = (e: Event) => { el.removeEventListener(event, wrapped); fn(e); };
   el.addEventListener(event, wrapped);
 }
+
+const slides = [
+  {
+    id: "slide-0",
+    label: "Agencia de Websites & SEO",
+    title: "Rompemos el hielo.",
+    subtitle: "Tu negocio comunica.",
+    body: "Como el iceberg, hay mucho más debajo de la superficie.",
+    cta: null,
+  },
+  {
+    id: "slide-1",
+    label: "El problema",
+    title: "Lo que ves es solo\nla punta.",
+    subtitle: null,
+    body: "La mayoría de negocios tienen grandes productos pero sitios que no conectan, no convencen y no convierten.",
+    cta: null,
+  },
+  {
+    id: "slide-2",
+    label: "Nuestra filosofía",
+    title: "El 90% del trabajo\nestá aquí abajo.",
+    subtitle: null,
+    body: "SEO técnico, arquitectura, rendimiento y estrategia — invisible para el usuario, decisivo para Google.",
+    cta: null,
+  },
+  {
+    id: "slide-3",
+    label: "El resultado",
+    title: "Visible para Google.\nIrresistible para tus clientes.",
+    subtitle: null,
+    body: "Construimos la infraestructura digital que hace que tu mensaje llegue claro, rápido y al lugar correcto.",
+    cta: { label: "Empieza tu proyecto", href: "#servicios" },
+  },
+];
 
 export default function ScrollVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,14 +56,10 @@ export default function ScrollVideo() {
 
     let src = video.currentSrc || video.src;
 
-    // iOS activation
-    once(document.documentElement, "touchstart", () => {
-      video.play();
-      video.pause();
-    });
+    once(document.documentElement, "touchstart", () => { video.play(); video.pause(); });
 
+    // Video scrub timeline
     const tl = gsap.timeline({
-      defaults: { duration: 1 },
       scrollTrigger: {
         trigger: container,
         start: "top top",
@@ -57,25 +80,72 @@ export default function ScrollVideo() {
           .then((blob) => {
             const blobURL = URL.createObjectURL(blob);
             const t = video.currentTime;
-            once(document.documentElement, "touchstart", () => {
-              video.play();
-              video.pause();
-            });
+            once(document.documentElement, "touchstart", () => { video.play(); video.pause(); });
             video.setAttribute("src", blobURL);
             video.currentTime = t + 0.01;
           });
       }
     }, 800);
 
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    };
+    // Text slide animations
+    const totalSlides = slides.length;
+    slides.forEach((slide, i) => {
+      const el = document.getElementById(slide.id);
+      if (!el) return;
+
+      const start = i === 0 ? "top top" : `${(i / totalSlides) * 100}% top`;
+      const end = i === totalSlides - 1 ? "bottom bottom" : `${((i + 1) / totalSlides) * 100}% top`;
+
+      // Fade in
+      if (i > 0) {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            scrollTrigger: {
+              trigger: container,
+              start,
+              end: `+=${window.innerHeight * 0.3}`,
+              scrub: true,
+            },
+          }
+        );
+      } else {
+        gsap.set(el, { opacity: 1, y: 0 });
+      }
+
+      // Fade out (all except last)
+      if (i < totalSlides - 1) {
+        gsap.fromTo(
+          el,
+          { opacity: 1, y: 0 },
+          {
+            opacity: 0,
+            y: -40,
+            duration: 0.4,
+            scrollTrigger: {
+              trigger: container,
+              start: end,
+              end: `+=${window.innerHeight * 0.3}`,
+              scrub: true,
+            },
+          }
+        );
+      }
+    });
+
+    return () => { ScrollTrigger.getAll().forEach((st) => st.kill()); };
   }, []);
 
   return (
-    <div ref={containerRef} id="scroll-container" style={{ height: "500vh" }} className="relative">
-      {/* Sticky video wrapper */}
+    <div ref={containerRef} style={{ height: "600vh" }} className="relative">
+      {/* Sticky viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
+
+        {/* Video */}
         <video
           ref={videoRef}
           src="/video/iceberg.mp4"
@@ -85,139 +155,114 @@ export default function ScrollVideo() {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Gradient overlay */}
+        {/* Gradient */}
+        <div className="absolute inset-0 z-10" style={{
+          background: "linear-gradient(to bottom, rgba(10,13,31,0.3) 0%, transparent 25%, transparent 65%, rgba(10,13,31,0.65) 100%)",
+        }} />
+
+        {/* Text slides — all stacked, visibility controlled by GSAP */}
+        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+          {slides.map((slide, i) => (
+            <div
+              key={slide.id}
+              id={slide.id}
+              className="absolute inset-0 flex flex-col items-center justify-center text-center px-6"
+              style={{ opacity: i === 0 ? 1 : 0 }}
+            >
+              {/* Label pill */}
+              <div
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase mb-8"
+                style={{
+                  background: "rgba(83,74,183,0.2)",
+                  border: "1px solid rgba(175,169,236,0.3)",
+                  color: "var(--aurora-light)",
+                }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--aurora-teal)" }} />
+                {slide.label}
+              </div>
+
+              {/* Title */}
+              <h2
+                className="font-bold mb-4 leading-tight"
+                style={{
+                  fontSize: "clamp(2.2rem, 6vw, 5rem)",
+                  color: "var(--snow)",
+                  textShadow: "0 0 80px rgba(83,74,183,0.5)",
+                  whiteSpace: "pre-line",
+                  maxWidth: "800px",
+                }}
+              >
+                {slide.title}
+              </h2>
+
+              {/* Subtitle */}
+              {slide.subtitle && (
+                <h3
+                  className="font-semibold mb-6"
+                  style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", color: "var(--aurora-light)" }}
+                >
+                  {slide.subtitle}
+                </h3>
+              )}
+
+              {/* Body */}
+              <p
+                className="max-w-xl mx-auto mb-10 leading-relaxed"
+                style={{ fontSize: "clamp(1rem, 1.5vw, 1.2rem)", color: "var(--ice-tip)", opacity: 0.85 }}
+              >
+                {slide.body}
+              </p>
+
+              {/* CTA */}
+              {slide.cta && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto">
+                  <a
+                    href={slide.cta.href}
+                    className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
+                    style={{
+                      background: "var(--aurora)",
+                      color: "var(--snow)",
+                      boxShadow: "0 0 50px rgba(83,74,183,0.55)",
+                    }}
+                  >
+                    {slide.cta.label}
+                  </a>
+                  <a
+                    href="#portfolio"
+                    className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
+                    style={{
+                      background: "rgba(255,255,255,0.07)",
+                      border: "1px solid rgba(175,169,236,0.45)",
+                      color: "var(--aurora-light)",
+                    }}
+                  >
+                    Ver nuestro trabajo
+                  </a>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Scroll indicator — first slide only */}
         <div
-          className="absolute inset-0 z-10"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(10,13,31,0.35) 0%, transparent 30%, transparent 70%, rgba(10,13,31,0.7) 100%)",
-          }}
-        />
-
-        {/* HERO text — fades out as you scroll */}
-        <motion.div
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6"
-          style={{ pointerEvents: "none" }}
+          id="scroll-indicator"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase mb-8"
-            style={{
-              background: "rgba(83,74,183,0.2)",
-              border: "1px solid rgba(175,169,236,0.3)",
-              color: "var(--aurora-light)",
-              pointerEvents: "auto",
-            }}
-          >
-            <motion.span
-              className="w-1.5 h-1.5 rounded-full"
-              style={{ background: "var(--aurora-teal)" }}
-              animate={{ scale: [1, 1.8, 1], opacity: [1, 0.3, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            Agencia de Websites & SEO
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
-            style={{
-              color: "var(--snow)",
-              textShadow: "0 0 80px rgba(83,74,183,0.5)",
-            }}
-          >
-            Rompemos el hielo.
-            <br />
-            <motion.span
-              style={{ color: "var(--aurora-light)" }}
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 4, repeat: Infinity }}
-            >
-              Tu negocio comunica.
-            </motion.span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
-            style={{ color: "var(--ice-tip)", opacity: 0.85 }}
-          >
-            Como el iceberg, hay mucho más debajo de la superficie.
-            Construimos websites que conquistan Google y convierten visitantes en clientes.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-            style={{ pointerEvents: "auto" }}
-          >
-            <motion.a
-              href="#servicios"
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.97 }}
-              className="px-8 py-4 rounded-full font-semibold text-base"
-              style={{
-                background: "var(--aurora)",
-                color: "var(--snow)",
-                boxShadow: "0 0 50px rgba(83,74,183,0.55)",
-              }}
-            >
-              Empieza tu proyecto
-            </motion.a>
-            <motion.a
-              href="#portfolio"
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.97 }}
-              className="px-8 py-4 rounded-full font-semibold text-base"
-              style={{
-                background: "rgba(255,255,255,0.07)",
-                border: "1px solid rgba(175,169,236,0.45)",
-                color: "var(--aurora-light)",
-              }}
-            >
-              Ver nuestro trabajo
-            </motion.a>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 cursor-pointer"
-          onClick={() =>
-            window.scrollTo({ top: window.innerHeight * 1.5, behavior: "smooth" })
-          }
-        >
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          <div
             className="w-6 h-10 rounded-full flex items-start justify-center pt-2"
             style={{ border: "1.5px solid rgba(175,169,236,0.4)" }}
           >
-            <motion.div
-              className="w-1 h-2 rounded-full"
+            <div
+              className="w-1 h-2 rounded-full animate-bounce"
               style={{ background: "var(--aurora-light)" }}
-              animate={{ opacity: [1, 0, 1], y: [0, 6, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity }}
             />
-          </motion.div>
-          <span
-            className="text-xs tracking-widest uppercase"
-            style={{ color: "var(--aurora-light)", opacity: 0.5 }}
-          >
+          </div>
+          <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-light)", opacity: 0.45 }}>
             Scroll
           </span>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
