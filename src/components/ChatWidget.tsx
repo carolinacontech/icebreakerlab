@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 type Message = { role: "assistant" | "user"; text: string };
 
@@ -149,14 +150,16 @@ export default function ChatWidget() {
       {/* Floating button */}
       <motion.button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-5 py-3.5 rounded-full font-semibold text-sm shadow-2xl"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-full font-semibold text-sm shadow-2xl"
         style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.6)" }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.96 }}
         animate={{ y: [0, -4, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span style={{ fontSize: "1.1rem" }}>🧊</span>
+        <div className="w-8 h-8 rounded-full overflow-hidden shrink-0" style={{ border: "2px solid rgba(175,169,236,0.5)" }}>
+          <Image src="/images/frost-avatar.png" alt="Frost" width={32} height={32} className="object-cover" />
+        </div>
         Start your project
       </motion.button>
 
@@ -182,9 +185,9 @@ export default function ChatWidget() {
             <div className="flex items-center justify-between px-5 py-4 shrink-0"
               style={{ borderBottom: "1px solid rgba(83,74,183,0.2)" }}>
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg"
-                  style={{ background: "rgba(83,74,183,0.3)", border: "1px solid rgba(175,169,236,0.3)" }}>
-                  🧊
+                <div className="w-9 h-9 rounded-full overflow-hidden shrink-0"
+                  style={{ border: "1.5px solid rgba(175,169,236,0.4)" }}>
+                  <Image src="/images/frost-avatar.png" alt="Frost" width={36} height={36} className="object-cover" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold" style={{ color: "var(--snow)" }}>Frost</p>
@@ -232,9 +235,14 @@ export default function ChatWidget() {
                   <motion.div key={i}
                     initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                    className={`flex items-end gap-2 ${m.role === "user" ? "justify-end" : "justify-start"}`}
                   >
-                    <div className="max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-line"
+                    {m.role === "assistant" && (
+                      <div className="w-6 h-6 rounded-full overflow-hidden shrink-0 mb-0.5">
+                        <Image src="/images/frost-avatar.png" alt="Frost" width={24} height={24} className="object-cover" />
+                      </div>
+                    )}
+                    <div className="max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-line"
                       style={m.role === "assistant"
                         ? { background: "rgba(83,74,183,0.18)", color: "var(--snow)", borderBottomLeftRadius: 4, border: "1px solid rgba(83,74,183,0.2)" }
                         : { background: "var(--aurora)", color: "var(--snow)", borderBottomRightRadius: 4 }
