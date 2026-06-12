@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const links = [
-  { label: "Servicios", href: "#servicios" },
+  { label: "Services", href: "#servicios" },
   { label: "Portfolio", href: "#portfolio" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "About", href: "#nosotros" },
+  { label: "Contact", href: "#contacto" },
 ];
 
 export default function Navbar() {
@@ -85,7 +85,7 @@ export default function Navbar() {
               (e.target as HTMLElement).style.color = "var(--snow)";
             }}
           >
-            Hablemos
+            Let's talk
           </a>
         </div>
 

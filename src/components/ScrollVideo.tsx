@@ -13,35 +13,35 @@ function once<T extends EventTarget>(el: T, event: string, fn: (e: Event) => voi
 const slides = [
   {
     id: "slide-0",
-    label: "Agencia de Websites & SEO",
-    title: "Rompemos el hielo.",
-    subtitle: "Tu negocio comunica.",
-    body: "Como el iceberg, hay mucho más debajo de la superficie.",
+    label: "Websites & SEO Agency",
+    title: "We break the ice.",
+    subtitle: "Your business, finally heard.",
+    body: "Most websites exist. Ours convert.",
     cta: null,
   },
   {
     id: "slide-1",
-    label: "El problema",
-    title: "Lo que ves es solo\nla punta.",
+    label: "The surface",
+    title: "You're only showing\nthe tip.",
     subtitle: null,
-    body: "La mayoría de negocios tienen grandes productos pero sitios que no conectan, no convencen y no convierten.",
+    body: "Great product. Invisible online. Your website should be your best salesperson — not your best-kept secret.",
     cta: null,
   },
   {
     id: "slide-2",
-    label: "Nuestra filosofía",
-    title: "El 90% del trabajo\nestá aquí abajo.",
+    label: "The depth",
+    title: "The real work\nhappens below.",
     subtitle: null,
-    body: "SEO técnico, arquitectura, rendimiento y estrategia — invisible para el usuario, decisivo para Google.",
+    body: "SEO, architecture, performance, strategy — invisible to the eye. Everything to Google.",
     cta: null,
   },
   {
     id: "slide-3",
-    label: "El resultado",
-    title: "Visible para Google.\nIrresistible para tus clientes.",
+    label: "The result",
+    title: "Ranked by Google.\nChosen by people.",
     subtitle: null,
-    body: "Construimos la infraestructura digital que hace que tu mensaje llegue claro, rápido y al lugar correcto.",
-    cta: { label: "Empieza tu proyecto", href: "#servicios" },
+    body: "We build the digital infrastructure that makes your message reach the right people, at the right time.",
+    cta: { label: "Start your project", href: "#servicios" },
   },
 ];
 
@@ -237,7 +237,7 @@ export default function ScrollVideo() {
                       color: "var(--aurora-light)",
                     }}
                   >
-                    Ver nuestro trabajo
+                    See our work
                   </a>
                 </div>
               )}
@@ -260,7 +260,7 @@ export default function ScrollVideo() {
             />
           </div>
           <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-light)", opacity: 0.45 }}>
-            Scroll
+            Scroll to explore
           </span>
         </div>
       </div>

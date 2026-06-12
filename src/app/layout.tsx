@@ -6,17 +6,18 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Icebreaker Lab | Websites & SEO que rompen el hielo",
+  title: "Icebreaker Lab | Websites & SEO that break the ice",
   description:
-    "Agencia especializada en landing pages y websites totalmente optimizados para SEO y Google. Rompemos las barreras de comunicación de tu negocio en internet.",
+    "Premium digital agency specialized in high-converting landing pages and websites fully optimized for SEO and Google. We break the communication barriers between great businesses and their audience.",
   keywords: [
-    "agencia web",
+    "web agency",
     "landing pages",
     "SEO",
-    "diseño web",
-    "websites optimizados",
-    "posicionamiento Google",
+    "web design",
+    "optimized websites",
+    "Google ranking",
     "Icebreaker Lab",
+    "digital strategy",
   ],
   authors: [{ name: "Icebreaker Lab" }],
   creator: "Icebreaker Lab",
@@ -25,9 +26,9 @@ export const metadata: Metadata = {
     locale: "es_ES",
     url: "https://icebreakerlab.com",
     siteName: "Icebreaker Lab",
-    title: "Icebreaker Lab | Websites & SEO que rompen el hielo",
+    title: "Icebreaker Lab | Websites & SEO that break the ice",
     description:
-      "Construimos websites que conquistan Google y convierten visitantes en clientes.",
+      "We build websites that rank on Google and convert visitors into clients.",
     images: [
       {
         url: "/images/hero/hero-aurora.png",
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Icebreaker Lab | Websites & SEO",
     description:
-      "Agencia especializada en landing pages y websites optimizados para Google.",
+      "Premium agency specialized in landing pages and websites optimized for Google.",
     images: ["/images/hero/hero-aurora.png"],
   },
   robots: {
