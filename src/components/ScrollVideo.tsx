@@ -155,13 +155,15 @@ export default function ScrollVideo() {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Gradient */}
-        <div className="absolute inset-0 z-10" style={{
-          background: "linear-gradient(to bottom, rgba(10,13,31,0.3) 0%, transparent 25%, transparent 65%, rgba(10,13,31,0.65) 100%)",
+        {/* Base dark overlay */}
+        <div className="absolute inset-0 z-10" style={{ background: "rgba(10,13,31,0.55)" }} />
+        {/* Edge gradient for cinematic feel */}
+        <div className="absolute inset-0 z-[11]" style={{
+          background: "linear-gradient(to bottom, rgba(10,13,31,0.4) 0%, transparent 20%, transparent 75%, rgba(10,13,31,0.6) 100%)",
         }} />
 
         {/* Text slides — all stacked, visibility controlled by GSAP */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
           {slides.map((slide, i) => (
             <div
               key={slide.id}
@@ -248,7 +250,7 @@ export default function ScrollVideo() {
         {/* Scroll indicator — first slide only */}
         <div
           id="scroll-indicator"
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2"
         >
           <div
             className="w-6 h-10 rounded-full flex items-start justify-center pt-2"
