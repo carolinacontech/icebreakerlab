@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 
 const stats = [
   { value: "50+", label: "Proyectos entregados" },
@@ -10,15 +11,24 @@ const stats = [
 ];
 
 export default function About() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+
   return (
-    <section id="nosotros" className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/about/silhouette.png"
-          alt="Persona frente a la aurora boreal"
-          fill
-          className="object-cover object-center opacity-25"
-        />
+    <section id="nosotros" ref={sectionRef} className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: bgY, scale: 1.12 }}>
+          <Image
+            src="/images/about/silhouette.png"
+            alt="Persona frente a la aurora boreal"
+            fill
+            className="object-cover object-center opacity-25"
+          />
+        </motion.div>
         <div
           className="absolute inset-0"
           style={{

@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 
 const services = [
   {
@@ -48,16 +49,25 @@ const services = [
 ];
 
 export default function Services() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
   return (
-    <section id="servicios" className="relative py-32 overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/services/underwater.png"
-          alt="Iceberg bajo el agua"
-          fill
-          className="object-cover object-center opacity-20"
-        />
+    <section id="servicios" ref={sectionRef} className="relative py-32 overflow-hidden">
+      {/* Background image with scroll parallax */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: bgY, scale: 1.15 }}>
+          <Image
+            src="/images/services/underwater.png"
+            alt="Iceberg bajo el agua"
+            fill
+            className="object-cover object-center opacity-20"
+          />
+        </motion.div>
         <div
           className="absolute inset-0"
           style={{
@@ -103,24 +113,23 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="rounded-2xl p-8 cursor-default transition-all duration-300 group"
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="rounded-2xl p-8 cursor-default relative overflow-hidden"
               style={{
                 background: "rgba(38,33,92,0.2)",
                 border: "1px solid rgba(83,74,183,0.25)",
                 backdropFilter: "blur(10px)",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(175,169,236,0.5)";
-                (e.currentTarget as HTMLElement).style.background =
-                  "rgba(83,74,183,0.15)";
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                e.currentTarget.style.background = `radial-gradient(200px circle at ${x}px ${y}px, rgba(83,74,183,0.25), rgba(38,33,92,0.2) 70%)`;
+                e.currentTarget.style.borderColor = "rgba(175,169,236,0.5)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  "rgba(83,74,183,0.25)";
-                (e.currentTarget as HTMLElement).style.background =
-                  "rgba(38,33,92,0.2)";
+                e.currentTarget.style.background = "rgba(38,33,92,0.2)";
+                e.currentTarget.style.borderColor = "rgba(83,74,183,0.25)";
               }}
             >
               <div className="text-4xl mb-5">{s.icon}</div>

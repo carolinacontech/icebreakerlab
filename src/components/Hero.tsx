@@ -1,12 +1,65 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import AuroraCanvas from "./AuroraCanvas";
+
+type Particle = {
+  width: number;
+  height: number;
+  left: string;
+  top: string;
+  color: string;
+  duration: number;
+  delay: number;
+};
+
+const COLORS = ["var(--aurora-light)", "var(--ice-blue)", "var(--aurora-teal)"];
+
+function generateParticles(count: number): Particle[] {
+  return Array.from({ length: count }, (_, i) => ({
+    width: Math.random() * 3 + 1,
+    height: Math.random() * 3 + 1,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
+    color: COLORS[i % 3],
+    duration: Math.random() * 4 + 3,
+    delay: Math.random() * 3,
+  }));
+}
 
 export default function Hero() {
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(generateParticles(18));
+  }, []);
+
+  // Mouse parallax
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 40, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 40, damping: 20 });
+  const imgX = useTransform(springX, [-0.5, 0.5], ["-2%", "2%"]);
+  const imgY = useTransform(springY, [-0.5, 0.5], ["-2%", "2%"]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY, currentTarget } = e;
+    const { width, height } = (currentTarget as HTMLElement).getBoundingClientRect();
+    mouseX.set(clientX / width - 0.5);
+    mouseY.set(clientY / height - 0.5);
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Background image with mouse parallax */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={{ x: imgX, y: imgY, scale: 1.06 }}
+      >
         <Image
           src="/images/hero/hero-aurora.png"
           alt="Aurora boreal sobre iceberg ártico"
@@ -15,41 +68,38 @@ export default function Hero() {
           className="object-cover object-center"
           quality={90}
         />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(10,13,31,0.55) 0%, rgba(38,33,92,0.3) 50%, rgba(10,13,31,0.85) 100%)",
-          }}
-        />
-      </div>
+      </motion.div>
+
+      {/* Dark overlay */}
+      <div
+        className="absolute inset-0 z-[1]"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(10,13,31,0.5) 0%, rgba(38,33,92,0.25) 50%, rgba(10,13,31,0.82) 100%)",
+        }}
+      />
+
+      {/* Animated aurora waves */}
+      <AuroraCanvas />
 
       {/* Floating particles */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
-        {[...Array(18)].map((_, i) => (
+      <div className="absolute inset-0 z-20 pointer-events-none">
+        {particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"
             style={{
-              width: Math.random() * 3 + 1,
-              height: Math.random() * 3 + 1,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              background:
-                i % 3 === 0
-                  ? "var(--aurora-light)"
-                  : i % 3 === 1
-                  ? "var(--ice-blue)"
-                  : "var(--aurora-teal)",
+              width: p.width,
+              height: p.height,
+              left: p.left,
+              top: p.top,
+              background: p.color,
             }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
-            }}
+            animate={{ y: [0, -30, 0], opacity: [0.2, 0.8, 0.2] }}
             transition={{
-              duration: Math.random() * 4 + 3,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 3,
+              delay: p.delay,
               ease: "easeInOut",
             }}
           />
@@ -57,7 +107,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-20 max-w-5xl mx-auto px-6 text-center">
+      <div className="relative z-30 max-w-5xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,9 +119,11 @@ export default function Hero() {
             color: "var(--aurora-light)",
           }}
         >
-          <span
+          <motion.span
             className="w-1.5 h-1.5 rounded-full"
             style={{ background: "var(--aurora-teal)" }}
+            animate={{ scale: [1, 1.6, 1], opacity: [1, 0.4, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
           />
           Agencia de Websites & SEO
         </motion.div>
@@ -85,9 +137,13 @@ export default function Hero() {
         >
           Rompemos el hielo.
           <br />
-          <span style={{ color: "var(--aurora-light)" }}>
+          <motion.span
+            style={{ color: "var(--aurora-light)" }}
+            animate={{ opacity: [0.8, 1, 0.8] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
             Tu negocio comunica.
-          </span>
+          </motion.span>
         </motion.h1>
 
         <motion.p
@@ -108,20 +164,24 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <a
+          <motion.a
             href="#contacto"
-            className="px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-8 py-4 rounded-full font-semibold text-base"
             style={{
               background: "var(--aurora)",
               color: "var(--snow)",
-              boxShadow: "0 0 40px rgba(83,74,183,0.4)",
+              boxShadow: "0 0 40px rgba(83,74,183,0.5)",
             }}
           >
             Empieza tu proyecto
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="#portfolio"
-            className="px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-8 py-4 rounded-full font-semibold text-base"
             style={{
               background: "rgba(255,255,255,0.05)",
               border: "1px solid rgba(175,169,236,0.4)",
@@ -129,27 +189,33 @@ export default function Hero() {
             }}
           >
             Ver nuestro trabajo
-          </a>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-light)", opacity: 0.6 }}>
-            Descubre más
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-0.5 h-8 rounded-full"
-            style={{ background: "linear-gradient(to bottom, var(--aurora-light), transparent)" }}
-          />
+          </motion.a>
         </motion.div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30"
+      >
+        <span
+          className="text-xs tracking-widest uppercase"
+          style={{ color: "var(--aurora-light)", opacity: 0.5 }}
+        >
+          Descubre más
+        </span>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="w-0.5 h-8 rounded-full"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--aurora-light), transparent)",
+          }}
+        />
+      </motion.div>
     </section>
   );
 }
