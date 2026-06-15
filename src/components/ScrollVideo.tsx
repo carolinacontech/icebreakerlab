@@ -48,6 +48,7 @@ const slides = [
 export default function ScrollVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const slidesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -137,6 +138,12 @@ export default function ScrollVideo() {
       }
     });
 
+    // Reveal slides container once GSAP is ready
+    if (slidesRef.current) {
+      slidesRef.current.style.opacity = "1";
+      slidesRef.current.style.transition = "opacity 0.4s ease";
+    }
+
     return () => { ScrollTrigger.getAll().forEach((st) => st.kill()); };
   }, []);
 
@@ -162,8 +169,8 @@ export default function ScrollVideo() {
           background: "linear-gradient(to bottom, rgba(10,13,31,0.4) 0%, transparent 20%, transparent 75%, rgba(10,13,31,0.6) 100%)",
         }} />
 
-        {/* Text slides — all stacked, visibility controlled by GSAP */}
-        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+        {/* Text slides — hidden until GSAP initializes to prevent flash */}
+        <div ref={slidesRef} className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none" style={{ opacity: 0 }}>
           {slides.map((slide, i) => (
             <div
               key={slide.id}
