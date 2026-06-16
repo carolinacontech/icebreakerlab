@@ -8,97 +8,97 @@ import Navbar from "./Navbar";
 const projects = [
   {
     id: 1,
-    name: "Meridian Estates",
+    name: "Aurea Estates",
     category: "Real Estate",
-    headline: "Where Luxury Meets Home",
+    headline: "Extraordinary Residences in Privileged Locations",
     tags: ["Website", "SEO", "Performance"],
     img: "/images/portfolio/mockups/real-estate.png",
     color: "#B8860B",
   },
   {
     id: 2,
-    name: "Noir & Co.",
+    name: "Maison Noir",
     category: "Fine Dining",
-    headline: "A Table Worth the Journey",
+    headline: "Refined Dining Experiences",
     tags: ["Landing Page", "Branding", "SEO"],
     img: "/images/portfolio/mockups/restaurant.png",
     color: "#D4A843",
   },
   {
     id: 3,
-    name: "Vaultly",
+    name: "Nexus Forge",
     category: "SaaS / Tech",
-    headline: "Your Data. Your Rules.",
+    headline: "Intelligent Infrastructure for Autonomous Systems",
     tags: ["Website", "SEO", "Conversion"],
     img: "/images/portfolio/mockups/saas.png",
     color: "#534AB7",
   },
   {
     id: 4,
-    name: "Elara Studio",
+    name: "Luxur",
     category: "Fashion & Lifestyle",
-    headline: "Wear the Silence",
+    headline: "Live in Privilege",
     tags: ["E-commerce", "Branding", "SEO"],
     img: "/images/portfolio/mockups/fashion.png",
     color: "#888780",
   },
   {
     id: 5,
-    name: "Form & Field",
+    name: "Altiture",
     category: "Architecture",
-    headline: "Space Is a Language",
+    headline: "Elevated Architecture. Meaningful Spaces.",
     tags: ["Portfolio", "SEO", "Performance"],
     img: "/images/portfolio/mockups/architecture.png",
     color: "#8B7355",
   },
   {
     id: 6,
-    name: "Stillness",
-    category: "Wellness & Spa",
-    headline: "Return to Yourself",
-    tags: ["Website", "Booking", "SEO"],
-    img: "/images/portfolio/mockups/wellness.png",
-    color: "#5DCAA5",
-  },
-  {
-    id: 7,
-    name: "Harland & Cross",
-    category: "Law Firm",
-    headline: "Your Case. Our Mission.",
-    tags: ["Website", "SEO", "Analytics"],
-    img: "/images/portfolio/mockups/law.png",
-    color: "#185fa5",
-  },
-  {
-    id: 8,
-    name: "Lumen Studio",
+    name: "Elara Wilde",
     category: "Photography",
-    headline: "Light Has a Story",
+    headline: "Photographs that Feel Like Memory",
     tags: ["Portfolio", "SEO", "Performance"],
     img: "/images/portfolio/mockups/photography.png",
     color: "#AFA9EC",
   },
   {
+    id: 7,
+    name: "Luxura",
+    category: "Interior Design",
+    headline: "Spaces that Inspire Living",
+    tags: ["Website", "Branding", "SEO"],
+    img: "/images/portfolio/mockups/interior-design.png",
+    color: "#C4A882",
+  },
+  {
+    id: 8,
+    name: "Evergreen Outdoor Living",
+    category: "Landscaping",
+    headline: "Beautiful Outdoor Spaces, Designed to Last",
+    tags: ["Website", "SEO", "Conversion"],
+    img: "/images/portfolio/mockups/landscaping.png",
+    color: "#5DCAA5",
+  },
+  {
     id: 9,
-    name: "Forge Method",
-    category: "Fitness & Training",
-    headline: "Built Different.",
-    tags: ["Landing Page", "Conversion", "SEO"],
-    img: "/images/portfolio/mockups/fitness.png",
-    color: "#378ADD",
+    name: "Verde Tree Services",
+    category: "Tree Services",
+    headline: "Stronger Trees, Beautiful Spaces",
+    tags: ["Landing Page", "SEO", "Conversion"],
+    img: "/images/portfolio/mockups/tree-services.png",
+    color: "#4A7C59",
   },
   {
     id: 10,
-    name: "KAEL",
-    category: "Music Artist",
-    headline: "Sound Has No Borders",
-    tags: ["Website", "Branding", "SEO"],
-    img: "/images/portfolio/mockups/music.png",
-    color: "#7F77DD",
+    name: "Studio Calm",
+    category: "Wellness & Spa",
+    headline: "Begin Your Calm Retreat",
+    tags: ["Website", "Booking", "SEO"],
+    img: "/images/portfolio/mockups/wellness.png",
+    color: "#5DCAA5",
   },
 ];
 
-const ALL_TAGS = ["All", "Website", "Landing Page", "E-commerce", "Portfolio", "SEO", "Branding", "Conversion"];
+const ALL_TAGS = ["All", "Website", "Landing Page", "Portfolio", "E-commerce", "SEO", "Branding", "Conversion"];
 
 export default function PortfolioPage() {
   const [active, setActive] = useState<typeof projects[0] | null>(null);
@@ -244,44 +244,57 @@ export default function PortfolioPage() {
               exit={{ scale: 0.92, opacity: 0 }}
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl rounded-3xl overflow-hidden"
-              style={{ border: "1px solid rgba(175,169,236,0.2)" }}
+              className="relative w-full max-w-5xl rounded-3xl overflow-hidden flex flex-col"
+              style={{ border: "1px solid rgba(175,169,236,0.2)", maxHeight: "90vh" }}
             >
-              {/* Full image */}
-              <div className="relative w-full" style={{ aspectRatio: "16/10" }}>
-                <Image src={active.img} alt={active.name} fill className="object-cover object-top" quality={95} />
-              </div>
-
-              {/* Info footer */}
-              <div className="px-8 py-6 flex items-center justify-between"
-                style={{ background: "rgba(10,13,31,0.98)", borderTop: "1px solid rgba(83,74,183,0.2)" }}>
+              {/* Sticky header */}
+              <div className="px-6 py-4 flex items-center justify-between shrink-0"
+                style={{ background: "rgba(10,13,31,0.98)", borderBottom: "1px solid rgba(83,74,183,0.2)" }}>
                 <div>
-                  <span className="text-xs tracking-widest uppercase block mb-1" style={{ color: "var(--aurora-teal)" }}>{active.category}</span>
-                  <h3 className="text-xl font-bold mb-1" style={{ color: "var(--snow)" }}>{active.name}</h3>
-                  <p className="text-sm italic" style={{ color: "var(--aurora-light)" }}>"{active.headline}"</p>
-                  <div className="flex gap-2 mt-3">
-                    {active.tags.map(t => (
-                      <span key={t} className="text-xs px-3 py-1 rounded-full"
-                        style={{ background: "rgba(83,74,183,0.2)", color: "var(--aurora-light)", border: "1px solid rgba(83,74,183,0.3)" }}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                  <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-teal)" }}>{active.category}</span>
+                  <h3 className="text-lg font-bold ml-0 mt-0.5" style={{ color: "var(--snow)" }}>{active.name}</h3>
                 </div>
                 <div className="flex gap-3 items-center">
                   <Link href="/#contacto" onClick={() => setActive(null)}>
                     <motion.span whileHover={{ scale: 1.05 }}
-                      className="inline-block px-6 py-3 rounded-full font-semibold text-sm"
+                      className="inline-block px-5 py-2.5 rounded-full font-semibold text-sm"
                       style={{ background: "var(--aurora)", color: "var(--snow)" }}>
                       Build mine →
                     </motion.span>
                   </Link>
                   <button onClick={() => setActive(null)}
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-lg"
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-lg"
                     style={{ background: "rgba(83,74,183,0.2)", color: "var(--aurora-light)", border: "1px solid rgba(83,74,183,0.3)" }}>
                     ×
                   </button>
                 </div>
+              </div>
+
+              {/* Scrollable image */}
+              <div className="overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(83,74,183,0.4) transparent" }}>
+                <Image
+                  src={active.img}
+                  alt={active.name}
+                  width={1920}
+                  height={2400}
+                  className="w-full h-auto"
+                  quality={95}
+                  style={{ display: "block" }}
+                />
+              </div>
+
+              {/* Sticky footer */}
+              <div className="px-6 py-4 flex items-center justify-between shrink-0"
+                style={{ background: "rgba(10,13,31,0.98)", borderTop: "1px solid rgba(83,74,183,0.2)" }}>
+                <div className="flex gap-2 flex-wrap">
+                  {active.tags.map(t => (
+                    <span key={t} className="text-xs px-3 py-1 rounded-full"
+                      style={{ background: "rgba(83,74,183,0.2)", color: "var(--aurora-light)", border: "1px solid rgba(83,74,183,0.3)" }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-sm italic" style={{ color: "var(--aurora-light)", opacity: 0.7 }}>"{active.headline}"</p>
               </div>
             </motion.div>
           </motion.div>
