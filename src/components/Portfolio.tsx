@@ -76,8 +76,8 @@ export default function Portfolio() {
             <motion.div key={i} className="absolute inset-0"
               animate={{ opacity: active === i ? 1 : 0 }}
               transition={{ duration: 0.6 }}>
-              <Image src={p.img} alt={p.title} fill className="object-cover object-top" />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.85) 0%, transparent 50%)" }} />
+                  <Image src={p.img} alt={p.title} fill className="object-contain object-top" />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.9) 0%, transparent 60%)" }} />
               <div className="absolute bottom-6 left-8 right-8 flex items-end justify-between">
                 <div>
                   <span className="text-xs tracking-widest uppercase mb-1 block" style={{ color: "var(--aurora-teal)" }}>{p.category}</span>
