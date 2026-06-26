@@ -86,7 +86,7 @@ export default function Services() {
         </motion.div>
 
         {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {plans.map((plan, i) => (
             <motion.div
               key={plan.name}
@@ -94,26 +94,32 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
-              className={`rounded-3xl flex flex-col relative ${plan.featured ? "pt-12 pb-8 px-8" : "p-8"}`}
+              className={`rounded-3xl flex flex-col relative ${plan.featured ? "pt-14 pb-10 px-8 md:-mt-4 md:-mb-4" : "p-8"}`}
               style={{
-                background: plan.featured ? "rgba(83,74,183,0.18)" : "rgba(10,13,31,0.6)",
-                border: plan.featured ? "1px solid rgba(83,74,183,0.6)" : "1px solid rgba(83,74,183,0.2)",
-                backdropFilter: "blur(24px)",
-                boxShadow: plan.featured ? "0 0 80px rgba(83,74,183,0.2)" : "none",
+                background: plan.featured
+                  ? "linear-gradient(160deg, rgba(83,74,183,0.35) 0%, rgba(40,30,120,0.5) 100%)"
+                  : "rgba(10,13,31,0.75)",
+                border: plan.featured
+                  ? "1px solid rgba(175,169,236,0.5)"
+                  : "1px solid rgba(83,74,183,0.18)",
+                backdropFilter: "blur(28px)",
+                boxShadow: plan.featured
+                  ? "0 0 100px rgba(83,74,183,0.35), inset 0 1px 0 rgba(255,255,255,0.08)"
+                  : "0 0 30px rgba(0,0,0,0.3)",
               }}
             >
               {/* Glow for featured */}
               {plan.featured && (
-                <div className="absolute inset-0 pointer-events-none" style={{
-                  background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(83,74,183,0.25) 0%, transparent 70%)"
+                <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{
+                  background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(107,92,231,0.3) 0%, transparent 70%)"
                 }} />
               )}
 
               {/* Most popular badge */}
               {plan.featured && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <span className="px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
-                    style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 30px rgba(83,74,183,0.5)" }}>
+                  <span className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
+                    style={{ background: "linear-gradient(135deg, var(--aurora), #6B5CE7)", color: "var(--snow)", boxShadow: "0 4px 24px rgba(83,74,183,0.6)" }}>
                     Most Popular
                   </span>
                 </div>
@@ -122,19 +128,20 @@ export default function Services() {
               <div className="relative z-10 flex flex-col flex-1">
                 {/* Plan name */}
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold mb-1" style={{ color: "var(--snow)" }}>{plan.name}</h3>
-                  <p className="text-sm font-medium mb-4" style={{ color: "var(--aurora-teal)" }}>{plan.tagline}</p>
-                  <p className="text-sm leading-relaxed" style={{ color: "var(--aurora-light)", opacity: 0.8 }}>{plan.description}</p>
+                  <h3 className="text-2xl font-bold mb-2" style={{ color: "var(--snow)" }}>{plan.name}</h3>
+                  <p className="text-sm font-semibold mb-3" style={{ color: plan.featured ? "var(--aurora-teal)" : "rgba(93,202,165,0.7)" }}>{plan.tagline}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: plan.featured ? "rgba(240,244,255,0.85)" : "rgba(175,169,236,0.7)" }}>{plan.description}</p>
                 </div>
 
                 {/* Divider */}
-                <div className="h-px mb-6" style={{ background: "rgba(83,74,183,0.25)" }} />
+                <div className="h-px mb-6" style={{ background: plan.featured ? "rgba(175,169,236,0.25)" : "rgba(83,74,183,0.15)" }} />
 
                 {/* Features */}
                 <ul className="flex flex-col gap-3 mb-8 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: "var(--aurora-light)" }}>
-                      <span className="mt-0.5 shrink-0" style={{ color: "var(--aurora-teal)" }}>✓</span>
+                    <li key={f} className="flex items-start gap-2.5 text-sm"
+                      style={{ color: plan.featured ? "rgba(240,244,255,0.9)" : "rgba(175,169,236,0.75)" }}>
+                      <span className="mt-0.5 shrink-0 font-bold" style={{ color: "var(--aurora-teal)" }}>✓</span>
                       {f}
                     </li>
                   ))}
@@ -142,10 +149,10 @@ export default function Services() {
 
                 {/* CTA */}
                 <a href={plan.href}
-                  className="w-full py-3.5 rounded-full font-semibold text-sm text-center transition-transform hover:scale-[1.02] block"
+                  className="w-full py-4 rounded-full font-semibold text-sm text-center transition-all hover:scale-[1.02] hover:opacity-90 block"
                   style={plan.featured
-                    ? { background: "linear-gradient(135deg, var(--aurora), #6B5CE7)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.45)" }
-                    : { background: "rgba(83,74,183,0.15)", color: "var(--aurora-light)", border: "1px solid rgba(83,74,183,0.35)" }
+                    ? { background: "linear-gradient(135deg, #7C6FE8, #5DCAA5)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.5)", fontWeight: 700 }
+                    : { background: "rgba(83,74,183,0.12)", color: "rgba(175,169,236,0.9)", border: "1px solid rgba(83,74,183,0.3)" }
                   }>
                   {plan.cta} →
                 </a>
