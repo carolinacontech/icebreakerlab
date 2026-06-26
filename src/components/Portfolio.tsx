@@ -4,9 +4,22 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 
 const projects = [
-  { title: "Luxury E-commerce", category: "Website + SEO", result: "+340% organic traffic", img: "/images/portfolio/workspace.png" },
-  { title: "SaaS B2B Landing", category: "Landing Page", result: "4.2% conversion rate", img: "/images/portfolio/workspace-2.png" },
-  { title: "Corporate Portal", category: "Website + Analytics", result: "Lighthouse 100/100", img: "/images/portfolio/workspace-3.png" },
+  {
+    title: "NODO Jiu Jitsu Academy",
+    category: "Website + Local SEO",
+    result: "More visibility, traffic & class signups",
+    description: "Full website for a Brazilian Jiu Jitsu academy in Panama City — built to rank on Google and convert visitors into students.",
+    url: "https://www.nodoacademy.com",
+    img: "https://res.cloudinary.com/dddfxmqta/image/upload/v1781705847/banner_isrwxq.png",
+  },
+  {
+    title: "Market Open Media",
+    category: "Corporate Website + SEO",
+    result: "Google Maps & LSA lead generation",
+    description: "Website for a local marketing agency specializing in Google Maps SEO and Local Services Ads — focused on generating inbound leads.",
+    url: "https://www.marketopenmedia.com",
+    img: "/images/portfolio/workspace-2.png",
+  },
 ];
 
 export default function Portfolio() {
@@ -60,7 +73,10 @@ export default function Portfolio() {
                   </div>
                   <motion.span animate={{ x: active === i ? 4 : 0 }} style={{ color: "var(--aurora-light)", fontSize: "1.3rem" }}>→</motion.span>
                 </div>
-                <p className="text-sm mt-2 font-medium" style={{ color: "var(--aurora-teal)" }}>{p.result}</p>
+                <p className="text-sm mt-1 font-medium" style={{ color: "var(--aurora-teal)" }}>{p.result}</p>
+                {active === i && (
+                  <p className="text-xs mt-2 leading-relaxed" style={{ color: "rgba(175,169,236,0.7)" }}>{p.description}</p>
+                )}
               </motion.div>
             ))}
             <motion.a href="#contacto"
@@ -85,9 +101,16 @@ export default function Portfolio() {
                 transition={{ duration: 0.7 }}>
                 <Image src={p.img} alt={p.title} fill className="object-cover" />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.75) 0%, transparent 40%)" }} />
-                <div className="absolute bottom-6 left-6">
-                  <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-teal)" }}>{p.category}</span>
-                  <p className="text-xl font-bold mt-1" style={{ color: "var(--snow)" }}>{p.title}</p>
+                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                  <div>
+                    <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-teal)" }}>{p.category}</span>
+                    <p className="text-xl font-bold mt-1" style={{ color: "var(--snow)" }}>{p.title}</p>
+                  </div>
+                  <a href={p.url} target="_blank" rel="noopener noreferrer"
+                    className="text-xs px-4 py-2 rounded-full font-semibold shrink-0 ml-4 pointer-events-auto"
+                    style={{ background: "rgba(83,74,183,0.5)", color: "var(--snow)", border: "1px solid rgba(175,169,236,0.3)", backdropFilter: "blur(8px)" }}>
+                    View site →
+                  </a>
                 </div>
               </motion.div>
             ))}
