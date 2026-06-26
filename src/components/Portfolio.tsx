@@ -10,7 +10,8 @@ const projects = [
     result: "More visibility, traffic & class signups",
     description: "Full website for a Brazilian Jiu Jitsu academy in Panama City — built to rank on Google and convert visitors into students.",
     url: "https://www.nodoacademy.com",
-    img: "/images/portfolio/mockups/nodo-academy.png",
+    mockup: "/images/portfolio/mockups/nodo-academy.png",
+    bg: "/images/portfolio/workspace.png",
   },
   {
     title: "Market Open Media",
@@ -18,7 +19,8 @@ const projects = [
     result: "Google Maps & LSA lead generation",
     description: "Website for a local marketing agency specializing in Google Maps SEO and Local Services Ads — focused on generating inbound leads.",
     url: "https://www.marketopenmedia.com",
-    img: "/images/portfolio/mockups/market-open-media.png",
+    mockup: "/images/portfolio/mockups/market-open-media.png",
+    bg: "/images/portfolio/workspace-2.png",
   },
 ];
 
@@ -34,7 +36,7 @@ export default function Portfolio() {
       {projects.map((p, i) => (
         <motion.div key={i} className="absolute inset-0 z-0"
           animate={{ opacity: active === i ? 1 : 0 }} transition={{ duration: 0.8 }} style={{ y: bgY }}>
-          <Image src={p.img} alt={p.title} fill className="object-cover object-top" quality={85} />
+          <Image src={p.bg} alt={p.title} fill className="object-cover object-center" quality={85} />
         </motion.div>
       ))}
       <div className="absolute inset-0 z-[1]" style={{
@@ -76,7 +78,7 @@ export default function Portfolio() {
             <motion.div key={i} className="absolute inset-0"
               animate={{ opacity: active === i ? 1 : 0 }}
               transition={{ duration: 0.6 }}>
-                  <Image src={p.img} alt={p.title} fill className="object-contain object-top" />
+                  <Image src={p.mockup} alt={p.title} fill className="object-contain object-top" />
               <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.9) 0%, transparent 60%)" }} />
               <div className="absolute bottom-6 left-8 right-8 flex items-end justify-between">
                 <div>
