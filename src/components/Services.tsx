@@ -96,7 +96,7 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
-              className="rounded-3xl p-8 flex flex-col relative overflow-hidden"
+              className={`rounded-3xl flex flex-col relative ${plan.featured ? "pt-12 pb-8 px-8" : "p-8"}`}
               style={{
                 background: plan.featured ? "rgba(83,74,183,0.18)" : "rgba(10,13,31,0.6)",
                 border: plan.featured ? "1px solid rgba(83,74,183,0.6)" : "1px solid rgba(83,74,183,0.2)",
