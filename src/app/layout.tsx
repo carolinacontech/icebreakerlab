@@ -52,11 +52,32 @@ export const metadata: Metadata = {
   },
 };
 
+const schemaMarkup = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Icebreaker Lab",
+  "description": "Web design agency specialized in SEO-optimized websites built to rank on Google and convert visitors into clients.",
+  "url": "https://icebreakerlab.com",
+  "areaServed": [
+    { "@type": "Country", "name": "United States" },
+    { "@type": "Country", "name": "Panama" }
+  ],
+  "serviceType": ["Web Design", "SEO", "E-commerce Development", "Landing Pages"],
+  "priceRange": "$$",
+  "sameAs": []
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
