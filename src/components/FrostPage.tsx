@@ -16,7 +16,7 @@ const PHASES = [
 
 const QUESTIONS = [
   // Phase 0 — About you
-  { phase: 0, key: "name", text: "Hi! I'm Frost, your project guide at Market Open Media 🧊\n\nI'll walk you through a few questions so our team can build the perfect website for your business. Ready? Let's start — what's your name?" },
+  { phase: 0, key: "name", text: "Hi! I'm Frost, your project guide at Icebreaker Lab 🧊\n\nI'll walk you through a few questions so our team can build the perfect website for your business. Ready? Let's start — what's your name?" },
   { phase: 0, key: "business_name", text: (a: Record<string,string>) => `Great to meet you, ${a.name}! 👋\n\nWhat's the name of your business or project?` },
   { phase: 0, key: "business_description", text: (a: Record<string,string>) => `Love it — ${a.business_name}! ✨\n\nIn a few sentences, tell me what ${a.business_name} does. What do you offer and who do you help?` },
   { phase: 0, key: "target_audience", text: "Who are your ideal customers? Tell me about them — industry, location, age range, or the type of problem they come to you to solve." },
@@ -47,7 +47,7 @@ const QUESTIONS = [
   { phase: 4, key: "domain", text: "Do you have a domain name already? (e.g. yourbusiness.com)\n\nAnd do you have hosting set up, or will you need that too?" },
   { phase: 4, key: "competitors", text: "Who are your main competitors online? Drop their website URLs if you can.\n\nThis helps us make sure your site stands out in your market." },
   { phase: 4, key: "timeline", text: "What's your ideal timeline for launch?\n\n→ ASAP (rush project)\n→ 1 month\n→ 2–3 months\n→ No hard deadline — quality over speed" },
-  { phase: 4, key: "extra", text: (a: Record<string,string>) => `${a.name}, you've been awesome to work with! 🧊✨\n\nAnything else you'd like the Market Open Media team to know? Any specific requests, non-negotiables, or things that didn't come up?\n\n(Or just say 'all good' and we're almost done!)` },
+  { phase: 4, key: "extra", text: (a: Record<string,string>) => `${a.name}, you've been awesome to work with! 🧊✨\n\nAnything else you'd like the Icebreaker Lab team to know? Any specific requests, non-negotiables, or things that didn't come up?\n\n(Or just say 'all good' and we're almost done!)` },
   { phase: 4, key: "reference_files", text: "Last thing! 📎\n\nDo you have any reference images, inspiration screenshots, mockups, or files you'd like to share with our team?\n\nUse the upload button below to attach them — or just say 'no' and we're done!" },
 ];
 
@@ -160,7 +160,7 @@ export default function FrostPage() {
       setTimeout(() => {
         setMessages((prev) => [...prev, {
           role: "assistant",
-          text: `That's everything I need! 🧊✨\n\nI've put together a full brief for the Market Open Media team. They'll review it and reach out to you shortly.\n\nClick below to send your brief — or copy it to keep a record.`,
+          text: `That's everything I need! 🧊✨\n\nI've put together a full brief for the Icebreaker Lab team. They'll review it and reach out to you shortly.\n\nClick below to send your brief — or copy it to keep a record.`,
         }]);
         setDone(true);
       }, 500);
@@ -257,7 +257,7 @@ export default function FrostPage() {
               <p className="font-semibold text-sm" style={{ color: "var(--snow)" }}>Frost</p>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--aurora-teal)" }} />
-                <p className="text-xs" style={{ color: "var(--aurora-teal)" }}>Online · Market Open Media</p>
+                <p className="text-xs" style={{ color: "var(--aurora-teal)" }}>Online · Icebreaker Lab</p>
               </div>
             </div>
           </div>
@@ -329,7 +329,7 @@ export default function FrostPage() {
                 <motion.button onClick={handleSend} disabled={sending} whileHover={{ scale: sending ? 1 : 1.02 }} whileTap={{ scale: 0.97 }}
                   className="w-full py-3.5 rounded-full font-semibold text-sm text-center"
                   style={{ background: "linear-gradient(135deg, var(--aurora), #6B5CE7)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.45)", opacity: sending ? 0.7 : 1 }}>
-                  {sending ? "⏳ Sending..." : "📨 Send my brief to Market Open Media"}
+                  {sending ? "⏳ Sending..." : "📨 Send my brief to Icebreaker Lab"}
                 </motion.button>
               )}
               {sendError && (
