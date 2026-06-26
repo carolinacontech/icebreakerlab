@@ -88,8 +88,21 @@ export default function ScrollVideo() {
       }
     }, 800);
 
-    // Text slide animations
+    // Set initial state for all slides BEFORE revealing container
     const totalSlides = slides.length;
+    slides.forEach((slide, i) => {
+      const el = document.getElementById(slide.id);
+      if (!el) return;
+      gsap.set(el, i === 0 ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 });
+    });
+
+    // Reveal container now that all initial states are locked in
+    if (slidesRef.current) {
+      slidesRef.current.style.opacity = "1";
+      slidesRef.current.style.transition = "opacity 0.4s ease";
+    }
+
+    // Text slide animations
     slides.forEach((slide, i) => {
       const el = document.getElementById(slide.id);
       if (!el) return;
@@ -97,7 +110,7 @@ export default function ScrollVideo() {
       const start = i === 0 ? "top top" : `${(i / totalSlides) * 100}% top`;
       const end = i === totalSlides - 1 ? "bottom bottom" : `${((i + 1) / totalSlides) * 100}% top`;
 
-      // Fade in
+      // Fade in (all except first)
       if (i > 0) {
         gsap.fromTo(
           el,
@@ -114,8 +127,6 @@ export default function ScrollVideo() {
             },
           }
         );
-      } else {
-        gsap.set(el, { opacity: 1, y: 0 });
       }
 
       // Fade out (all except last)
@@ -137,12 +148,6 @@ export default function ScrollVideo() {
         );
       }
     });
-
-    // Reveal slides container once GSAP is ready
-    if (slidesRef.current) {
-      slidesRef.current.style.opacity = "1";
-      slidesRef.current.style.transition = "opacity 0.4s ease";
-    }
 
     return () => { ScrollTrigger.getAll().forEach((st) => st.kill()); };
   }, []);
