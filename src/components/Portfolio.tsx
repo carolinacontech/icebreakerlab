@@ -93,13 +93,13 @@ export default function Portfolio() {
 
           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }} transition={{ duration: 0.7 }}
-            className="relative rounded-3xl overflow-hidden aspect-[4/3]"
-            style={{ border: "1px solid rgba(175,169,236,0.2)" }}>
+            className="relative rounded-3xl overflow-hidden"
+            style={{ border: "1px solid rgba(175,169,236,0.2)", minHeight: "480px" }}>
             {projects.map((p, i) => (
               <motion.div key={i} className="absolute inset-0"
                 animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
                 transition={{ duration: 0.7 }}>
-                <Image src={p.img} alt={p.title} fill className="object-cover object-top" />
+                <Image src={p.img} alt={p.title} fill className="object-cover object-center" />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.75) 0%, transparent 40%)" }} />
                 <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
                   <div>
