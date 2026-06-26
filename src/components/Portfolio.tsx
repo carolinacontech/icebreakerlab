@@ -24,7 +24,7 @@ export default function Portfolio() {
         </motion.div>
       ))}
       <div className="absolute inset-0 z-[1]" style={{
-        background: "linear-gradient(135deg, rgba(10,13,31,0.92) 0%, rgba(38,33,92,0.7) 50%, rgba(10,13,31,0.92) 100%)"
+        background: "linear-gradient(135deg, rgba(10,13,31,0.85) 0%, rgba(38,33,92,0.5) 50%, rgba(10,13,31,0.85) 100%)"
       }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
@@ -84,7 +84,7 @@ export default function Portfolio() {
                 animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
                 transition={{ duration: 0.7 }}>
                 <Image src={p.img} alt={p.title} fill className="object-cover" />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.8) 0%, transparent 50%)" }} />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.75) 0%, transparent 40%)" }} />
                 <div className="absolute bottom-6 left-6">
                   <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-teal)" }}>{p.category}</span>
                   <p className="text-xl font-bold mt-1" style={{ color: "var(--snow)" }}>{p.title}</p>

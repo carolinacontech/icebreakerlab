@@ -3,11 +3,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
 
-const stats = [
-  { value: "50+", label: "Projects delivered" },
-  { value: "100%", label: "Client satisfaction" },
-  { value: "<2s", label: "Average load time" },
-  { value: "+87%", label: "Average SEO improvement" },
+const values = [
+  { icon: "🎨", title: "Custom built", body: "No templates. Every site is designed from scratch around your brand." },
+  { icon: "🔍", title: "Google ready", body: "Built to rank from day one — no extra setup or plugins needed." },
+  { icon: "⚡", title: "Fast launch", body: "From first call to live website in 3–4 weeks." },
+  { icon: "🎯", title: "Built to convert", body: "Every page designed to turn visitors into real clients." },
 ];
 
 export default function About() {
@@ -42,15 +42,16 @@ export default function About() {
           </motion.div>
 
           <div className="grid grid-cols-2 gap-4">
-            {stats.map((s, i) => (
-              <motion.div key={s.label}
+            {values.map((v, i) => (
+              <motion.div key={v.title}
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.6 }}
-                whileHover={{ scale: 1.05, y: -4 }}
-                className="rounded-2xl p-6 text-center"
-                style={{ background: "rgba(10,13,31,0.5)", border: "1px solid rgba(175,169,236,0.2)", backdropFilter: "blur(20px)" }}>
-                <div className="text-3xl font-bold mb-2" style={{ color: "var(--aurora-light)" }}>{s.value}</div>
-                <div className="text-sm" style={{ color: "var(--ice-blue)" }}>{s.label}</div>
+                whileHover={{ scale: 1.03, y: -4 }}
+                className="rounded-2xl p-6"
+                style={{ background: "rgba(10,13,31,0.55)", border: "1px solid rgba(83,74,183,0.25)", backdropFilter: "blur(20px)" }}>
+                <div className="text-2xl mb-3">{v.icon}</div>
+                <div className="font-semibold mb-1 text-sm" style={{ color: "var(--snow)" }}>{v.title}</div>
+                <div className="text-xs leading-relaxed" style={{ color: "rgba(175,169,236,0.75)" }}>{v.body}</div>
               </motion.div>
             ))}
           </div>
