@@ -30,92 +30,84 @@ export default function Portfolio() {
 
   return (
     <section id="portfolio" ref={ref} className="relative py-40 overflow-hidden min-h-screen flex flex-col justify-center">
+      {/* Background — original overlay */}
       {projects.map((p, i) => (
         <motion.div key={i} className="absolute inset-0 z-0"
           animate={{ opacity: active === i ? 1 : 0 }} transition={{ duration: 0.8 }} style={{ y: bgY }}>
-          <Image src={p.img} alt={p.title} fill className="object-cover object-center" quality={85} />
+          <Image src={p.img} alt={p.title} fill className="object-cover object-top" quality={85} />
         </motion.div>
       ))}
       <div className="absolute inset-0 z-[1]" style={{
-        background: "linear-gradient(135deg, rgba(10,13,31,0.85) 0%, rgba(38,33,92,0.5) 50%, rgba(10,13,31,0.85) 100%)"
+        background: "linear-gradient(135deg, rgba(10,13,31,0.92) 0%, rgba(38,33,92,0.7) 50%, rgba(10,13,31,0.92) 100%)"
       }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-20">
+          viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-14">
           <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--aurora-teal)" }}>Case studies</p>
           <h2 className="text-4xl md:text-6xl font-bold" style={{ color: "var(--snow)" }}>Our Work</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="flex flex-col gap-4">
-            {projects.map((p, i) => (
-              <motion.div key={p.title}
-                initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.6, delay: i * 0.15 }}
-                onClick={() => setActive(i)}
-                whileHover={{ x: 6 }}
-                className="rounded-2xl p-6 cursor-pointer relative overflow-hidden"
-                style={{
-                  background: active === i ? "rgba(83,74,183,0.3)" : "rgba(10,13,31,0.5)",
-                  border: active === i ? "1px solid rgba(175,169,236,0.6)" : "1px solid rgba(83,74,183,0.2)",
-                  backdropFilter: "blur(20px)",
-                }}
-              >
-                {active === i && (
-                  <motion.div layoutId="activeBar" className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl"
-                    style={{ background: "var(--aurora-light)" }} />
-                )}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-xs tracking-widest uppercase mb-1 block" style={{ color: "var(--aurora-teal)" }}>{p.category}</span>
-                    <h3 className="text-lg font-semibold" style={{ color: "var(--snow)" }}>{p.title}</h3>
-                  </div>
-                  <motion.span animate={{ x: active === i ? 4 : 0 }} style={{ color: "var(--aurora-light)", fontSize: "1.3rem" }}>→</motion.span>
-                </div>
-                <p className="text-sm mt-1 font-medium" style={{ color: "var(--aurora-teal)" }}>{p.result}</p>
-                {active === i && (
-                  <p className="text-xs mt-2 leading-relaxed" style={{ color: "rgba(175,169,236,0.7)" }}>{p.description}</p>
-                )}
-              </motion.div>
-            ))}
-            <motion.a href="#contacto"
-              initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-              className="mt-4 px-8 py-4 rounded-full font-semibold text-center"
-              style={{ border: "1px solid var(--aurora)", color: "var(--aurora-light)", background: "rgba(83,74,183,0.1)" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--aurora)"; (e.currentTarget as HTMLElement).style.color = "var(--snow)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(83,74,183,0.1)"; (e.currentTarget as HTMLElement).style.color = "var(--aurora-light)"; }}
-            >
-              I want a project like this →
-            </motion.a>
-          </div>
-
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }} transition={{ duration: 0.7 }}
-            className="relative rounded-3xl overflow-hidden"
-            style={{ border: "1px solid rgba(175,169,236,0.2)", minHeight: "480px" }}>
-            {projects.map((p, i) => (
-              <motion.div key={i} className="absolute inset-0"
-                animate={{ opacity: active === i ? 1 : 0, scale: active === i ? 1 : 1.04 }}
-                transition={{ duration: 0.7 }}>
-                <Image src={p.img} alt={p.title} fill className="object-cover object-center" />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.75) 0%, transparent 40%)" }} />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                  <div>
-                    <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-teal)" }}>{p.category}</span>
-                    <p className="text-xl font-bold mt-1" style={{ color: "var(--snow)" }}>{p.title}</p>
-                  </div>
-                  <a href={p.url} target="_blank" rel="noopener noreferrer"
-                    className="text-xs px-4 py-2 rounded-full font-semibold shrink-0 ml-4 pointer-events-auto"
-                    style={{ background: "rgba(83,74,183,0.5)", color: "var(--snow)", border: "1px solid rgba(175,169,236,0.3)", backdropFilter: "blur(8px)" }}>
-                    View site →
-                  </a>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+        {/* Project selector */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+          {projects.map((p, i) => (
+            <motion.button key={p.title}
+              onClick={() => setActive(i)}
+              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+              className="px-6 py-3 rounded-full text-sm font-semibold transition-all"
+              style={{
+                background: active === i ? "var(--aurora)" : "rgba(10,13,31,0.5)",
+                border: active === i ? "1px solid rgba(175,169,236,0.6)" : "1px solid rgba(83,74,183,0.3)",
+                color: active === i ? "var(--snow)" : "var(--aurora-light)",
+                backdropFilter: "blur(20px)",
+                boxShadow: active === i ? "0 0 30px rgba(83,74,183,0.4)" : "none",
+              }}>
+              {p.title}
+            </motion.button>
+          ))}
         </div>
+
+        {/* Large mockup image */}
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.7 }}
+          className="relative rounded-3xl overflow-hidden w-full"
+          style={{ height: "520px", border: "1px solid rgba(175,169,236,0.2)", boxShadow: "0 0 60px rgba(83,74,183,0.15)" }}>
+          {projects.map((p, i) => (
+            <motion.div key={i} className="absolute inset-0"
+              animate={{ opacity: active === i ? 1 : 0 }}
+              transition={{ duration: 0.6 }}>
+              <Image src={p.img} alt={p.title} fill className="object-cover object-top" />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,13,31,0.85) 0%, transparent 50%)" }} />
+              <div className="absolute bottom-6 left-8 right-8 flex items-end justify-between">
+                <div>
+                  <span className="text-xs tracking-widest uppercase mb-1 block" style={{ color: "var(--aurora-teal)" }}>{p.category}</span>
+                  <p className="text-2xl font-bold mb-1" style={{ color: "var(--snow)" }}>{p.title}</p>
+                  <p className="text-sm font-medium" style={{ color: "var(--aurora-teal)" }}>{p.result}</p>
+                  <p className="text-xs mt-1 max-w-lg" style={{ color: "rgba(175,169,236,0.7)" }}>{p.description}</p>
+                </div>
+                <a href={p.url} target="_blank" rel="noopener noreferrer"
+                  className="shrink-0 ml-6 px-6 py-3 rounded-full text-sm font-semibold transition-transform hover:scale-105"
+                  style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 30px rgba(83,74,183,0.5)" }}>
+                  View site →
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+          className="text-center mt-8">
+          <motion.a href="#contacto"
+            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+            className="inline-block px-8 py-4 rounded-full font-semibold"
+            style={{ border: "1px solid var(--aurora)", color: "var(--aurora-light)", background: "rgba(83,74,183,0.1)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--aurora)"; (e.currentTarget as HTMLElement).style.color = "var(--snow)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(83,74,183,0.1)"; (e.currentTarget as HTMLElement).style.color = "var(--aurora-light)"; }}>
+            I want a project like this →
+          </motion.a>
+        </motion.div>
+
       </div>
     </section>
   );
