@@ -10,7 +10,7 @@ const projects = [
     result: "More visibility, traffic & class signups",
     description: "Full website for a Brazilian Jiu Jitsu academy in Panama City — built to rank on Google and convert visitors into students.",
     url: "https://www.nodoacademy.com",
-    img: "https://res.cloudinary.com/dddfxmqta/image/upload/v1781705847/banner_isrwxq.png",
+    img: "/images/portfolio/mockups/nodo-academy.png",
   },
   {
     title: "Market Open Media",
@@ -18,7 +18,7 @@ const projects = [
     result: "Google Maps & LSA lead generation",
     description: "Website for a local marketing agency specializing in Google Maps SEO and Local Services Ads — focused on generating inbound leads.",
     url: "https://www.marketopenmedia.com",
-    img: "/images/portfolio/workspace-2.png",
+    img: "/images/portfolio/mockups/market-open-media.png",
   },
 ];
 
