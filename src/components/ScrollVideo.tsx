@@ -50,8 +50,10 @@ export default function ScrollVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const video = videoRef.current;
     const container = containerRef.current;
     if (!video || !container) return;
@@ -106,6 +108,7 @@ export default function ScrollVideo() {
 
         {/* Video */}
         <video ref={videoRef} src="/video/iceberg.mp4" muted playsInline preload="auto"
+          poster="/images/hero/hero-aurora.png"
           className="absolute inset-0 w-full h-full object-cover" />
 
         <div className="absolute inset-0 z-10" style={{ background: "rgba(10,13,31,0.55)" }} />
@@ -113,8 +116,9 @@ export default function ScrollVideo() {
           background: "linear-gradient(to bottom, rgba(10,13,31,0.4) 0%, transparent 20%, transparent 75%, rgba(10,13,31,0.6) 100%)",
         }} />
 
-        {/* Single active slide — React controlled */}
-        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+        {/* Single active slide — only render after hydration */}
+        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
+          style={{ opacity: mounted ? 1 : 0, transition: "opacity 0.4s ease" }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id}
