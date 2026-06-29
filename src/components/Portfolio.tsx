@@ -49,9 +49,9 @@ export default function Portfolio() {
           <h2 className="text-4xl md:text-6xl font-bold" style={{ color: "var(--snow)" }}>Our Work</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          {/* Left — project list */}
-          <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+          {/* Left — project list (2/5) */}
+          <div className="lg:col-span-2 flex flex-col gap-4">
             {projects.map((p, i) => (
               <motion.div key={p.title}
                 initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
@@ -95,11 +95,11 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Right — mockup preview at 70% scale */}
+          {/* Right — mockup preview (3/5) */}
           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }} transition={{ duration: 0.7 }}
-            className="relative rounded-2xl overflow-hidden"
-            style={{ height: "380px", border: "1px solid rgba(175,169,236,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
+            className="lg:col-span-3 relative rounded-2xl overflow-hidden"
+            style={{ height: "460px", border: "1px solid rgba(175,169,236,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
             {projects.map((p, i) => (
               <motion.div key={i} className="absolute inset-0"
                 animate={{ opacity: active === i ? 1 : 0 }}
