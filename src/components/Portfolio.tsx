@@ -1,7 +1,7 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const projects = [
   {
@@ -25,21 +25,12 @@ const projects = [
 ];
 
 export default function Portfolio() {
-  const ref = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   return (
-    <section id="portfolio" ref={ref} className="relative py-40 overflow-hidden min-h-screen flex flex-col justify-center">
-      {projects.map((p, i) => (
-        <motion.div key={i} className="absolute inset-0 z-0"
-          animate={{ opacity: active === i ? 1 : 0 }} transition={{ duration: 0.8 }} style={{ y: bgY }}>
-          <Image src={p.bg} alt={p.title} fill className="object-cover object-center" quality={85} />
-        </motion.div>
-      ))}
-      <div className="absolute inset-0 z-[1]" style={{
-        background: "linear-gradient(135deg, rgba(10,13,31,0.92) 0%, rgba(38,33,92,0.7) 50%, rgba(10,13,31,0.92) 100%)"
+    <section id="portfolio" className="relative py-40 overflow-hidden min-h-screen flex flex-col justify-center" style={{ background: "var(--night)" }}>
+      <div className="absolute inset-0 z-0" style={{
+        background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(83,74,183,0.12) 0%, transparent 70%)"
       }} />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
