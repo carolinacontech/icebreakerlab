@@ -51,7 +51,7 @@ export default function Portfolio() {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
           {/* Left — project list (2/5) */}
-          <div className="lg:col-span-1 flex flex-col gap-4">
+          <div className="lg:col-span-2 flex flex-col gap-4">
             {projects.map((p, i) => (
               <motion.div key={p.title}
                 initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
@@ -98,13 +98,13 @@ export default function Portfolio() {
           {/* Right — mockup preview (3/5) */}
           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }} transition={{ duration: 0.7 }}
-            className="lg:col-span-4 relative rounded-2xl overflow-hidden"
-            style={{ height: "520px", border: "1px solid rgba(175,169,236,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
+            className="lg:col-span-3 relative rounded-2xl overflow-hidden"
+            style={{ height: "460px", border: "1px solid rgba(175,169,236,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
             {projects.map((p, i) => (
               <motion.div key={i} className="absolute inset-0"
                 animate={{ opacity: active === i ? 1 : 0 }}
                 transition={{ duration: 0.6 }}>
-                <Image src={p.mockup} alt={p.title} fill className="object-cover object-top" />
+                <Image src={p.mockup} alt={p.title} fill className="object-contain object-top" />
               </motion.div>
             ))}
           </motion.div>
