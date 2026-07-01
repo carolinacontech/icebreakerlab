@@ -16,7 +16,7 @@ export default function Footer() {
           </span>
         </div>
         <p className="text-xs" style={{ color: "var(--aurora-light)", opacity: 0.4 }}>
-          © 2025 Icebreaker Lab · Websites that break the ice
+          © 2026 Icebreaker Lab · Websites that break the ice
         </p>
         <div className="flex gap-6">
           {["Instagram", "LinkedIn", "Behance"].map((s) => (
