@@ -11,7 +11,7 @@ const projects = [
     name: "NODO Jiu Jitsu Academy",
     category: "Martial Arts Academy",
     headline: "More visibility, more signups — built to rank on Google",
-    tags: ["Website", "SEO", "Conversion"],
+    tags: ["Website", "Local SEO", "Conversion"],
     img: "/images/portfolio/mockups/nodo-academy.png",
     color: "#5DCAA5",
     url: "https://www.nodoacademy.com",
@@ -118,7 +118,7 @@ const projects = [
   },
 ];
 
-const ALL_TAGS = ["All", "Website", "Landing Page", "Portfolio", "E-commerce", "SEO", "Branding", "Conversion"];
+const ALL_TAGS = ["All", "Website", "Landing Page", "Portfolio", "E-commerce", "SEO", "Local SEO", "Branding", "Conversion"];
 
 export default function PortfolioPage() {
   const [active, setActive] = useState<typeof projects[0] | null>(null);
