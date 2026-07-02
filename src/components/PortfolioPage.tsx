@@ -17,6 +17,16 @@ const projects = [
     url: "https://www.nodoacademy.com",
   },
   {
+    id: -3,
+    name: "Kings Tree Services",
+    category: "Corporate Website",
+    headline: "Tree services in North Texas & DFW you can trust",
+    tags: ["Website", "Local SEO", "Conversion"],
+    img: "/images/portfolio/mockups/tree-services.png",
+    color: "#4A7C59",
+    url: "https://www.kingstreeservicesllc.com",
+  },
+  {
     id: -2,
     name: "Las Marías Market",
     category: "E-commerce",
