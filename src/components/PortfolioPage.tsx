@@ -17,6 +17,16 @@ const projects = [
     url: "https://www.nodoacademy.com",
   },
   {
+    id: -2,
+    name: "Las Marías Market",
+    category: "E-commerce",
+    headline: "Marketplace artesanal con pasarela de pago y gestión de creadores",
+    tags: ["E-commerce", "Website", "Conversion"],
+    img: "/images/portfolio/mockups/las-marias-market.jpg",
+    color: "#D4006A",
+    url: "",
+  },
+  {
     id: -1,
     name: "Market Open Media",
     category: "Marketing Agency",
