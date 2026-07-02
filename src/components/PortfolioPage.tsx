@@ -7,6 +7,26 @@ import Navbar from "./Navbar";
 
 const projects = [
   {
+    id: 0,
+    name: "NODO Jiu Jitsu Academy",
+    category: "Martial Arts Academy",
+    headline: "More visibility, more signups — built to rank on Google",
+    tags: ["Website", "SEO", "Conversion"],
+    img: "/images/portfolio/mockups/nodo-academy.png",
+    color: "#5DCAA5",
+    url: "https://www.nodoacademy.com",
+  },
+  {
+    id: -1,
+    name: "Market Open Media",
+    category: "Marketing Agency",
+    headline: "Google Maps & LSA lead generation that actually works",
+    tags: ["Website", "SEO", "Conversion"],
+    img: "/images/portfolio/mockups/market-open-media.png",
+    color: "#534AB7",
+    url: "https://www.marketopenmedia.com",
+  },
+  {
     id: 1,
     name: "Aurea Estates",
     category: "Real Estate",
