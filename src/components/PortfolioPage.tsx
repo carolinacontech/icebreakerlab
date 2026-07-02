@@ -190,14 +190,22 @@ export default function PortfolioPage() {
                   whileHover={{ y: -6 }}
                 >
                   {/* Image */}
-                  <div className="relative overflow-hidden" style={{ aspectRatio: "16/10" }}>
+                  <div className="relative overflow-hidden" style={{ height: "280px" }}>
                     <Image src={p.img} alt={p.name} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                    <div className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+                      style={{ background: "linear-gradient(to bottom, transparent, rgba(10,13,31,0.7))" }} />
                     {/* Hover overlay */}
                     <motion.div
                       className="absolute inset-0 flex items-center justify-center"
                       initial={{ opacity: 0 }}
                       whileHover={{ opacity: 1 }}
                       style={{ background: "rgba(83,74,183,0.6)", backdropFilter: "blur(4px)" }}
+                      onClick={(e) => {
+                        if ("url" in p && p.url) {
+                          e.stopPropagation();
+                          window.open(p.url as string, "_blank", "noopener,noreferrer");
+                        }
+                      }}
                     >
                       <span className="px-6 py-3 rounded-full font-semibold text-sm"
                         style={{ background: "var(--snow)", color: "var(--deep-aurora)" }}>
@@ -275,6 +283,15 @@ export default function PortfolioPage() {
                   <h3 className="text-lg font-bold ml-0 mt-0.5" style={{ color: "var(--snow)" }}>{active.name}</h3>
                 </div>
                 <div className="flex gap-3 items-center">
+                  {"url" in active && active.url && (
+                    <a href={active.url as string} target="_blank" rel="noopener noreferrer">
+                      <motion.span whileHover={{ scale: 1.05 }}
+                        className="inline-block px-5 py-2.5 rounded-full font-semibold text-sm"
+                        style={{ background: "rgba(83,74,183,0.2)", color: "var(--aurora-light)", border: "1px solid rgba(83,74,183,0.4)" }}>
+                        Visit site →
+                      </motion.span>
+                    </a>
+                  )}
                   <Link href="/#contacto" onClick={() => setActive(null)}>
                     <motion.span whileHover={{ scale: 1.05 }}
                       className="inline-block px-5 py-2.5 rounded-full font-semibold text-sm"
