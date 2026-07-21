@@ -1,10 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function once<T extends EventTarget>(el: T, event: string, fn: (e: Event) => void) {
   const wrapped = (e: Event) => { el.removeEventListener(event, wrapped); fn(e); };
@@ -80,33 +76,18 @@ export default function ScrollVideo() {
   useEffect(() => {
     setMounted(true);
     const video = videoRef.current;
-    const container = containerRef.current;
-    if (!video || !container) return;
+    if (!video) return;
 
-    const src = video.currentSrc || video.src;
     once(document.documentElement, "touchstart", () => { video.play(); video.pause(); });
 
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: container, start: "top top", end: "bottom bottom", scrub: 1 },
-    });
-    once(video, "loadedmetadata", () => {
-      tl.fromTo(video, { currentTime: 0 }, { currentTime: video.duration || 1 });
-    });
-
-    setTimeout(() => {
-      if (typeof window.fetch === "function") {
-        fetch(src).then(r => r.blob()).then(blob => {
-          const blobURL = URL.createObjectURL(blob);
-          const t = video.currentTime;
-          video.setAttribute("src", blobURL);
-          video.currentTime = t + 0.01;
-        });
-      }
-    }, 800);
-
-    // Only update slide index (4 possible values — very cheap)
+    // Single scroll subscriber — drives both video scrub and slide index
     const totalSlides = slides.length;
     const unsubscribe = scrollYProgress.on("change", (p) => {
+      // Video scrub
+      if (video.readyState >= 2 && video.duration) {
+        video.currentTime = p * video.duration;
+      }
+      // Slide index
       if (p < 0.32) {
         setActiveSlide(prev => prev !== -1 ? -1 : prev);
       } else {
@@ -115,10 +96,7 @@ export default function ScrollVideo() {
       }
     });
 
-    return () => {
-      unsubscribe();
-      ScrollTrigger.getAll().forEach(st => st.kill());
-    };
+    return () => { unsubscribe(); };
   }, [scrollYProgress]);
 
   const slide = activeSlide >= 0 ? slides[activeSlide] : null;
