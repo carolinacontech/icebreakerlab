@@ -1,173 +1,415 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import { useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
-const plans = [
+function TiltCard({
+  children,
+  delay = 0,
+  featured = false,
+  accentRgb = "175,169,236",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  featured?: boolean;
+  accentRgb?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const rotateX = useSpring(rawX, { stiffness: 200, damping: 22 });
+  const rotateY = useSpring(rawY, { stiffness: 200, damping: 22 });
+
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current!.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    rawX.set(((e.clientY - cy) / (rect.height / 2)) * -5);
+    rawY.set(((e.clientX - cx) / (rect.width / 2)) * 5);
+  };
+  const onLeave = () => { rawX.set(0); rawY.set(0); };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.55, delay }}
+      style={{ perspective: "1000px" }}
+    >
+      <motion.div
+        ref={ref}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+          background: featured
+            ? "linear-gradient(160deg, rgba(83,74,183,0.22) 0%, rgba(40,30,110,0.35) 100%)"
+            : "rgba(255,255,255,0.025)",
+          border: featured
+            ? "1px solid rgba(175,169,236,0.3)"
+            : `1px solid rgba(${accentRgb},0.12)`,
+          boxShadow: featured
+            ? "0 0 80px rgba(83,74,183,0.18), inset 0 1px 0 rgba(255,255,255,0.06)"
+            : "none",
+        }}
+        className="flex flex-col rounded-2xl overflow-hidden relative h-full"
+      >
+        {children}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+const services = [
   {
+    index: "01",
     name: "Landing Page",
     tagline: "One page. One goal. One result.",
-    description: "Perfect if you want one powerful page that grabs attention and turns visitors into leads or clients — fast.",
-    featured: false,
+    description: "A single high-impact page built to grab attention and turn visitors into leads — fast.",
     features: [
-      "1 beautifully designed page",
-      "Shows up on Google searches",
-      "Looks great on phones & computers",
+      "Custom design from scratch",
+      "Google-ready from day one",
+      "Mobile-perfect on every device",
       "Loads in under 2 seconds",
-      "Contact form so clients can reach you",
-      "Connected to Google Analytics so you see your visits",
-      "We help you write the content",
+      "Contact form + Analytics",
     ],
-    cta: "Start your project",
-    href: "#contacto",
+    label: "Website + SEO",
+    accent: "#5DCAA5",
+    accentRgb: "93,202,165",
+    visual: "landing",
   },
   {
+    index: "02",
     name: "Corporate Website",
     tagline: "Your complete online presence.",
-    description: "3 to 5 pages that tell your full story, show your services, and help clients find you on Google — everything a serious business needs.",
-    featured: true,
+    description: "3–5 pages that tell your full story, rank on Google, and convert visitors into clients.",
     features: [
       "3–5 beautifully designed pages",
-      "Built so Google recommends your business",
-      "Shows up when locals search for what you offer",
-      "Looks perfect on phones & computers",
-      "Loads in under 2 seconds",
-      "Contact forms so clients can reach you easily",
-      "Connected to Google so you can track your growth",
-      "Clear, persuasive writing included",
+      "Local SEO built in from day one",
+      "Content writing included",
+      "Contact forms + Google tracking",
+      "Optimized for speed and mobile",
     ],
-    cta: "Start your project",
-    href: "#contacto",
+    label: "Corporate + SEO",
+    accent: "#AFA9EC",
+    accentRgb: "175,169,236",
+    visual: "corporate",
+    featured: true,
   },
   {
+    index: "03",
     name: "E-commerce",
     tagline: "Your store, open 24/7.",
-    description: "A complete online store where your customers can browse your products and pay — right from your website, any time of day.",
-    featured: false,
+    description: "A custom online store where customers browse, buy, and pay — any time of day.",
     features: [
-      "Custom-designed online store",
+      "Custom store design",
       "Secure payment system included",
-      "Your products showcased beautifully",
-      "Built so Google recommends your store",
-      "Looks great on phones & computers",
-      "Easy to manage your orders",
-      "Connected to Google so you track your sales",
+      "Google-optimized product catalog",
+      "Easy order management",
+      "Analytics + sales dashboard",
     ],
-    cta: "Start your project",
-    href: "#contacto",
+    label: "E-commerce + SEO",
+    accent: "#7C6FE8",
+    accentRgb: "124,111,232",
+    visual: "ecommerce",
   },
 ];
 
-export default function Services() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["-18%", "18%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1.2, 1.1]);
-
+/* ─── Browser mockup wrapper ─── */
+function BrowserMock({ children, accent }: { children: React.ReactNode; accent: string }) {
   return (
-    <section id="servicios" ref={ref} className="relative py-40 overflow-hidden min-h-screen flex flex-col justify-center">
-      <motion.div className="absolute inset-0 z-0" style={{ y: bgY, scale: bgScale }}>
-        <Image src="/images/services/underwater.png" alt="Iceberg underwater" fill className="object-cover object-center" quality={85} />
-      </motion.div>
-      <div className="absolute inset-0 z-[1]" style={{
-        background: "linear-gradient(to bottom, rgba(10,13,31,0.88) 0%, rgba(10,22,40,0.7) 50%, rgba(10,13,31,0.88) 100%)"
+    <div className="w-full h-full flex flex-col" style={{ background: "rgba(8,7,30,0.9)" }}>
+      {/* Chrome bar */}
+      <div className="flex items-center gap-2 px-3 py-2 shrink-0" style={{ background: "rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="flex gap-1.5">
+          {["rgba(255,95,86,0.6)", "rgba(255,189,46,0.6)", "rgba(40,200,64,0.6)"].map((c, i) => (
+            <div key={i} className="w-2 h-2 rounded-full" style={{ background: c }} />
+          ))}
+        </div>
+        <div className="flex-1 mx-2 py-0.5 rounded flex items-center gap-1.5 px-2" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)" }}>
+          <div className="w-1.5 h-1.5 rounded-full" style={{ background: accent, opacity: 0.7 }} />
+          <div className="h-1 rounded flex-1" style={{ background: "rgba(255,255,255,0.1)" }} />
+        </div>
+      </div>
+      <div className="flex-1 overflow-hidden">{children}</div>
+    </div>
+  );
+}
+
+/* ─── CSS illustrations ─── */
+
+function LandingVisual({ accent }: { accent: string }) {
+  return (
+    <BrowserMock accent={accent}>
+      <div className="w-full h-full flex flex-col">
+        {/* Nav */}
+        <div className="flex items-center justify-between px-4 py-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+          <div className="w-12 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.18)" }} />
+          <div className="flex gap-3">{[40,36,44].map((w, i) => <div key={i} className="h-1 rounded" style={{ background: "rgba(255,255,255,0.07)", width: w }} />)}</div>
+          <div className="px-2.5 py-1 rounded-full" style={{ background: accent, opacity: 0.85 }}>
+            <div className="h-1 w-8 rounded" style={{ background: "rgba(10,13,31,0.4)" }} />
+          </div>
+        </div>
+        {/* Hero */}
+        <div className="flex-1 flex flex-col items-center justify-center gap-2.5 px-5 text-center" style={{ background: "radial-gradient(ellipse 70% 60% at 50% 30%, rgba(93,202,165,0.06) 0%, transparent 70%)" }}>
+          <div className="flex flex-col gap-1.5 w-full">
+            <div className="h-4 rounded-lg mx-auto" style={{ background: "rgba(255,255,255,0.2)", width: "82%" }} />
+            <div className="h-4 rounded-lg mx-auto" style={{ background: "rgba(255,255,255,0.13)", width: "62%" }} />
+          </div>
+          <div className="flex flex-col gap-1 w-full max-w-[140px]">
+            {[80, 70, 60].map((w, i) => <div key={i} className="h-1.5 rounded mx-auto" style={{ background: "rgba(255,255,255,0.05)", width: `${w}%` }} />)}
+          </div>
+          <div className="flex gap-2 mt-1">
+            <div className="px-4 py-2 rounded-full" style={{ background: accent, opacity: 0.9 }}>
+              <div className="h-1.5 w-10 rounded" style={{ background: "rgba(10,13,31,0.45)" }} />
+            </div>
+            <div className="px-4 py-2 rounded-full" style={{ border: "1px solid rgba(255,255,255,0.1)", background: "transparent" }}>
+              <div className="h-1.5 w-8 rounded" style={{ background: "rgba(255,255,255,0.08)" }} />
+            </div>
+          </div>
+        </div>
+        {/* Stats strip */}
+        <div className="flex border-t" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+          {["Visits +84%", "#1 Google", "0–0.8s"].map((label, i) => (
+            <div key={label} className="flex-1 flex flex-col items-center py-2 gap-0.5" style={{ borderRight: i < 2 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+              <div style={{ color: accent, fontSize: "7px", fontWeight: 700, opacity: 0.85 }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </BrowserMock>
+  );
+}
+
+function CorporateVisual({ accent }: { accent: string }) {
+  return (
+    <BrowserMock accent={accent}>
+      <div className="w-full h-full flex flex-col">
+        {/* Hero image area */}
+        <div className="relative overflow-hidden" style={{ height: "90px", background: "radial-gradient(ellipse 100% 120% at 60% 50%, rgba(83,74,183,0.3) 0%, rgba(20,16,60,0.9) 100%)" }}>
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(8,7,30,0.8) 100%)" }} />
+          <div className="absolute bottom-3 left-4 flex flex-col gap-1">
+            <div className="h-2.5 w-24 rounded" style={{ background: "rgba(255,255,255,0.22)" }} />
+            <div className="h-1.5 w-16 rounded" style={{ background: "rgba(255,255,255,0.1)" }} />
+          </div>
+          <div className="absolute bottom-3 right-4">
+            <div className="px-3 py-1.5 rounded-full" style={{ background: accent, opacity: 0.85 }}>
+              <div className="h-1.5 w-10 rounded" style={{ background: "rgba(10,13,31,0.4)" }} />
+            </div>
+          </div>
+        </div>
+        {/* Nav tabs */}
+        <div className="flex gap-0 px-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          {["Home", "Services", "About", "Contact"].map((p, i) => (
+            <div key={p} className="px-3 py-1.5 flex flex-col items-center gap-0.5" style={{ borderBottom: i === 0 ? `1.5px solid ${accent}` : "1.5px solid transparent" }}>
+              <div className="h-1 rounded" style={{ background: i === 0 ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.07)", width: p.length * 3.5 }} />
+            </div>
+          ))}
+        </div>
+        {/* Services grid */}
+        <div className="flex-1 grid grid-cols-3 gap-2 p-3">
+          {[0.14, 0.18, 0.12].map((o, i) => (
+            <div key={i} className="rounded-lg p-2 flex flex-col gap-1.5"
+              style={{ background: `rgba(83,74,183,${o})`, border: `1px solid rgba(175,169,236,${o * 1.2})` }}>
+              <div className="w-4 h-4 rounded" style={{ background: `rgba(175,169,236,${0.2 + i * 0.05})` }} />
+              <div className="h-1 rounded" style={{ background: "rgba(255,255,255,0.15)", width: "80%" }} />
+              <div className="h-1 rounded" style={{ background: "rgba(255,255,255,0.07)", width: "60%" }} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </BrowserMock>
+  );
+}
+
+function EcommerceVisual({ accent }: { accent: string }) {
+  const products = [
+    { label: "Pro Jacket", price: "$129", hot: true },
+    { label: "Core Tee", price: "$48" },
+    { label: "Merino Hat", price: "$72" },
+    { label: "Trail Set", price: "$95", new: true },
+  ];
+  return (
+    <BrowserMock accent={accent}>
+      <div className="w-full h-full flex flex-col">
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-3 py-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="flex gap-2 items-center">
+            <div className="w-12 h-1.5 rounded" style={{ background: "rgba(255,255,255,0.18)" }} />
+          </div>
+          <div className="flex gap-3">
+            {[28, 22, 20].map((w, i) => <div key={i} className="h-1 rounded" style={{ background: "rgba(255,255,255,0.07)", width: w }} />)}
+          </div>
+          <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: accent, opacity: 0.85 }}>
+            <div style={{ color: "rgba(10,13,31,0.7)", fontSize: "8px", fontWeight: 800 }}>3</div>
+          </div>
+        </div>
+        {/* Product grid */}
+        <div className="grid grid-cols-2 gap-1.5 p-2 flex-1">
+          {products.map((p, i) => (
+            <div key={i} className="rounded-lg overflow-hidden flex flex-col"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div className="relative flex-1 flex items-center justify-center" style={{ background: `rgba(124,111,232,${0.07 + (i % 2) * 0.04})`, minHeight: "44px" }}>
+                <div className="w-7 h-7 rounded-lg" style={{ background: `rgba(124,111,232,${0.2 + i * 0.04})`, border: "1px solid rgba(124,111,232,0.2)" }} />
+                {p.hot && <div className="absolute top-1 left-1 px-1 py-0.5 rounded" style={{ background: "#ff5f56", fontSize: "5px", color: "#fff", fontWeight: 800 }}>HOT</div>}
+                {p.new && <div className="absolute top-1 left-1 px-1 py-0.5 rounded" style={{ background: accent, fontSize: "5px", color: "#0a0d1f", fontWeight: 800 }}>NEW</div>}
+              </div>
+              <div className="px-2 py-1.5 flex items-center justify-between">
+                <div style={{ color: accent, fontSize: "8px", fontWeight: 700 }}>{p.price}</div>
+                <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center" style={{ background: `rgba(124,111,232,0.2)`, border: "1px solid rgba(124,111,232,0.3)", color: accent, fontSize: "9px" }}>+</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Checkout strip */}
+        <div className="flex items-center justify-between px-3 py-2" style={{ background: `rgba(124,111,232,0.12)`, borderTop: "1px solid rgba(124,111,232,0.2)" }}>
+          <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "7px" }}>3 items · <span style={{ color: "rgba(255,255,255,0.8)", fontWeight: 700 }}>$344</span></div>
+          <div className="px-3 py-1.5 rounded-full" style={{ background: accent, opacity: 0.9 }}>
+            <div style={{ color: "#0a0d1f", fontSize: "7px", fontWeight: 800 }}>Checkout →</div>
+          </div>
+        </div>
+      </div>
+    </BrowserMock>
+  );
+}
+
+/* ─── Main component ─── */
+
+export default function Services() {
+  return (
+    <section
+      id="servicios"
+      className="relative overflow-hidden py-32"
+      style={{ background: "var(--night)", minHeight: "100vh" }}
+    >
+      {/* Ambient */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: "radial-gradient(ellipse 70% 50% at 50% 60%, rgba(83,74,183,0.07) 0%, transparent 70%)",
       }} />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mb-16"
+        >
           <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--aurora-teal)" }}>What we build</p>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6" style={{ color: "var(--snow)" }}>Our Services</h2>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: "var(--aurora-light)" }}>
-            Every website we build is custom-designed, SEO-optimized, and built to convert. Choose the right fit for your business.
-          </p>
+          <h2 className="font-bold leading-tight" style={{ fontSize: "clamp(2.2rem, 4vw, 3.5rem)", color: "var(--snow)", letterSpacing: "-0.02em" }}>
+            Pick your package
+          </h2>
         </motion.div>
 
-        {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          {plans.map((plan, i) => (
-            <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.12 }}
-              className={`rounded-3xl flex flex-col relative ${plan.featured ? "pt-14 pb-10 px-8 md:-mt-4 md:-mb-4" : "p-8"}`}
-              style={{
-                background: plan.featured
-                  ? "linear-gradient(160deg, rgba(83,74,183,0.35) 0%, rgba(40,30,120,0.5) 100%)"
-                  : "rgba(10,13,31,0.75)",
-                border: plan.featured
-                  ? "1px solid rgba(175,169,236,0.5)"
-                  : "1px solid rgba(83,74,183,0.18)",
-                backdropFilter: "blur(28px)",
-                boxShadow: plan.featured
-                  ? "0 0 100px rgba(83,74,183,0.35), inset 0 1px 0 rgba(255,255,255,0.08)"
-                  : "0 0 30px rgba(0,0,0,0.3)",
-              }}
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+          {services.map((svc, i) => (
+            <TiltCard
+              key={svc.name}
+              delay={i * 0.1}
+              featured={svc.featured}
+              accentRgb={svc.accentRgb}
             >
-              {/* Glow for featured */}
-              {plan.featured && (
-                <div className="absolute inset-0 rounded-3xl pointer-events-none" style={{
-                  background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(107,92,231,0.3) 0%, transparent 70%)"
+              {/* Featured glow */}
+              {svc.featured && (
+                <div className="absolute inset-0 pointer-events-none rounded-2xl" style={{
+                  background: "radial-gradient(ellipse 90% 40% at 50% 0%, rgba(107,92,231,0.18) 0%, transparent 60%)"
                 }} />
               )}
 
-              {/* Most popular badge */}
-              {plan.featured && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <span className="px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
-                    style={{ background: "linear-gradient(135deg, var(--aurora), #6B5CE7)", color: "var(--snow)", boxShadow: "0 4px 24px rgba(83,74,183,0.6)" }}>
-                    Most Popular
+              {/* Illustration area */}
+              <div
+                className="relative shrink-0 overflow-hidden"
+                style={{
+                  height: "200px",
+                  borderBottom: `1px solid rgba(${svc.accentRgb},0.12)`,
+                  background: `rgba(${svc.accentRgb},0.03)`,
+                }}
+              >
+                {svc.visual === "landing" && <LandingVisual accent={svc.accent} />}
+                {svc.visual === "corporate" && <CorporateVisual accent={svc.accent} />}
+                {svc.visual === "ecommerce" && <EcommerceVisual accent={svc.accent} />}
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-col flex-1 p-7 relative z-10">
+                {/* Index + label */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="font-mono text-xs tracking-widest" style={{ color: `rgba(${svc.accentRgb},0.4)` }}>
+                    {svc.index}
+                  </span>
+                  <span
+                    className="font-mono tracking-widest px-2.5 py-1 rounded"
+                    style={{
+                      color: svc.accent,
+                      background: `rgba(${svc.accentRgb},0.08)`,
+                      border: `1px solid rgba(${svc.accentRgb},0.18)`,
+                      fontSize: "11px",
+                      letterSpacing: "0.1em",
+                    }}
+                  >
+                    {svc.label}
                   </span>
                 </div>
-              )}
 
-              <div className="relative z-10 flex flex-col flex-1">
-                {/* Plan name */}
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold mb-2" style={{ color: "var(--snow)" }}>{plan.name}</h3>
-                  <p className="text-sm font-semibold mb-3" style={{ color: plan.featured ? "var(--aurora-teal)" : "rgba(93,202,165,0.7)" }}>{plan.tagline}</p>
-                  <p className="text-sm leading-relaxed" style={{ color: plan.featured ? "rgba(240,244,255,0.85)" : "rgba(175,169,236,0.7)" }}>{plan.description}</p>
-                </div>
+                {/* Name */}
+                <h3
+                  className="font-bold mb-2 leading-tight"
+                  style={{
+                    fontSize: "clamp(1.4rem, 2vw, 1.75rem)",
+                    color: "var(--snow)",
+                    letterSpacing: "-0.02em",
+                    textShadow: `0 0 40px rgba(${svc.accentRgb},0.2)`,
+                  }}
+                >
+                  {svc.name}
+                </h3>
+
+                <p className="text-sm font-semibold mb-4" style={{ color: svc.accent }}>
+                  {svc.tagline}
+                </p>
+
+                <p className="leading-relaxed mb-6" style={{ color: "rgba(175,169,236,0.65)", fontSize: "15px" }}>
+                  {svc.description}
+                </p>
 
                 {/* Divider */}
-                <div className="h-px mb-6" style={{ background: plan.featured ? "rgba(175,169,236,0.25)" : "rgba(83,74,183,0.15)" }} />
+                <div className="h-px mb-6" style={{ background: `rgba(${svc.accentRgb},0.12)` }} />
 
                 {/* Features */}
-                <ul className="flex flex-col gap-3 mb-8 flex-1">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm"
-                      style={{ color: plan.featured ? "rgba(240,244,255,0.9)" : "rgba(175,169,236,0.75)" }}>
-                      <span className="mt-0.5 shrink-0 font-bold" style={{ color: "var(--aurora-teal)" }}>✓</span>
+                <ul className="flex flex-col gap-2.5 mb-8 flex-1">
+                  {svc.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: "rgba(240,244,255,0.8)" }}>
+                      <span className="mt-0.5 shrink-0 font-bold" style={{ color: svc.accent }}>✓</span>
                       {f}
                     </li>
                   ))}
                 </ul>
 
                 {/* CTA */}
-                <a href={plan.href}
-                  className="w-full py-4 rounded-full font-semibold text-sm text-center transition-all hover:scale-[1.02] hover:opacity-90 block"
-                  style={plan.featured
-                    ? { background: "linear-gradient(135deg, #7C6FE8, #5DCAA5)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.5)", fontWeight: 700 }
-                    : { background: "rgba(83,74,183,0.12)", color: "rgba(175,169,236,0.9)", border: "1px solid rgba(83,74,183,0.3)" }
-                  }>
-                  {plan.cta} →
+                <a
+                  href="#contacto"
+                  className="w-full py-4 rounded-full text-base font-bold text-center transition-all hover:scale-[1.02] block"
+                  style={svc.featured ? {
+                    background: `linear-gradient(135deg, rgba(${svc.accentRgb},0.9), rgba(${svc.accentRgb},0.65))`,
+                    color: "#0a0d1f",
+                    boxShadow: `0 0 32px rgba(${svc.accentRgb},0.35)`,
+                  } : {
+                    background: `rgba(${svc.accentRgb},0.08)`,
+                    color: svc.accent,
+                    border: `1px solid rgba(${svc.accentRgb},0.25)`,
+                  }}
+                >
+                  Start your project →
                 </a>
               </div>
-            </motion.div>
+            </TiltCard>
           ))}
         </div>
-
-        {/* Bottom note */}
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center text-sm mt-10" style={{ color: "rgba(175,169,236,0.45)" }}>
-          All projects include SEO optimization, mobile-first design, and fast load times — from day one.
-        </motion.p>
-
       </div>
     </section>
   );

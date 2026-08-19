@@ -22,13 +22,22 @@ const projects = [
     mockup: "/images/portfolio/mockups/market-open-media.png",
     bg: "/images/portfolio/workspace-2.png",
   },
+  {
+    title: "Kings Tree Services",
+    category: "Website + Local SEO",
+    result: "Top Google rankings for North Texas & DFW",
+    description: "Full website for a tree services company covering North Texas & DFW — built to rank locally, generate free estimate leads, and convert emergency calls 24/7.",
+    url: "https://www.kingstreeservices.com",
+    mockup: "/images/portfolio/mockups/tree-services.png",
+    bg: "/images/portfolio/workspace.png",
+  },
 ];
 
 export default function Portfolio() {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="portfolio" className="relative py-40 overflow-hidden min-h-screen flex flex-col justify-center" style={{ background: "var(--night)" }}>
+    <section id="portfolio" className="relative py-24 overflow-hidden" style={{ background: "var(--night)" }}>
       <div className="absolute inset-0 z-0" style={{
         background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(83,74,183,0.12) 0%, transparent 70%)"
       }} />
@@ -40,7 +49,7 @@ export default function Portfolio() {
           <h2 className="text-4xl md:text-6xl font-bold" style={{ color: "var(--snow)" }}>Our Work</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
           {/* Left — project list (2/5) */}
           <div className="lg:col-span-2 flex flex-col gap-4">
             {projects.map((p, i) => (

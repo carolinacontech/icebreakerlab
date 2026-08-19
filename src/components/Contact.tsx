@@ -2,15 +2,17 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useState, useRef } from "react";
+import { useCrack } from "./IceCrack";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
   const ref = useRef<HTMLElement>(null);
+  const crack = useCrack();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   return (
-    <section id="contacto" ref={ref} className="relative py-40 overflow-hidden min-h-screen flex flex-col justify-center">
+    <section id="contacto" ref={ref} className="relative py-24 overflow-hidden">
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY, scale: 1.15 }}>
         <Image src="/images/textures/ice-macro.png" alt="Ice texture" fill className="object-cover object-center" quality={85} />
       </motion.div>
@@ -23,7 +25,7 @@ export default function Contact() {
           viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-14">
           <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--aurora-teal)" }}>Let's begin</p>
           <h2 className="text-4xl md:text-6xl font-bold mb-4" style={{ color: "var(--snow)" }}>Break the ice.</h2>
-          <p style={{ color: "var(--ice-blue)" }}>Tell us about your project. We respond within 24 hours.</p>
+          <p className="text-lg" style={{ color: "var(--ice-blue)" }}>Tell us about your project. We respond within 24 hours.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
@@ -45,14 +47,14 @@ export default function Contact() {
                     <span className="text-xs font-bold shrink-0 mt-0.5" style={{ color: "var(--aurora-teal)" }}>{item.step}</span>
                     <div>
                       <p className="font-semibold text-sm mb-0.5" style={{ color: "var(--snow)" }}>{item.title}</p>
-                      <p className="text-xs leading-relaxed" style={{ color: "rgba(175,169,236,0.65)" }}>{item.body}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: "rgba(175,169,236,0.7)" }}>{item.body}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
             <div className="h-px" style={{ background: "rgba(83,74,183,0.2)" }} />
-            <p className="text-xs leading-relaxed" style={{ color: "rgba(175,169,236,0.5)" }}>
+            <p className="text-sm leading-relaxed" style={{ color: "rgba(175,169,236,0.6)" }}>
               Not ready to fill a form? Use the chatbot below — Frost will guide you through everything at your own pace.
             </p>
           </motion.div>
@@ -101,7 +103,13 @@ export default function Contact() {
                     onFocus={(e) => (e.target.style.borderColor = "var(--aurora-light)")}
                     onBlur={(e) => (e.target.style.borderColor = "rgba(83,74,183,0.3)")} />
                 </div>
-                <motion.button type="submit" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={(e) => {
+                    crack(e.clientX, e.clientY, () => {});
+                  }}
                   className="w-full py-4 rounded-full font-semibold text-base"
                   style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.4)" }}>
                   Break the ice →

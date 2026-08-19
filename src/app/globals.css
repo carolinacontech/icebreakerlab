@@ -44,3 +44,20 @@ body {
   background: var(--aurora);
   border-radius: 3px;
 }
+
+/* Marquee */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Hide default cursor site-wide on desktop */
+@media (pointer: fine) {
+  * { cursor: none !important; }
+}

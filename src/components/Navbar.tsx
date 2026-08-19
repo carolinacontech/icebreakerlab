@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { CrackLink } from "./IceCrack";
 
 const links = [
   { label: "Services", href: "#servicios" },
@@ -15,40 +16,36 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler);
+    // ScrollVideo section is 600vh — navbar only activates after it
+    const handler = () => setScrolled(window.scrollY > window.innerHeight * 5.8);
+    window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      style={{
-        background: scrolled
-          ? "rgba(10,13,31,0.92)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(83,74,183,0.2)" : "none",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-3">
+    <nav className="fixed top-0 left-0 right-0 z-50">
+      {/* Background layer — always blurring, opacity controls visibility */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "rgba(10,13,31,0.92)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderBottom: "1px solid rgba(83,74,183,0.2)",
+          opacity: scrolled ? 1 : 0,
+          transition: "opacity 0.35s ease",
+        }}
+      />
+      <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="#">
           <Image
-            src="/images/logo/logo.png"
+            src="/images/logo/logo.PNG"
             alt="Icebreaker Lab"
-            width={36}
-            height={36}
-            className="rounded-lg object-cover"
+            width={224}
+            height={44}
+            className="object-contain"
+            unoptimized
           />
-          <span
-            className="font-semibold tracking-widest text-sm uppercase"
-            style={{ color: "var(--ice-tip)", letterSpacing: "0.2em" }}
-          >
-            Icebreaker Lab
-          </span>
         </a>
 
         {/* Desktop links */}
@@ -69,24 +66,13 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          <a
+          <CrackLink
             href="#contacto"
             className="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300"
-            style={{
-              background: "var(--aurora)",
-              color: "var(--snow)",
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLElement).style.background = "var(--aurora-light)";
-              (e.target as HTMLElement).style.color = "var(--deep-aurora)";
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLElement).style.background = "var(--aurora)";
-              (e.target as HTMLElement).style.color = "var(--snow)";
-            }}
+            style={{ background: "var(--aurora)", color: "var(--snow)" }}
           >
             Let's talk
-          </a>
+          </CrackLink>
         </div>
 
         {/* Mobile toggle */}
@@ -126,6 +112,6 @@ export default function Navbar() {
           ))}
         </motion.div>
       )}
-    </motion.nav>
+    </nav>
   );
 }

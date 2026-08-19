@@ -1,7 +1,44 @@
 "use client";
-import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CrackLink } from "./IceCrack";
 
+const wordVariants = {
+  hidden: { opacity: 0, y: 22, rotateX: -40 },
+  show: (i: number) => ({
+    opacity: 1, y: 0, rotateX: 0,
+    transition: { delay: i * 0.07, duration: 0.5, ease: [0.23, 1, 0.32, 1] as const },
+  }),
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
+};
+
+function SplitTitle({ text, style }: { text: string; style: React.CSSProperties }) {
+  let wordIndex = 0;
+  return (
+    <h2 style={{ ...style, perspective: "800px" }}>
+      {text.split("\n").map((line, li) => (
+        <span key={li} style={{ display: "block" }}>
+          {line.split(" ").map((word, wi) => {
+            const idx = wordIndex++;
+            return (
+              <motion.span
+                key={`${li}-${wi}`}
+                custom={idx}
+                variants={wordVariants}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                style={{ display: "inline-block", transformOrigin: "50% 100%", marginRight: "0.28em" }}
+              >
+                {word}
+              </motion.span>
+            );
+          })}
+        </span>
+      ))}
+    </h2>
+  );
+}
 function once<T extends EventTarget>(el: T, event: string, fn: (e: Event) => void) {
   const wrapped = (e: Event) => { el.removeEventListener(event, wrapped); fn(e); };
   el.addEventListener(event, wrapped);
@@ -11,310 +48,279 @@ const slides = [
   {
     id: "slide-0",
     label: "Websites & SEO Agency",
-    title: "We break the ice.",
-    subtitle: "Your business, finally heard.",
-    body: "Most websites exist. Ours convert.",
+    title: "We break\nthe ice.",
+    body: null,
     cta: null,
+    position: "bottom-left" as const,
   },
   {
     id: "slide-1",
     label: "The surface",
-    title: "You're only showing\nthe tip.",
-    subtitle: null,
-    body: "Great product. Invisible online. Your website should be your best salesperson — not your best-kept secret.",
+    title: "You're only\nshowing the tip.",
+    body: "Great product. Invisible online.\nYour website should work for you.",
     cta: null,
+    position: "top-left" as const,
   },
   {
     id: "slide-2",
     label: "The depth",
     title: "The real work\nhappens below.",
-    subtitle: null,
-    body: "SEO, architecture, performance, strategy — invisible to the eye. Everything to Google.",
+    body: "SEO, architecture, performance.\nInvisible to the eye. Everything to Google.",
     cta: null,
+    position: "bottom-right" as const,
   },
   {
     id: "slide-3",
     label: "The result",
     title: "Ranked by Google.\nChosen by people.",
-    subtitle: null,
-    body: "We build the digital infrastructure that makes your message reach the right people, at the right time.",
+    body: "We build the infrastructure that makes\nyour message reach the right people.",
     cta: { label: "Start your project", href: "#servicios" },
+    position: "center" as const,
   },
 ];
 
 export default function ScrollVideo() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [activeSlide, setActiveSlide] = useState(-1);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [mounted, setMounted] = useState(false);
-
-  // Framer Motion scroll — no React re-renders
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
-
-  // Scroll-driven values (pure CSS, zero re-renders)
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.15, 0.42], [0, 0, 0.75]);
-  const elementsOpacity = useTransform(scrollYProgress, [0.22, 0.38], [0, 1]);
-
-  // Mouse parallax
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 30, damping: 25 });
-  const springY = useSpring(mouseY, { stiffness: 30, damping: 25 });
-
-  const orb1X = useTransform(springX, [-1, 1], [-25, 25]);
-  const orb1Y = useTransform(springY, [-1, 1], [-15, 15]);
-  const orb2X = useTransform(springX, [-1, 1], [30, -30]);
-  const orb2Y = useTransform(springY, [-1, 1], [18, -18]);
-  const rotateX = useTransform(springY, [-1, 1], [3, -3]);
-  const rotateY = useTransform(springX, [-1, 1], [-4, 4]);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    mouseX.set((e.clientX / window.innerWidth) * 2 - 1);
-    mouseY.set((e.clientY / window.innerHeight) * 2 - 1);
-  }, [mouseX, mouseY]);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     setMounted(true);
     const video = videoRef.current;
-    if (!video) return;
+    const container = containerRef.current;
+    if (!video || !container) return;
 
     once(document.documentElement, "touchstart", () => { video.play(); video.pause(); });
 
-    // Single scroll subscriber — drives both video scrub and slide index
+    // Single RAF loop: read scrollY directly (works with Lenis + native scroll)
     const totalSlides = slides.length;
-    const unsubscribe = scrollYProgress.on("change", (p) => {
-      // Video scrub
+    let lastIndex = -1;
+
+    const tick = () => {
+      const rect = container.getBoundingClientRect();
+      const scrolled = -rect.top;
+      const total = container.offsetHeight - window.innerHeight;
+      const progress = Math.max(0, Math.min(1, scrolled / total));
+
+      // Update video time directly — no lerp, direct seek per frame
       if (video.readyState >= 2 && video.duration) {
-        video.currentTime = p * video.duration;
+        video.currentTime = progress * video.duration;
       }
-      // Slide index
-      if (p < 0.32) {
-        setActiveSlide(prev => prev !== -1 ? -1 : prev);
-      } else {
-        const idx = Math.min(totalSlides - 1, Math.floor(((p - 0.32) / 0.68) * totalSlides));
-        setActiveSlide(prev => prev !== idx ? idx : prev);
+
+      // Update slide index only when it changes (avoids re-render every frame)
+      const index = Math.min(totalSlides - 1, Math.floor(progress * totalSlides));
+      if (index !== lastIndex) {
+        lastIndex = index;
+        setActiveSlide(index);
       }
-    });
 
-    return () => { unsubscribe(); };
-  }, [scrollYProgress]);
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
 
-  const slide = activeSlide >= 0 ? slides[activeSlide] : null;
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const slide = slides[activeSlide];
 
   return (
-    <div ref={containerRef} style={{ height: "700vh" }} className="relative">
-      <div className="sticky top-0 h-screen w-full overflow-hidden" onMouseMove={handleMouseMove}>
+    <div ref={containerRef} style={{ height: "600vh" }} className="relative">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
 
         {/* Video */}
-        <video
-          ref={videoRef}
-          src="/video/iceberg.mp4"
-          muted playsInline preload="auto"
+        <video ref={videoRef} muted playsInline preload="auto"
           poster="/images/hero/hero-aurora.png"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ willChange: "auto" }}
-        />
+          style={{ willChange: "transform", transform: "translateZ(0)", filter: "contrast(1.08) saturate(1.15) brightness(1.05)" }}>
+          <source src="/video/version2.webm" type="video/webm" />
+          <source src="/video/version2.mp4" type="video/mp4" />
+        </video>
 
-        {/* Dark veil — GPU-accelerated, zero re-renders */}
-        <motion.div
-          className="absolute inset-0 z-10 pointer-events-none"
-          style={{ background: "rgba(10,13,31,1)", opacity: overlayOpacity, willChange: "opacity" }}
-        />
-
-        {/* Edge gradient */}
-        <div className="absolute inset-0 z-[11] pointer-events-none" style={{
-          background: "linear-gradient(to bottom, rgba(10,13,31,0.2) 0%, transparent 12%, transparent 84%, rgba(10,13,31,0.55) 100%)",
+        {/* Overlay sutil — aumenta contraste percibido sin matar el video */}
+        <div className="absolute inset-0 z-10" style={{
+          background: "radial-gradient(ellipse at center, transparent 40%, rgba(2,1,14,0.35) 100%)",
+          mixBlendMode: "multiply",
         }} />
 
-        {/* Orbs — appear with veil, respond to mouse */}
-        <motion.div className="absolute inset-0 z-[12] pointer-events-none" style={{ opacity: elementsOpacity }}>
-          <motion.div
-            className="absolute rounded-full"
-            style={{
-              width: 650, height: 650,
-              left: "-5%", top: "-12%",
-              x: orb1X, y: orb1Y,
-              background: "radial-gradient(circle, rgba(83,74,183,0.18) 0%, transparent 70%)",
-              filter: "blur(70px)",
-              willChange: "transform",
-            }}
-            animate={{ scale: [1, 1.08, 1] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute rounded-full"
-            style={{
-              width: 480, height: 480,
-              right: "-4%", bottom: "8%",
-              x: orb2X, y: orb2Y,
-              background: "radial-gradient(circle, rgba(93,202,165,0.12) 0%, transparent 70%)",
-              filter: "blur(60px)",
-              willChange: "transform",
-            }}
-            animate={{ scale: [1, 1.12, 1] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-          />
-
-          {/* Particles — only 5, GPU-composited */}
-          {mounted && [
-            { x: "14%", y: "32%", delay: 0, color: "rgba(175,169,236,0.85)" },
-            { x: "80%", y: "24%", delay: 1.8, color: "rgba(93,202,165,0.85)" },
-            { x: "60%", y: "68%", delay: 0.9, color: "rgba(175,169,236,0.85)" },
-            { x: "25%", y: "72%", delay: 2.4, color: "rgba(93,202,165,0.85)" },
-            { x: "72%", y: "48%", delay: 1.2, color: "rgba(175,169,236,0.85)" },
-          ].map((p, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: 8, height: 8,
-                left: p.x, top: p.y,
-                background: p.color,
-                boxShadow: `0 0 12px ${p.color}`,
-                willChange: "transform, opacity",
-              }}
-              animate={{ y: [0, -22, 0], opacity: [0.2, 0.85, 0.2] }}
-              transition={{ duration: 4 + i * 0.7, repeat: Infinity, ease: "easeInOut", delay: p.delay }}
-            />
-          ))}
-        </motion.div>
-
         {/* Slide content */}
-        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none" style={{ perspective: "1200px" }}>
+        <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
+          style={{ opacity: mounted ? 1 : 0, transition: "opacity 0.4s ease" }}>
           <AnimatePresence mode="wait">
-            {slide && (
-              <motion.div
-                key={slide.id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                style={{ rotateX, rotateY, transformStyle: "preserve-3d", willChange: "transform" }}
-                className="absolute inset-0 flex flex-col items-center justify-center text-center px-6"
-              >
-                <div
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-widest uppercase mb-8"
-                  style={{
-                    transform: "translateZ(35px)",
-                    background: "rgba(83,74,183,0.22)",
-                    border: "1px solid rgba(175,169,236,0.35)",
-                    color: "var(--aurora-light)",
-                    backdropFilter: "blur(14px)",
-                    boxShadow: "0 0 24px rgba(83,74,183,0.2)",
-                  }}>
-                  <motion.span
-                    className="w-1.5 h-1.5 rounded-full"
-                    animate={{ opacity: [1, 0.3, 1] }}
-                    transition={{ duration: 1.6, repeat: Infinity }}
-                    style={{ background: "var(--aurora-teal)" }}
-                  />
+            <motion.div
+              key={slide.id}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
+              className={`absolute inset-0 flex flex-col px-10 md:px-16 lg:px-24 ${
+                slide.position === "top-left"
+                  ? "items-start justify-start pt-28"
+                  : slide.position === "center"
+                  ? "items-center justify-center text-center"
+                  : slide.position === "bottom-right"
+                  ? "items-end justify-end pb-28 text-right"
+                  : "items-start justify-end pb-28"
+              }`}
+            >
+              {/* Label pill — solo slide 0 */}
+              {activeSlide === 0 && (
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase mb-6"
+                  style={{ background: "rgba(83,74,183,0.65)", border: "1px solid rgba(175,169,236,0.7)", color: "var(--snow)" }}>
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--aurora-teal)" }} />
                   {slide.label}
                 </div>
+              )}
 
-                <h2
-                  className="font-bold mb-5 leading-none"
+              {/* Title */}
+              {activeSlide === 0 ? (
+                <motion.h2
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
                   style={{
-                    fontSize: "clamp(2.6rem, 7.5vw, 6.5rem)",
-                    color: "var(--snow)",
-                    textShadow: "0 0 80px rgba(83,74,183,0.7), 0 2px 30px rgba(0,0,0,0.9)",
+                    fontSize: "clamp(3rem, 7vw, 6.5rem)",
+                    fontWeight: 800,
                     whiteSpace: "pre-line",
-                    maxWidth: "900px",
-                    transform: "translateZ(55px)",
+                    maxWidth: "680px",
+                    lineHeight: 1.08,
                     letterSpacing: "-0.03em",
-                  }}>
+                    marginBottom: "0",
+                    textAlign: "left",
+                    background: "linear-gradient(135deg, #ffffff 0%, #afa9ec 55%, #5dcaa5 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.95)) drop-shadow(0 0 60px rgba(0,0,0,0.8))",
+                  }}
+                >
                   {slide.title}
-                </h2>
-
-                {slide.subtitle && (
-                  <h3
-                    className="font-semibold mb-6"
-                    style={{
-                      fontSize: "clamp(1.3rem, 3vw, 2.2rem)",
-                      color: "var(--aurora-light)",
-                      transform: "translateZ(42px)",
-                    }}>
-                    {slide.subtitle}
-                  </h3>
-                )}
-
-                <p
-                  className="max-w-xl mx-auto mb-10 leading-relaxed"
+                </motion.h2>
+              ) : (
+                <SplitTitle
+                  text={slide.title}
                   style={{
-                    fontSize: "clamp(1rem, 1.5vw, 1.2rem)",
-                    color: "rgba(240,244,255,0.72)",
-                    transform: "translateZ(28px)",
-                  }}>
-                  {slide.body}
-                </p>
+                    fontSize: "clamp(2.2rem, 6vw, 5rem)",
+                    fontWeight: 800,
+                    color: "var(--snow)",
+                    textShadow: "0 2px 20px rgba(0,0,0,0.95), 0 4px 60px rgba(0,0,0,0.85), 0 0 120px rgba(0,0,0,0.6)",
+                    whiteSpace: "pre-line",
+                    maxWidth: "680px",
+                    lineHeight: 1.08,
+                    letterSpacing: "-0.03em",
+                    marginBottom: slide.body ? "1rem" : "0",
+                    textAlign: slide.position === "center" ? "center" : slide.position === "bottom-right" ? "right" : "left",
+                  }}
+                />
+              )}
 
-                {slide.cta && (
-                  <div
-                    className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto"
-                    style={{ transform: "translateZ(70px)" }}>
-                    <a href={slide.cta.href}
-                      className="px-10 py-4 rounded-full font-bold text-base transition-transform hover:scale-105"
-                      style={{
-                        background: "linear-gradient(135deg, #534AB7, #6B5CE7)",
-                        color: "var(--snow)",
-                        boxShadow: "0 0 50px rgba(83,74,183,0.6)",
-                      }}>
-                      {slide.cta.label}
-                    </a>
-                    <a href="#portfolio"
-                      className="px-10 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
-                      style={{
-                        background: "rgba(255,255,255,0.06)",
-                        border: "1px solid rgba(175,169,236,0.4)",
-                        color: "var(--aurora-light)",
-                        backdropFilter: "blur(14px)",
-                      }}>
-                      See our work
-                    </a>
-                  </div>
-                )}
-              </motion.div>
-            )}
+              {/* Body */}
+              {slide.body && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  style={{
+                    fontSize: "clamp(0.85rem, 1.2vw, 1rem)",
+                    color: "rgba(220,235,252,0.92)",
+                    lineHeight: 1.65,
+                    whiteSpace: "pre-line",
+                    maxWidth: "320px",
+                    marginBottom: "0",
+                    textAlign: slide.position === "center" ? "center" : slide.position === "bottom-right" ? "right" : "left",
+                    background: "rgba(4,2,20,0.45)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    padding: "0.65rem 1rem",
+                    borderRadius: "10px",
+                    border: "1px solid rgba(175,169,236,0.12)",
+                  }}
+                >
+                  {slide.body}
+                </motion.p>
+              )}
+
+              {/* CTAs */}
+              {slide.cta && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35, duration: 0.5 }}
+                  className={`flex flex-col sm:flex-row gap-4 pointer-events-auto${slide.position === "center" ? " justify-center" : ""}`}
+                >
+                  <CrackLink href={slide.cta.href}
+                    className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
+                    style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 50px rgba(83,74,183,0.55)" }}>
+                    {slide.cta.label}
+                  </CrackLink>
+                  <CrackLink href="#portfolio"
+                    className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
+                    style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(175,169,236,0.4)", color: "var(--aurora-light)" }}>
+                    See our work
+                  </CrackLink>
+                </motion.div>
+              )}
+            </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Progress dots */}
-        {activeSlide >= 0 && (
-          <div className="absolute right-8 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3 items-center">
-            {slides.map((_, i) => (
+        {/* Bottom bar — slide counter + progress */}
+        <div className="absolute bottom-0 left-0 right-0 z-30 flex items-end justify-between px-8 md:px-16 lg:px-24 pb-8"
+          style={{ opacity: mounted ? 1 : 0, transition: "opacity 0.4s ease" }}>
+
+          {/* Scroll hint — only first slide */}
+          <AnimatePresence>
+            {activeSlide === 0 && (
               <motion.div
-                key={i}
-                className="rounded-full w-[3px]"
-                animate={{
-                  height: i === activeSlide ? 26 : 8,
-                  opacity: i === activeSlide ? 1 : 0.3,
-                  background: i === activeSlide ? "var(--aurora-teal)" : "rgba(175,169,236,0.5)",
-                }}
-                transition={{ duration: 0.3 }}
-              />
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="flex items-center gap-3"
+              >
+                <div className="w-5 h-8 rounded-full flex items-start justify-center pt-1.5"
+                  style={{ border: "1.5px solid rgba(175,169,236,0.35)" }}>
+                  <div className="w-1 h-1.5 rounded-full animate-bounce" style={{ background: "var(--aurora-light)" }} />
+                </div>
+                <span className="text-xs tracking-widest uppercase" style={{ color: "rgba(175,169,236,0.45)" }}>
+                  Scroll
+                </span>
+              </motion.div>
+            )}
+            {activeSlide > 0 && (
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="text-xs tracking-widest uppercase"
+                style={{ color: "rgba(175,169,236,0.4)" }}
+              >
+                {String(activeSlide + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Progress bar */}
+          <div className="flex items-center gap-2">
+            {slides.map((s, i) => (
+              <div key={s.id} className="relative overflow-hidden rounded-full"
+                style={{
+                  width: i === activeSlide ? "32px" : "6px",
+                  height: "6px",
+                  background: "rgba(175,169,236,0.2)",
+                  transition: "width 0.4s cubic-bezier(0.23,1,0.32,1)",
+                }}>
+                {i === activeSlide && (
+                  <motion.div
+                    className="absolute inset-y-0 left-0 rounded-full"
+                    style={{ background: "var(--aurora-light)" }}
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 0.4 }}
+                  />
+                )}
+              </div>
             ))}
           </div>
-        )}
-
-        {/* Scroll indicator */}
-        {activeSlide === -1 && mounted && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-2"
-          >
-            <div className="w-6 h-10 rounded-full flex items-start justify-center pt-2"
-              style={{ border: "1.5px solid rgba(175,169,236,0.45)" }}>
-              <motion.div
-                animate={{ y: [0, 9, 0] }}
-                transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut" }}
-                className="w-1 h-2 rounded-full"
-                style={{ background: "var(--aurora-light)" }}
-              />
-            </div>
-            <span className="text-xs tracking-widest uppercase" style={{ color: "var(--aurora-light)", opacity: 0.45 }}>
-              Scroll to explore
-            </span>
-          </motion.div>
-        )}
+        </div>
       </div>
     </div>
   );
