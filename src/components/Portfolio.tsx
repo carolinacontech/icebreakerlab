@@ -11,6 +11,7 @@ const projects = [
     description: "Full website for a Brazilian Jiu Jitsu academy in Panama City — built to rank on Google and convert visitors into students.",
     url: "https://www.nodoacademy.com",
     mockup: "/images/portfolio/mockups/nodo-academy.png",
+    mobile: "/images/portfolio/mockups/nodo-academy.png",
     bg: "/images/portfolio/workspace.png",
   },
   {
@@ -20,6 +21,7 @@ const projects = [
     description: "Website for a local marketing agency specializing in Google Maps SEO and Local Services Ads — focused on generating inbound leads.",
     url: "https://www.marketopenmedia.com",
     mockup: "/images/portfolio/mockups/market-open-media.png",
+    mobile: "/images/portfolio/mockups/market-open-media.png",
     bg: "/images/portfolio/workspace-2.png",
   },
   {
@@ -29,6 +31,7 @@ const projects = [
     description: "Full website for a tree services company covering North Texas & DFW — built to rank locally, generate free estimate leads, and convert emergency calls 24/7.",
     url: "https://www.kingstreeservices.com",
     mockup: "/images/portfolio/mockups/tree-services.png",
+    mobile: "/images/portfolio/mockups/tree-services.png",
     bg: "/images/portfolio/workspace.png",
   },
 ];
@@ -98,15 +101,49 @@ export default function Portfolio() {
           {/* Right — mockup preview (3/5) */}
           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }} transition={{ duration: 0.7 }}
-            className="lg:col-span-3 relative rounded-2xl overflow-hidden aspect-video"
-            style={{ border: "1px solid rgba(175,169,236,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.4)" }}>
-            {projects.map((p, i) => (
-              <motion.div key={i} className="absolute inset-0"
-                animate={{ opacity: active === i ? 1 : 0 }}
-                transition={{ duration: 0.6 }}>
-                <Image src={p.mockup} alt={p.title} fill className="object-cover object-top" />
-              </motion.div>
-            ))}
+            className="lg:col-span-3 relative rounded-2xl aspect-video"
+            style={{ border: "1px solid rgba(175,169,236,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.4)", overflow: "visible" }}>
+
+            {/* Desktop mockup */}
+            <div className="absolute inset-0 rounded-2xl overflow-hidden">
+              {projects.map((p, i) => (
+                <motion.div key={i} className="absolute inset-0"
+                  animate={{ opacity: active === i ? 1 : 0 }}
+                  transition={{ duration: 0.6 }}>
+                  <Image src={p.mockup} alt={p.title} fill className="object-cover object-top" />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Mobile phone overlay — bottom-right corner */}
+            <div className="absolute z-20"
+              style={{ bottom: "-16px", right: "-12px", width: "88px", height: "172px" }}>
+              {/* Phone shell */}
+              <div className="relative w-full h-full rounded-[22px]"
+                style={{
+                  background: "#08071a",
+                  border: "2px solid rgba(175,169,236,0.35)",
+                  boxShadow: "0 16px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06)",
+                }}>
+                {/* Dynamic Island */}
+                <div className="absolute left-1/2 -translate-x-1/2"
+                  style={{ top: "8px", width: "26px", height: "7px", background: "#08071a", borderRadius: "4px", zIndex: 3 }} />
+                {/* Screen area */}
+                <div className="absolute overflow-hidden rounded-[20px]"
+                  style={{ inset: "2px" }}>
+                  {projects.map((p, i) => (
+                    <motion.div key={i} className="absolute inset-0"
+                      animate={{ opacity: active === i ? 1 : 0 }}
+                      transition={{ duration: 0.6 }}>
+                      <Image src={p.mobile} alt={`${p.title} mobile`} fill className="object-cover object-top" />
+                    </motion.div>
+                  ))}
+                </div>
+                {/* Home indicator */}
+                <div className="absolute left-1/2 -translate-x-1/2"
+                  style={{ bottom: "5px", width: "28px", height: "3px", background: "rgba(175,169,236,0.4)", borderRadius: "2px" }} />
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
