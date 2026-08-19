@@ -115,7 +115,15 @@ export function CrackLink({
       if (done) return;
       done = true;
       if (href.startsWith("#")) {
-        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+        const target = document.querySelector(href);
+        if (target) {
+          const lenis = (window as any).__lenis;
+          if (lenis) {
+            lenis.scrollTo(target, { offset: 0 });
+          } else {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        }
       } else {
         window.location.href = href;
       }

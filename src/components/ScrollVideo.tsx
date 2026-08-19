@@ -156,7 +156,7 @@ export default function ScrollVideo() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
-              className={`absolute inset-0 flex flex-col px-10 md:px-16 lg:px-24 ${
+              className={`absolute inset-0 flex flex-col px-10 md:px-16 lg:px-24 pointer-events-none ${
                 slide.position === "top-left"
                   ? "items-start justify-start pt-28"
                   : slide.position === "center"
@@ -216,7 +216,7 @@ export default function ScrollVideo() {
                     maxWidth: "680px",
                     lineHeight: 1.08,
                     letterSpacing: "-0.03em",
-                    marginBottom: slide.body ? "1rem" : "0",
+                    marginBottom: slide.body ? "1.25rem" : "0",
                     textAlign: slide.position === "center" ? "center" : slide.position === "bottom-right" ? "right" : "left",
                   }}
                 />
@@ -234,7 +234,7 @@ export default function ScrollVideo() {
                     lineHeight: 1.65,
                     whiteSpace: "pre-line",
                     maxWidth: "320px",
-                    marginBottom: "0",
+                    marginBottom: slide.cta ? "1.5rem" : "0",
                     textAlign: slide.position === "center" ? "center" : slide.position === "bottom-right" ? "right" : "left",
                     background: "rgba(4,2,20,0.45)",
                     backdropFilter: "blur(12px)",
