@@ -25,9 +25,16 @@ html {
 body {
   background-color: var(--night);
   color: var(--snow);
-  font-family: var(--font-geist-sans, 'Inter', sans-serif);
+  font-family: var(--font-outfit, 'Outfit', sans-serif);
+  font-weight: 400;
   overflow-x: hidden;
 }
+
+h1 { font-weight: 700; }
+h2 { font-weight: 600; }
+h3 { font-weight: 600; }
+
+button, [role="button"] { font-weight: 500; }
 
 ::selection {
   background: var(--aurora);
