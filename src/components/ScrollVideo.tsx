@@ -169,7 +169,7 @@ export default function ScrollVideo() {
         <video ref={videoRef} muted playsInline preload="auto"
           poster="/images/hero/hero-aurora.png"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ willChange: "transform", transform: "translateZ(0)", filter: "contrast(1.1) saturate(1.8) brightness(0.75)" }}>
+          style={{ willChange: "transform", transform: "translateZ(0)", filter: "contrast(1.1) saturate(1.8) brightness(0.88)" }}>
           <source src="/video/version2.webm" type="video/webm" />
           <source src="/video/version2.mp4" type="video/mp4" />
         </video>
