@@ -156,7 +156,8 @@ export default function ScrollVideo() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
               style={{
-                background: "linear-gradient(135deg, rgba(10,13,31,0.72) 0%, rgba(38,33,92,0.55) 50%, rgba(10,13,31,0.72) 100%)",
+                background: "linear-gradient(135deg, rgba(10,13,31,0.6) 0%, rgba(83,74,183,0.75) 50%, rgba(10,13,31,0.6) 100%)",
+                mixBlendMode: "multiply",
               }}
             />
           )}
@@ -252,12 +253,6 @@ export default function ScrollVideo() {
                     maxWidth: "320px",
                     marginBottom: slide.cta ? "1.5rem" : "0",
                     textAlign: slide.position === "center" ? "center" : slide.position === "bottom-right" ? "right" : "left",
-                    background: "rgba(4,2,20,0.45)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
-                    padding: "0.65rem 1rem",
-                    borderRadius: "10px",
-                    border: "1px solid rgba(175,169,236,0.12)",
                   }}
                 >
                   {slide.body}
