@@ -34,7 +34,11 @@ h1 { font-weight: 700; }
 h2 { font-weight: 600; }
 h3 { font-weight: 600; }
 
-button, [role="button"] { font-weight: 500; }
+strong, b { font-weight: 500; }
+
+button, [role="button"] { font-weight: 600; }
+
+small, caption, figcaption { font-weight: 400; }
 
 ::selection {
   background: var(--aurora);
@@ -74,7 +78,7 @@ button, [role="button"] { font-weight: 500; }
 }
 .section-title {
   font-size: clamp(2rem, 4vw, 3.25rem);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
   color: var(--snow);
