@@ -15,7 +15,7 @@ const wordVariants = {
 function HeroTitle({ text, style }: { text: string; style: React.CSSProperties }) {
   const letterStyle: React.CSSProperties = {
     display: "inline-block",
-    background: "linear-gradient(135deg, #ffffff 0%, #ffffff 60%, #afa9ec 85%, #5dcaa5 100%)",
+    background: "linear-gradient(135deg, #ffffff 0%, #ffffff 60%, #d4d0f7 85%, #9de8cf 100%)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     backgroundClip: "text",
