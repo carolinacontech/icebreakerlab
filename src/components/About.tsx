@@ -1,33 +1,7 @@
 "use client";
-import { motion, useScroll, useTransform, useInView, useMotionValue, animate } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useRef, useEffect } from "react";
-
-function Counter({ to, suffix = "", prefix = "" }: { to: number; suffix?: string; prefix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const count = useMotionValue(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    const controls = animate(count, to, {
-      duration: 1.6,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate(v) {
-        if (ref.current) ref.current.textContent = prefix + Math.round(v) + suffix;
-      },
-    });
-    return controls.stop;
-  }, [inView, count, to, suffix, prefix]);
-
-  return <span ref={ref}>{prefix}0{suffix}</span>;
-}
-
-const stats = [
-  { value: 4, suffix: " weeks", label: "From first call to live site" },
-  { value: 2, prefix: "<", suffix: "s", label: "Average page load time" },
-  { value: 100, suffix: "%", label: "Custom — no templates, ever" },
-];
+import { useRef } from "react";
 
 const values = [
   { icon: "🎨", title: "Custom built", body: "No templates. Every site is designed from scratch around your brand." },
@@ -51,32 +25,6 @@ export default function About() {
       }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-
-        {/* Stats strip */}
-        <div className="grid grid-cols-3 gap-6 mb-20">
-          {stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="flex flex-col gap-1"
-            >
-              <div
-                className="text-4xl md:text-5xl font-bold leading-none mb-1"
-                style={{ color: "var(--snow)", letterSpacing: "-0.03em" }}
-              >
-                <Counter to={s.value} prefix={s.prefix} suffix={s.suffix} />
-              </div>
-              <div className="text-xs" style={{ color: "rgba(175,169,236,0.5)", letterSpacing: "0.04em" }}>
-                {s.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="h-px mb-20" style={{ background: "rgba(83,74,183,0.15)" }} />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}
