@@ -1,14 +1,16 @@
 "use client";
 
 const items = [
-  "Custom Built",
+  "Custom built",
   "SEO from day one",
-  "Live in 3–4 weeks",
-  "No templates",
+  "Live in 4 weeks",
+  "No templates. Ever.",
   "Built to convert",
-  "Google-ready",
+  "Google page one",
   "Mobile-first",
-  "Fast by default",
+  "Under 2s load time",
+  "Zero cookie-cutter",
+  "Ranked & found",
 ];
 
 const dot = (
@@ -40,7 +42,7 @@ export default function MarqueeStrip() {
           <span key={i} className="inline-flex items-center">
             <span
               className="text-xs tracking-widest uppercase font-semibold"
-              style={{ color: "rgba(175,169,236,0.45)" }}
+              style={{ color: "rgba(175,169,236,0.7)" }}
             >
               {item}
             </span>

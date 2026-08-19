@@ -45,8 +45,8 @@ export default function Portfolio() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
-          <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--aurora-teal)" }}>Case studies</p>
-          <h2 className="text-4xl md:text-6xl font-bold" style={{ color: "var(--snow)" }}>Our Work</h2>
+          <p className="section-eyebrow mb-4">Case studies</p>
+          <h2 className="section-title">Our Work</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">

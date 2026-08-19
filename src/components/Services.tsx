@@ -299,10 +299,8 @@ export default function Services() {
           transition={{ duration: 0.7 }}
           className="mb-16"
         >
-          <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--aurora-teal)" }}>What we build</p>
-          <h2 className="font-bold leading-tight" style={{ fontSize: "clamp(2.2rem, 4vw, 3.5rem)", color: "var(--snow)", letterSpacing: "-0.02em" }}>
-            Pick your package
-          </h2>
+          <p className="section-eyebrow mb-4">What we build</p>
+          <h2 className="section-title">Pick your package</h2>
         </motion.div>
 
         {/* Cards */}

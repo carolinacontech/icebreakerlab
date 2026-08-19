@@ -23,8 +23,8 @@ export default function Contact() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 w-full">
         <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-14">
-          <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--aurora-teal)" }}>Let's begin</p>
-          <h2 className="text-4xl md:text-6xl font-bold mb-4" style={{ color: "var(--snow)" }}>Break the ice.</h2>
+          <p className="section-eyebrow mb-4">Let's begin</p>
+          <h2 className="section-title mb-4">Break the ice.</h2>
           <p className="text-lg" style={{ color: "var(--ice-blue)" }}>Tell us about your project. We respond within 24 hours.</p>
         </motion.div>
 
@@ -62,7 +62,7 @@ export default function Contact() {
           {/* Right column — form */}
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="lg:col-span-3 rounded-3xl p-8"
+            className="lg:col-span-3 rounded-2xl p-8"
             style={{ background: "rgba(10,13,31,0.6)", border: "1px solid rgba(83,74,183,0.3)", backdropFilter: "blur(24px)" }}>
             {sent ? (
               <div className="text-center py-12">

@@ -54,13 +54,13 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm transition-colors duration-200"
-              style={{ color: "var(--aurora-light)" }}
+              className="text-sm font-medium transition-colors duration-200"
+              style={{ color: "rgba(175,169,236,0.7)", letterSpacing: "0.01em" }}
               onMouseEnter={(e) =>
                 ((e.target as HTMLElement).style.color = "var(--snow)")
               }
               onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color = "var(--aurora-light)")
+                ((e.target as HTMLElement).style.color = "rgba(175,169,236,0.7)")
               }
             >
               {l.label}
@@ -68,8 +68,8 @@ export default function Navbar() {
           ))}
           <CrackLink
             href="#contacto"
-            className="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300"
-            style={{ background: "var(--aurora)", color: "var(--snow)" }}
+            className="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300"
+            style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 20px rgba(83,74,183,0.4)" }}
           >
             Let's talk
           </CrackLink>

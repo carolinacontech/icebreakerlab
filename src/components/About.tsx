@@ -81,8 +81,8 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.9 }}>
-            <p className="text-xs tracking-widest uppercase mb-4" style={{ color: "var(--aurora-teal)" }}>Who we are</p>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight" style={{ color: "var(--snow)" }}>
+            <p className="section-eyebrow mb-4">Who we are</p>
+            <h2 className="section-title mb-6">
               We remove the barriers between{" "}
               <span style={{ color: "var(--aurora-light)" }}>great businesses and great websites.</span>
             </h2>

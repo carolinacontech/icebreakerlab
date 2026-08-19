@@ -166,14 +166,19 @@ export default function ScrollVideo() {
                   : "items-start justify-end pb-28"
               }`}
             >
-              {/* Label pill — solo slide 0 */}
-              {activeSlide === 0 && (
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase mb-6"
-                  style={{ background: "rgba(83,74,183,0.65)", border: "1px solid rgba(175,169,236,0.7)", color: "var(--snow)" }}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--aurora-teal)" }} />
-                  {slide.label}
-                </div>
-              )}
+              {/* Label pill — altura fija para que el título no salte entre slides */}
+              <div className="h-8 mb-4 flex items-center">
+                {activeSlide === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase"
+                    style={{ background: "rgba(83,74,183,0.65)", border: "1px solid rgba(175,169,236,0.7)", color: "var(--snow)" }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--aurora-teal)" }} />
+                    {slide.label}
+                  </motion.div>
+                )}
+              </div>
 
               {/* Title */}
               {activeSlide === 0 ? (
@@ -298,22 +303,24 @@ export default function ScrollVideo() {
             )}
           </AnimatePresence>
 
-          {/* Progress bar */}
-          <div className="flex items-center gap-2">
+          {/* Progress dots */}
+          <div className="flex items-center gap-3">
             {slides.map((s, i) => (
               <div key={s.id} className="relative overflow-hidden rounded-full"
                 style={{
-                  width: i === activeSlide ? "32px" : "6px",
-                  height: "6px",
-                  background: "rgba(175,169,236,0.2)",
-                  transition: "width 0.4s cubic-bezier(0.23,1,0.32,1)",
+                  width: i === activeSlide ? "36px" : "8px",
+                  height: "8px",
+                  background: i === activeSlide ? "transparent" : "rgba(175,169,236,0.35)",
+                  border: i === activeSlide ? "none" : "1px solid rgba(175,169,236,0.2)",
+                  transition: "width 0.4s cubic-bezier(0.23,1,0.32,1), background 0.3s ease",
+                  boxShadow: i === activeSlide ? "none" : "0 0 0 1px rgba(175,169,236,0.1)",
                 }}>
                 {i === activeSlide && (
                   <motion.div
-                    className="absolute inset-y-0 left-0 rounded-full"
-                    style={{ background: "var(--aurora-light)" }}
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
+                    className="absolute inset-0 rounded-full"
+                    style={{ background: "linear-gradient(90deg, var(--aurora) 0%, var(--aurora-light) 100%)" }}
+                    initial={{ scaleX: 0, originX: 0 }}
+                    animate={{ scaleX: 1 }}
                     transition={{ duration: 0.4 }}
                   />
                 )}
