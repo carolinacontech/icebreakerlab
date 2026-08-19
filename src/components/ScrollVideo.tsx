@@ -216,7 +216,6 @@ export default function ScrollVideo() {
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
-                    filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.95)) drop-shadow(0 0 60px rgba(0,0,0,0.8))",
                   }}
                 >
                   {slide.title}
