@@ -146,6 +146,22 @@ export default function ScrollVideo() {
           mixBlendMode: "multiply",
         }} />
 
+        {/* Slide 4 overlay — aparece solo en el último slide */}
+        <AnimatePresence>
+          {activeSlide === 3 && (
+            <motion.div
+              className="absolute inset-0 z-20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8 }}
+              style={{
+                background: "linear-gradient(135deg, rgba(10,13,31,0.72) 0%, rgba(38,33,92,0.55) 50%, rgba(10,13,31,0.72) 100%)",
+              }}
+            />
+          )}
+        </AnimatePresence>
+
         {/* Slide content */}
         <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
           style={{ opacity: mounted ? 1 : 0, transition: "opacity 0.4s ease" }}>
