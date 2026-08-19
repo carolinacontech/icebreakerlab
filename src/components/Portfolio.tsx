@@ -110,14 +110,14 @@ export default function Portfolio() {
                 <motion.div key={i} className="absolute inset-0"
                   animate={{ opacity: active === i ? 1 : 0 }}
                   transition={{ duration: 0.6 }}>
-                  <Image src={p.mockup} alt={p.title} fill className="object-cover object-top" />
+                  <Image src={p.mockup} alt={p.title} fill className="object-cover" style={{ objectPosition: "50% 20%" }} />
                 </motion.div>
               ))}
             </div>
 
             {/* Mobile phone overlay — bottom-right corner */}
             <div className="absolute z-20"
-              style={{ bottom: "-16px", right: "-12px", width: "88px", height: "172px" }}>
+              style={{ bottom: "-20px", right: "-16px", width: "112px", height: "218px" }}>
               {/* Phone shell */}
               <div className="relative w-full h-full rounded-[22px]"
                 style={{
