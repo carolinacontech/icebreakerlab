@@ -84,24 +84,14 @@ export default function Portfolio() {
                 )}
               </motion.div>
             ))}
-            <div className="flex gap-3 mt-2">
-              <a href={projects[active].url} target="_blank" rel="noopener noreferrer"
-                className="px-6 py-3 rounded-full text-sm font-semibold transition-transform hover:scale-105"
-                style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 24px rgba(83,74,183,0.4)" }}>
-                View site →
-              </a>
-              <a href="#contacto"
-                className="px-6 py-3 rounded-full text-sm font-semibold"
-                style={{ border: "1px solid rgba(83,74,183,0.4)", color: "var(--aurora-light)", background: "rgba(83,74,183,0.1)" }}>
-                I want this →
-              </a>
-            </div>
           </div>
 
           {/* Right — mockup preview (3/5) */}
           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }} transition={{ duration: 0.7 }}
-            className="lg:col-span-3 relative rounded-2xl aspect-video"
+            className="lg:col-span-3 flex flex-col gap-4"
+            style={{ overflow: "visible" }}>
+          <div className="relative rounded-2xl aspect-video"
             style={{ border: "1px solid rgba(175,169,236,0.15)", boxShadow: "0 8px 40px rgba(0,0,0,0.4)", overflow: "visible" }}>
 
             {/* Desktop mockup */}
@@ -144,6 +134,21 @@ export default function Portfolio() {
                   style={{ bottom: "5px", width: "28px", height: "3px", background: "rgba(175,169,236,0.4)", borderRadius: "2px" }} />
               </div>
             </div>
+          </div>
+
+          {/* Buttons below mockup */}
+          <div className="flex gap-3 pt-6">
+            <a href={projects[active].url} target="_blank" rel="noopener noreferrer"
+              className="px-6 py-3 rounded-full text-sm font-semibold transition-transform hover:scale-105"
+              style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 24px rgba(83,74,183,0.4)" }}>
+              View site →
+            </a>
+            <a href="#contacto"
+              className="px-6 py-3 rounded-full text-sm font-semibold"
+              style={{ border: "1px solid rgba(83,74,183,0.4)", color: "var(--aurora-light)", background: "rgba(83,74,183,0.1)" }}>
+              I want this →
+            </a>
+          </div>
           </motion.div>
         </div>
       </div>

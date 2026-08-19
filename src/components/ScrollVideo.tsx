@@ -12,6 +12,40 @@ const wordVariants = {
   exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
 };
 
+function HeroTitle({ text, style }: { text: string; style: React.CSSProperties }) {
+  const letterStyle: React.CSSProperties = {
+    display: "inline-block",
+    background: "linear-gradient(135deg, #ffffff 0%, #afa9ec 55%, #5dcaa5 100%)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+    filter: "drop-shadow(0 2px 18px rgba(0,0,0,0.9)) drop-shadow(0 0 40px rgba(0,0,0,0.7))",
+  };
+  let charIndex = 0;
+  return (
+    <h2 style={style}>
+      {text.split("\n").map((line, li) => (
+        <span key={li} style={{ display: "block" }}>
+          {line.split("").map((char, ci) => {
+            const idx = charIndex++;
+            return (
+              <motion.span
+                key={`${li}-${ci}`}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.028, duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+                style={char === " " ? { display: "inline-block", width: "0.28em" } : letterStyle}
+              >
+                {char === " " ? " " : char}
+              </motion.span>
+            );
+          })}
+        </span>
+      ))}
+    </h2>
+  );
+}
+
 function SplitTitle({ text, style }: { text: string; style: React.CSSProperties }) {
   let wordIndex = 0;
   return (
@@ -199,10 +233,8 @@ export default function ScrollVideo() {
 
               {/* Title */}
               {activeSlide === 0 ? (
-                <motion.h2
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+                <HeroTitle
+                  text={slide.title}
                   style={{
                     fontSize: "clamp(3rem, 7vw, 6.5rem)",
                     fontWeight: 800,
@@ -212,14 +244,8 @@ export default function ScrollVideo() {
                     letterSpacing: "-0.03em",
                     marginBottom: "0",
                     textAlign: "left",
-                    background: "linear-gradient(135deg, #ffffff 0%, #afa9ec 55%, #5dcaa5 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
                   }}
-                >
-                  {slide.title}
-                </motion.h2>
+                />
               ) : (
                 <SplitTitle
                   text={slide.title}
