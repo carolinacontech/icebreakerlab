@@ -113,7 +113,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.9 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <motion.a href="#servicios" whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }}
+          <motion.a href="#services" whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }}
             className="px-8 py-4 rounded-full font-semibold text-base"
             style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 50px rgba(83,74,183,0.55)" }}>
             Empieza tu proyecto
@@ -130,7 +130,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[4] flex flex-col items-center gap-3 cursor-pointer"
-        onClick={() => document.getElementById("servicios")?.scrollIntoView({ behavior: "smooth" })}
+        onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
       >
         <motion.div
           animate={{ y: [0, 6, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}

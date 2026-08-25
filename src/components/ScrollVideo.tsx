@@ -106,7 +106,7 @@ const slides = [
     label: "The result",
     title: "Ranked by Google.\nChosen by people.",
     body: "We build the infrastructure that makes\nyour message reach the right people.",
-    cta: { label: "Start your project", href: "#servicios" },
+    cta: { label: "Break the ice", href: "#contact" },
     position: "center" as const,
   },
 ];
@@ -215,18 +215,17 @@ export default function ScrollVideo() {
                   : "items-start justify-end pb-28"
               }`}
             >
-              {/* Label pill — altura fija para que el título no salte entre slides */}
+              {/* Label pill */}
               <div className="h-8 mb-4 flex items-center">
-                {activeSlide === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase"
-                    style={{ background: "rgba(83,74,183,0.65)", border: "1px solid rgba(175,169,236,0.7)", color: "var(--snow)" }}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--aurora-teal)" }} />
-                    {slide.label}
-                  </motion.div>
-                )}
+                <motion.div
+                  key={slide.id + "-label"}
+                  initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase"
+                  style={{ background: "rgba(83,74,183,0.65)", border: "1px solid rgba(175,169,236,0.7)", color: "var(--snow)" }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--aurora-teal)" }} />
+                  {slide.label}
+                </motion.div>
               </div>
 
               {/* Title */}
@@ -269,7 +268,7 @@ export default function ScrollVideo() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
                   style={{
-                    fontSize: "clamp(0.85rem, 1.2vw, 1rem)",
+                    fontSize: "clamp(0.875rem, 1.2vw, 1rem)",
                     color: "rgba(220,235,252,0.92)",
                     lineHeight: 1.65,
                     whiteSpace: "pre-line",

@@ -6,13 +6,15 @@ import { useCrack } from "./IceCrack";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const ref = useRef<HTMLElement>(null);
   const crack = useCrack();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   return (
-    <section id="contacto" ref={ref} className="relative py-24 overflow-hidden">
+    <section id="contact" ref={ref} className="relative py-24 overflow-hidden">
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY, scale: 1.15 }}>
         <Image src="/images/textures/ice-macro.png" alt="Ice texture" fill className="object-cover object-center" quality={85} />
       </motion.div>
@@ -66,29 +68,73 @@ export default function Contact() {
             style={{ background: "rgba(10,13,31,0.6)", border: "1px solid rgba(83,74,183,0.3)", backdropFilter: "blur(24px)" }}>
             {sent ? (
               <div className="text-center py-12">
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200 }}
-                  className="text-6xl mb-6">🧊</motion.div>
+                <motion.div
+                  initial={{ scale: 0, rotate: -10 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                  className="mx-auto mb-6 flex items-center justify-center"
+                  style={{ width: 72, height: 72, borderRadius: "50%", background: "rgba(93,202,165,0.15)", border: "1px solid rgba(93,202,165,0.3)" }}
+                >
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M6 16l7 7L26 9" stroke="#5DCAA5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </motion.div>
                 <h3 className="text-2xl font-bold mb-3" style={{ color: "var(--snow)" }}>Ice broken!</h3>
-                <p style={{ color: "var(--aurora-light)" }}>We got your message. We'll reach out within 24 hours.</p>
+                <p style={{ color: "var(--aurora-light)" }}>We got your message. We&rsquo;ll reach out within 24 hours.</p>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="flex flex-col gap-5">
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setLoading(true);
+                  setError(null);
+                  const fd = new FormData(e.currentTarget);
+                  try {
+                    const res = await fetch("/api/contact", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        name: fd.get("name"),
+                        email: fd.get("email"),
+                        service: fd.get("service"),
+                        message: fd.get("message"),
+                      }),
+                    });
+                    if (!res.ok) throw new Error("Failed to send");
+                    setSent(true);
+                  } catch {
+                    setError("Something went wrong. Please try again or email us directly.");
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                className="flex flex-col gap-5"
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  {[{ label: "Name", type: "text", placeholder: "Your name" }, { label: "Email", type: "email", placeholder: "you@company.com" }].map((f) => (
-                    <div key={f.label}>
-                      <label className="block text-sm mb-2" style={{ color: "var(--aurora-light)" }}>{f.label}</label>
-                      <input type={f.type} required placeholder={f.placeholder}
-                        className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
-                        style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(83,74,183,0.3)", color: "var(--snow)" }}
-                        onFocus={(e) => (e.target.style.borderColor = "var(--aurora-light)")}
-                        onBlur={(e) => (e.target.style.borderColor = "rgba(83,74,183,0.3)")} />
-                    </div>
-                  ))}
+                  <div>
+                    <label className="block text-sm mb-2" style={{ color: "var(--aurora-light)" }}>Name</label>
+                    <input name="name" type="text" required placeholder="Your name"
+                      className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
+                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(83,74,183,0.3)", color: "var(--snow)" }}
+                      onFocus={(e) => (e.target.style.borderColor = "var(--aurora-light)")}
+                      onBlur={(e) => (e.target.style.borderColor = "rgba(83,74,183,0.3)")} />
+                  </div>
+                  <div>
+                    <label className="block text-sm mb-2" style={{ color: "var(--aurora-light)" }}>Email</label>
+                    <input name="email" type="email" required placeholder="you@company.com"
+                      className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
+                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(83,74,183,0.3)", color: "var(--snow)" }}
+                      onFocus={(e) => (e.target.style.borderColor = "var(--aurora-light)")}
+                      onBlur={(e) => (e.target.style.borderColor = "rgba(83,74,183,0.3)")} />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm mb-2" style={{ color: "var(--aurora-light)" }}>What do you need?</label>
-                  <select className="w-full px-4 py-3 rounded-xl text-sm outline-none"
-                    style={{ background: "rgba(10,13,31,0.8)", border: "1px solid rgba(83,74,183,0.3)", color: "var(--aurora-light)" }}>
+                  <select name="service"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-300"
+                    style={{ background: "rgba(10,13,31,0.8)", border: "1px solid rgba(83,74,183,0.3)", color: "var(--aurora-light)" }}
+                    onFocus={(e) => (e.target.style.borderColor = "var(--aurora-light)")}
+                    onBlur={(e) => (e.target.style.borderColor = "rgba(83,74,183,0.3)")}>
                     <option value="">Select a service</option>
                     <option>Landing Page</option>
                     <option>Corporate Website</option>
@@ -97,22 +143,32 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className="block text-sm mb-2" style={{ color: "var(--aurora-light)" }}>Tell us about your project</label>
-                  <textarea rows={4} required placeholder="Describe your business, what you need, and when you want to start..."
+                  <textarea name="message" rows={4} required placeholder="Describe your business and what you need..."
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none transition-all duration-300"
                     style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(83,74,183,0.3)", color: "var(--snow)" }}
                     onFocus={(e) => (e.target.style.borderColor = "var(--aurora-light)")}
                     onBlur={(e) => (e.target.style.borderColor = "rgba(83,74,183,0.3)")} />
                 </div>
+                {error && (
+                  <p className="text-sm text-center" style={{ color: "#ff6b6b" }}>{error}</p>
+                )}
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
+                  disabled={loading}
+                  whileHover={{ scale: loading ? 1 : 1.03 }}
+                  whileTap={{ scale: loading ? 1 : 0.97 }}
                   onClick={(e) => {
-                    crack(e.clientX, e.clientY, () => {});
+                    if (!loading) crack(e.clientX, e.clientY, () => {});
                   }}
                   className="w-full py-4 rounded-full font-semibold text-base"
-                  style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.4)" }}>
-                  Break the ice →
+                  style={{
+                    background: "var(--aurora)",
+                    color: "var(--snow)",
+                    boxShadow: "0 0 40px rgba(83,74,183,0.4)",
+                    opacity: loading ? 0.7 : 1,
+                    cursor: loading ? "not-allowed" : "none",
+                  }}>
+                  {loading ? "Sending…" : "Break the ice →"}
                 </motion.button>
               </form>
             )}

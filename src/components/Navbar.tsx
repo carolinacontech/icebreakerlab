@@ -5,10 +5,10 @@ import Image from "next/image";
 import { CrackLink } from "./IceCrack";
 
 const links = [
-  { label: "Services", href: "#servicios" },
+  { label: "Services", href: "#services" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "About", href: "#nosotros" },
-  { label: "Contact", href: "#contacto" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
@@ -44,7 +44,6 @@ export default function Navbar() {
             width={224}
             height={44}
             className="object-contain"
-            unoptimized
           />
         </a>
 
@@ -54,20 +53,14 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium transition-colors duration-200"
-              style={{ color: "rgba(175,169,236,0.7)", letterSpacing: "0.01em" }}
-              onMouseEnter={(e) =>
-                ((e.target as HTMLElement).style.color = "var(--snow)")
-              }
-              onMouseLeave={(e) =>
-                ((e.target as HTMLElement).style.color = "rgba(175,169,236,0.7)")
-              }
+              className="nav-link text-sm font-medium"
+              style={{ letterSpacing: "0.01em" }}
             >
               {l.label}
             </a>
           ))}
           <CrackLink
-            href="#contacto"
+            href="#contact"
             className="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300"
             style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 20px rgba(83,74,183,0.4)" }}
           >
@@ -79,15 +72,15 @@ export default function Navbar() {
         <button
           className="md:hidden flex flex-col gap-1.5 p-2"
           onClick={() => setOpen(!open)}
-          aria-label="Menú"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
-          {[0, 1, 2].map((i) => (
-            <span
-              key={i}
-              className="block w-6 h-0.5 transition-all duration-300"
-              style={{ background: "var(--aurora-light)" }}
-            />
-          ))}
+          <span className="block w-6 h-0.5 transition-all duration-300 origin-center"
+            style={{ background: "var(--aurora-light)", transform: open ? "translateY(4px) rotate(45deg)" : "none" }} />
+          <span className="block w-6 h-0.5 transition-all duration-300"
+            style={{ background: "var(--aurora-light)", opacity: open ? 0 : 1 }} />
+          <span className="block w-6 h-0.5 transition-all duration-300 origin-center"
+            style={{ background: "var(--aurora-light)", transform: open ? "translateY(-4px) rotate(-45deg)" : "none" }} />
         </button>
       </div>
 

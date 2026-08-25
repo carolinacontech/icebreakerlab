@@ -265,7 +265,7 @@ export default function PortfolioPage() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: "var(--snow)" }}>
             Your project could be next.
           </h2>
-          <Link href="/#contacto">
+          <Link href="/#contact">
             <motion.span whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
               className="inline-block px-10 py-4 rounded-full font-semibold text-base"
               style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 50px rgba(83,74,183,0.45)" }}>
@@ -312,7 +312,7 @@ export default function PortfolioPage() {
                       </motion.span>
                     </a>
                   )}
-                  <Link href="/#contacto" onClick={() => setActive(null)}>
+                  <Link href="/#contact" onClick={() => setActive(null)}>
                     <motion.span whileHover={{ scale: 1.05 }}
                       className="inline-block px-5 py-2.5 rounded-full font-semibold text-sm"
                       style={{ background: "var(--aurora)", color: "var(--snow)" }}>

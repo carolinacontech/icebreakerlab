@@ -3,11 +3,19 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
 
+const ValueIcon = ({ type }: { type: string }) => {
+  const s = { width: 20, height: 20, stroke: "var(--aurora-teal)", strokeWidth: 1.6, fill: "none", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (type === "custom") return <svg viewBox="0 0 24 24" style={s}><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>;
+  if (type === "google") return <svg viewBox="0 0 24 24" style={s}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>;
+  if (type === "fast") return <svg viewBox="0 0 24 24" style={s}><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>;
+  return <svg viewBox="0 0 24 24" style={s}><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>;
+};
+
 const values = [
-  { icon: "🎨", title: "Custom built", body: "No templates. Every site is designed from scratch around your brand." },
-  { icon: "🔍", title: "Google ready", body: "Built to rank from day one — no extra setup or plugins needed." },
-  { icon: "⚡", title: "Fast launch", body: "From first call to live website in 3–4 weeks." },
-  { icon: "🎯", title: "Built to convert", body: "Every page designed to turn visitors into real clients." },
+  { icon: "custom", title: "Custom built", body: "No templates. Every site is designed from scratch around your brand." },
+  { icon: "google", title: "Google ready", body: "Built to rank from day one — no extra setup or plugins needed." },
+  { icon: "fast", title: "Fast launch", body: "From first call to live website in 3–4 weeks." },
+  { icon: "convert", title: "Built to convert", body: "Every page designed to turn visitors into real clients." },
 ];
 
 export default function About() {
@@ -16,7 +24,7 @@ export default function About() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
 
   return (
-    <section id="nosotros" ref={ref} className="relative py-24 overflow-hidden">
+    <section id="about" ref={ref} className="relative py-24 overflow-hidden">
       <motion.div className="absolute inset-0 z-0" style={{ y: bgY, scale: 1.2 }}>
         <Image src="/images/about/silhouette.png" alt="Arctic aurora silhouette" fill className="object-cover object-center" quality={85} />
       </motion.div>
@@ -50,7 +58,9 @@ export default function About() {
                 whileHover={{ scale: 1.03, y: -4 }}
                 className="rounded-2xl p-6"
                 style={{ background: "rgba(10,13,31,0.55)", border: "1px solid rgba(83,74,183,0.25)", backdropFilter: "blur(20px)" }}>
-                <div className="text-2xl mb-3">{v.icon}</div>
+                <div className="mb-3" style={{ width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 8, background: "rgba(93,202,165,0.1)", border: "1px solid rgba(93,202,165,0.2)" }}>
+                    <ValueIcon type={v.icon} />
+                  </div>
                 <div className="font-semibold mb-1" style={{ color: "var(--snow)", fontSize: "15px" }}>{v.title}</div>
                 <div className="text-sm leading-relaxed" style={{ color: "rgba(175,169,236,0.75)" }}>{v.body}</div>
               </motion.div>

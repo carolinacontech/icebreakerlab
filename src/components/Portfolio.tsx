@@ -60,8 +60,12 @@ export default function Portfolio() {
                 initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.6, delay: i * 0.15 }}
                 onClick={() => setActive(i)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActive(i); } }}
+                role="button"
+                tabIndex={0}
+                aria-pressed={active === i}
                 whileHover={{ x: 6 }}
-                className="rounded-2xl p-6 cursor-pointer relative overflow-hidden"
+                className="rounded-2xl p-6 relative overflow-hidden"
                 style={{
                   background: active === i ? "rgba(83,74,183,0.25)" : "rgba(10,13,31,0.5)",
                   border: active === i ? "1px solid rgba(175,169,236,0.5)" : "1px solid rgba(83,74,183,0.2)",
@@ -143,7 +147,7 @@ export default function Portfolio() {
               style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 24px rgba(83,74,183,0.4)" }}>
               View site →
             </a>
-            <a href="#contacto"
+            <a href="#contact"
               className="px-6 py-3 rounded-full text-sm font-semibold"
               style={{ border: "1px solid rgba(83,74,183,0.4)", color: "var(--aurora-light)", background: "rgba(83,74,183,0.1)" }}>
               I want this →

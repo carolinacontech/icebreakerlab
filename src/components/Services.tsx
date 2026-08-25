@@ -280,7 +280,7 @@ function EcommerceVisual({ accent }: { accent: string }) {
 export default function Services() {
   return (
     <section
-      id="servicios"
+      id="services"
       className="relative overflow-hidden py-32"
       style={{ background: "var(--night)", minHeight: "100vh" }}
     >
@@ -335,19 +335,17 @@ export default function Services() {
 
               {/* Content */}
               <div className="flex flex-col flex-1 p-7 relative z-10">
-                {/* Index + label */}
+                {/* Label */}
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="font-mono text-xs tracking-widest" style={{ color: `rgba(${svc.accentRgb},0.4)` }}>
-                    {svc.index}
-                  </span>
                   <span
-                    className="font-mono tracking-widest px-2.5 py-1 rounded"
+                    className="tracking-widest px-2.5 py-1 rounded"
                     style={{
                       color: svc.accent,
                       background: `rgba(${svc.accentRgb},0.08)`,
                       border: `1px solid rgba(${svc.accentRgb},0.18)`,
                       fontSize: "11px",
                       letterSpacing: "0.1em",
+                      fontWeight: 600,
                     }}
                   >
                     {svc.label}
@@ -390,7 +388,7 @@ export default function Services() {
 
                 {/* CTA */}
                 <a
-                  href="#contacto"
+                  href="#contact"
                   className="w-full py-4 rounded-full text-base font-bold text-center transition-all hover:scale-[1.02] block"
                   style={svc.featured ? {
                     background: `linear-gradient(135deg, rgba(${svc.accentRgb},0.9), rgba(${svc.accentRgb},0.65))`,
@@ -402,7 +400,7 @@ export default function Services() {
                     border: `1px solid rgba(${svc.accentRgb},0.25)`,
                   }}
                 >
-                  Start your project →
+                  Break the ice →
                 </a>
               </div>
             </TiltCard>
