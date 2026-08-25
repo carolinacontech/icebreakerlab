@@ -11,7 +11,7 @@ const projects = [
     description: "Full website for a Brazilian Jiu Jitsu academy in Panama City — built to rank on Google and convert visitors into students.",
     url: "https://www.nodoacademy.com",
     mockup: "/images/portfolio/mockups/nodo-academy.png",
-    mobile: "/images/portfolio/mockups/nodo-academy.png",
+    mobile: "/images/portfolio/mockups/nodo-academy-mobile.png",
     bg: "/images/portfolio/workspace.png",
   },
   {
@@ -21,7 +21,7 @@ const projects = [
     description: "Website for a local marketing agency specializing in Google Maps SEO and Local Services Ads — focused on generating inbound leads.",
     url: "https://www.marketopenmedia.com",
     mockup: "/images/portfolio/mockups/market-open-media.png",
-    mobile: "/images/portfolio/mockups/market-open-media.png",
+    mobile: "/images/portfolio/mockups/market-openmedia-mobile.png",
     bg: "/images/portfolio/workspace-2.png",
   },
   {
@@ -31,7 +31,7 @@ const projects = [
     description: "Full website for a tree services company covering North Texas & DFW — built to rank locally, generate free estimate leads, and convert emergency calls 24/7.",
     url: "https://www.kingstreeservices.com",
     mockup: "/images/portfolio/mockups/tree-services.png",
-    mobile: "/images/portfolio/mockups/tree-services.png",
+    mobile: "/images/portfolio/mockups/king-tree-services-mobile.png",
     bg: "/images/portfolio/workspace.png",
   },
 ];
