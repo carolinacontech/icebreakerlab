@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function Cursor() {
-  const [visible, setVisible] = useState(false);
   const mouseX = useMotionValue(-200);
   const mouseY = useMotionValue(-200);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const dotX = useSpring(mouseX, { stiffness: 600, damping: 35 });
   const dotY = useSpring(mouseY, { stiffness: 600, damping: 35 });
@@ -13,26 +13,31 @@ export default function Cursor() {
   const ringY = useSpring(mouseY, { stiffness: 100, damping: 18 });
 
   useEffect(() => {
+    // Don't render on touch devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const el = wrapperRef.current;
+
     const move = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!visible) setVisible(true);
+      if (el) el.style.opacity = "1";
     };
-    const hide = () => setVisible(false);
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mouseleave", hide);
+    const hide = () => {
+      if (el) el.style.opacity = "0";
+    };
+
+    window.addEventListener("mousemove", move, { passive: true });
+    window.addEventListener("mouseleave", hide, { passive: true });
     return () => {
       window.removeEventListener("mousemove", move);
       window.removeEventListener("mouseleave", hide);
     };
-  }, [mouseX, mouseY, visible]);
-
-  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
-    return null;
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div style={{ opacity: visible ? 1 : 0, transition: "opacity 0.3s" }}>
+    <div ref={wrapperRef} style={{ opacity: 0, transition: "opacity 0.3s" }}>
       {/* Trailing ring */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9998] rounded-full"

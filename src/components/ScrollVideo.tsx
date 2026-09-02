@@ -129,20 +129,23 @@ export default function ScrollVideo() {
     // Single RAF loop: read scrollY directly (works with Lenis + native scroll)
     const totalSlides = slides.length;
     let lastIndex = -1;
+    let currentProgress = 0;
 
     const tick = () => {
       const rect = container.getBoundingClientRect();
       const scrolled = -rect.top;
       const total = container.offsetHeight - window.innerHeight;
-      const progress = Math.max(0, Math.min(1, scrolled / total));
+      const targetProgress = Math.max(0, Math.min(1, scrolled / total));
 
-      // Update video time directly — no lerp, direct seek per frame
+      // Lerp toward target — smooths out jank without lagging behind
+      currentProgress += (targetProgress - currentProgress) * 0.12;
+
       if (video.readyState >= 2 && video.duration) {
-        video.currentTime = progress * video.duration;
+        video.currentTime = currentProgress * video.duration;
       }
 
       // Update slide index only when it changes (avoids re-render every frame)
-      const index = Math.min(totalSlides - 1, Math.floor(progress * totalSlides));
+      const index = Math.min(totalSlides - 1, Math.floor(targetProgress * totalSlides));
       if (index !== lastIndex) {
         lastIndex = index;
         setActiveSlide(index);
@@ -168,8 +171,8 @@ export default function ScrollVideo() {
           poster="/images/hero/hero-aurora.png"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ willChange: "transform", transform: "translateZ(0)", filter: "contrast(1.1) saturate(1.8) brightness(0.88)" }}>
-          <source src="/video/version2.webm" type="video/webm" />
-          <source src="/video/version2.mp4" type="video/mp4" />
+          <source src="/video/version2-scrub.webm" type="video/webm" />
+          <source src="/video/version2-scrub.mp4" type="video/mp4" />
         </video>
 
         {/* Overlay sutil — aumenta contraste percibido sin matar el video */}
