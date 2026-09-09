@@ -14,7 +14,7 @@ const projects = [
     tags: ["Website", "Local SEO", "Conversion"],
     img: "/images/portfolio/mockups/clarity.png",
     w: 2880,
-    h: 1800,
+    h: 1624,
     color: "#345A86",
     url: "https://clarity-phi-puce.vercel.app/",
   },
