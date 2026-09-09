@@ -39,7 +39,7 @@ export default function Navbar() {
       <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#">
           <Image
-            src="/images/logo/logo.PNG"
+            src="/images/logo/logo.png"
             alt="Icebreaker Lab"
             width={224}
             height={44}
