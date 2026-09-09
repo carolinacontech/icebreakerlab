@@ -7,6 +7,19 @@ import Navbar from "./Navbar";
 
 const projects = [
   {
+    // Sin `url`: el sitio sigue en construcción, así que la ficha no enlaza a ningún lado.
+    id: -6,
+    name: "AI Magazine",
+    category: "Editorial & Publishing",
+    headline: "Where AI meets the way we work",
+    tags: ["Website", "Branding", "SEO"],
+    img: "/images/portfolio/mockups/ai-magazine.png",
+    w: 1118,
+    h: 690,
+    note: "Work in progress — the site is still under construction.",
+    color: "#3459D7",
+  },
+  {
     id: -5,
     name: "Clarity Therapy Center",
     category: "Therapy & Mental Health",
