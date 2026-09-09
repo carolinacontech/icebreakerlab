@@ -5,7 +5,7 @@ import Image from "next/image";
 import { CrackLink } from "./IceCrack";
 
 const links = [
-  { label: "Services", href: "#services" },
+  { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },

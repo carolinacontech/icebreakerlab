@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { CrackLink } from "./IceCrack";
 
 function TiltCard({
   children,
@@ -387,7 +388,7 @@ export default function Services() {
                 </ul>
 
                 {/* CTA */}
-                <a
+                <CrackLink
                   href="#contact"
                   className="w-full py-4 rounded-full text-base font-bold text-center transition-all hover:scale-[1.02] block"
                   style={svc.featured ? {
@@ -401,11 +402,77 @@ export default function Services() {
                   }}
                 >
                   Break the ice →
-                </a>
+                </CrackLink>
               </div>
             </TiltCard>
           ))}
         </div>
+
+        {/* Included in every package */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-6 rounded-2xl px-8 py-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-8"
+          style={{ background: "rgba(93,202,165,0.06)", border: "1px solid rgba(93,202,165,0.18)" }}>
+          <p className="text-xs font-semibold tracking-widest uppercase shrink-0" style={{ color: "rgba(93,202,165,0.7)" }}>
+            Included in every package
+          </p>
+          <div className="h-px sm:w-px sm:h-6 w-full" style={{ background: "rgba(93,202,165,0.15)" }} />
+          <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
+            {[
+              { label: "SEO", desc: "On-page & technical optimization" },
+              { label: "Local SEO", desc: "Google Maps & local rankings" },
+              { label: "AEO", desc: "Visibility in AI answers" },
+              // Sin desc: el label ya se explica solo y así entra en la misma fila
+              { label: "English & Spanish", desc: "" },
+            ].map((item) => (
+              <div key={item.label} className="flex items-center gap-2 px-4 py-2 rounded-full"
+                style={{ background: "rgba(93,202,165,0.08)", border: "1px solid rgba(93,202,165,0.2)" }}>
+                <span className="text-xs font-bold" style={{ color: "#5DCAA5" }}>{item.label}</span>
+                {item.desc && (
+                  <span className="text-xs" style={{ color: "rgba(175,169,236,0.55)" }}>— {item.desc}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Add-on: Website Maintenance */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-4 rounded-2xl p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center"
+          style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(175,169,236,0.15)" }}>
+          {/* Label */}
+          <div className="shrink-0">
+            <span className="text-xs font-semibold tracking-widest px-2.5 py-1 rounded"
+              style={{ color: "#AFA9EC", background: "rgba(175,169,236,0.08)", border: "1px solid rgba(175,169,236,0.2)" }}>
+              Add-on
+            </span>
+            <h3 className="mt-3 font-bold text-lg leading-tight" style={{ color: "var(--snow)" }}>Website Maintenance</h3>
+            <p className="text-sm mt-0.5 font-medium" style={{ color: "#AFA9EC" }}>Your site, always up to date.</p>
+          </div>
+          <div className="h-px sm:w-px sm:h-16 w-full" style={{ background: "rgba(175,169,236,0.1)" }} />
+          {/* Features */}
+          <div className="flex flex-wrap gap-x-8 gap-y-2 flex-1">
+            {[
+              "Content & text updates",
+              "Security patches & backups",
+              "Plugin & platform updates",
+              "Performance monitoring",
+              "Priority support",
+            ].map((f) => (
+              <div key={f} className="flex items-center gap-2 text-sm" style={{ color: "rgba(240,244,255,0.75)" }}>
+                <span className="font-bold" style={{ color: "#AFA9EC" }}>✓</span> {f}
+              </div>
+            ))}
+          </div>
+          <CrackLink href="#contact"
+            className="shrink-0 px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-[1.02] whitespace-nowrap"
+            style={{ background: "rgba(175,169,236,0.08)", color: "#AFA9EC", border: "1px solid rgba(175,169,236,0.25)" }}>
+            Ask about it →
+          </CrackLink>
+        </motion.div>
       </div>
     </section>
   );

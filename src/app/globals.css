@@ -102,3 +102,28 @@ small, caption, figcaption { font-weight: 400; }
 @media (pointer: fine) {
   * { cursor: none !important; }
 }
+
+/* Auto-pan mockup images to reveal full-page screenshots */
+@keyframes panMockup {
+  0%, 8%   { object-position: 50% 0%; }
+  42%, 58% { object-position: 50% 100%; }
+  92%, 100% { object-position: 50% 0%; }
+}
+@keyframes panMockupMobile {
+  0%, 8%   { object-position: 50% 0%; }
+  42%, 58% { object-position: 50% 100%; }
+  92%, 100% { object-position: 50% 0%; }
+}
+.mockup-pan {
+  animation: panMockup 12s ease-in-out infinite;
+}
+.mockup-pan-mobile {
+  animation: panMockupMobile 10s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mockup-pan,
+  .mockup-pan-mobile {
+    animation: none;
+    object-position: 50% 0%;
+  }
+}

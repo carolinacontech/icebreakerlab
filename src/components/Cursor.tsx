@@ -18,19 +18,24 @@ export default function Cursor() {
 
     const el = wrapperRef.current;
 
-    const move = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+    const update = (x: number, y: number) => {
+      mouseX.set(x);
+      mouseY.set(y);
       if (el) el.style.opacity = "1";
     };
-    const hide = () => {
-      if (el) el.style.opacity = "0";
-    };
+    // pointermove ya cubre mouse/pen/touch — añadir mousemove duplicaría
+    // el trabajo en cada movimiento y compite con el RAF de ScrollVideo y Lenis.
+    const onPointerMove = (e: PointerEvent) => update(e.clientX, e.clientY);
+    const onPointerDown = (e: PointerEvent) => update(e.clientX, e.clientY);
+    const hide = () => { if (el) el.style.opacity = "0"; };
 
-    window.addEventListener("mousemove", move, { passive: true });
+    // capture:true fires before any element handler can stopPropagation
+    document.addEventListener("pointermove", onPointerMove, { passive: true, capture: true });
+    document.addEventListener("pointerdown", onPointerDown, { passive: true, capture: true });
     window.addEventListener("mouseleave", hide, { passive: true });
     return () => {
-      window.removeEventListener("mousemove", move);
+      document.removeEventListener("pointermove", onPointerMove, { capture: true });
+      document.removeEventListener("pointerdown", onPointerDown, { capture: true });
       window.removeEventListener("mouseleave", hide);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps

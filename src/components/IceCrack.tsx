@@ -100,11 +100,15 @@ export function CrackLink({
   children,
   className,
   style,
+  target,
+  rel,
 }: {
   href: string;
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 }) {
   const crack = useCrack();
 
@@ -124,6 +128,8 @@ export function CrackLink({
             target.scrollIntoView({ behavior: "smooth" });
           }
         }
+      } else if (target === "_blank") {
+        window.open(href, "_blank", rel || "noopener,noreferrer");
       } else {
         window.location.href = href;
       }
@@ -134,7 +140,7 @@ export function CrackLink({
   };
 
   return (
-    <a href={href} onClick={handleClick} className={className} style={style}>
+    <a href={href} onClick={handleClick} className={className} style={style} target={target} rel={rel}>
       {children}
     </a>
   );

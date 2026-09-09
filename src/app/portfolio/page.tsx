@@ -1,4 +1,5 @@
 import PortfolioPage from "@/components/PortfolioPage";
+import Cursor from "@/components/Cursor";
 
 export const metadata = {
   title: "Portfolio | Icebreaker Lab",
@@ -6,5 +7,10 @@ export const metadata = {
 };
 
 export default function Portfolio() {
-  return <PortfolioPage />;
+  return (
+    <>
+      <Cursor />
+      <PortfolioPage />
+    </>
+  );
 }

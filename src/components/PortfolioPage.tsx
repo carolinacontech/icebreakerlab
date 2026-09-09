@@ -2,10 +2,35 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 
 const projects = [
+  {
+    id: -5,
+    name: "Clarity Therapy Center",
+    category: "Therapy & Mental Health",
+    headline: "Let's find your clarity together",
+    tags: ["Website", "Local SEO", "Conversion"],
+    img: "/images/portfolio/mockups/clarity.png",
+    w: 2880,
+    h: 1800,
+    color: "#345A86",
+    url: "https://clarity-phi-puce.vercel.app/",
+  },
+  {
+    id: -4,
+    name: "StayScout",
+    category: "Travel & Booking Platform",
+    headline: "Find your next stay, anywhere in the world",
+    tags: ["Website", "Booking", "Conversion"],
+    img: "/images/portfolio/mockups/scoutstay.png",
+    w: 2834,
+    h: 1558,
+    note: "Project structure — the interface and navigation are built; the site isn't fully functional yet.",
+    color: "#FF385C",
+    url: "https://stayscout-zeta.vercel.app",
+  },
   {
     id: 0,
     name: "NODO Jiu Jitsu Academy",
@@ -13,6 +38,8 @@ const projects = [
     headline: "More visibility, more signups — built to rank on Google",
     tags: ["Website", "Local SEO", "Conversion"],
     img: "/images/portfolio/mockups/nodo-academy.png",
+    w: 2866,
+    h: 1612,
     color: "#5DCAA5",
     url: "https://www.nodoacademy.com",
   },
@@ -22,7 +49,9 @@ const projects = [
     category: "Corporate Website",
     headline: "Tree services in North Texas & DFW you can trust",
     tags: ["Website", "Local SEO", "Conversion"],
-    img: "/images/portfolio/mockups/tree-services.png",
+    img: "/images/portfolio/mockups/kings-tree-services.png",
+    w: 2856,
+    h: 1558,
     color: "#4A7C59",
     url: "https://www.kingstreeservicesllc.com",
   },
@@ -30,9 +59,11 @@ const projects = [
     id: -2,
     name: "Las Marías Market",
     category: "E-commerce",
-    headline: "Marketplace artesanal con pasarela de pago y gestión de creadores",
+    headline: "Artisan marketplace with payment gateway and creator management",
     tags: ["E-commerce", "Website", "Conversion"],
     img: "/images/portfolio/mockups/las-marias-market.jpg",
+    w: 1920,
+    h: 5879,
     color: "#D4006A",
     url: "",
   },
@@ -43,6 +74,8 @@ const projects = [
     headline: "Google Maps & LSA lead generation that actually works",
     tags: ["Website", "SEO", "Conversion"],
     img: "/images/portfolio/mockups/market-open-media.png",
+    w: 2856,
+    h: 1574,
     color: "#534AB7",
     url: "https://www.marketopenmedia.com",
   },
@@ -53,6 +86,8 @@ const projects = [
     headline: "Extraordinary Residences in Privileged Locations",
     tags: ["Website", "SEO", "Performance"],
     img: "/images/portfolio/mockups/real-estate.png",
+    w: 1122,
+    h: 1402,
     color: "#B8860B",
   },
   {
@@ -62,6 +97,8 @@ const projects = [
     headline: "Refined Dining Experiences",
     tags: ["Landing Page", "Branding", "SEO"],
     img: "/images/portfolio/mockups/restaurant.png",
+    w: 1122,
+    h: 1402,
     color: "#D4A843",
   },
   {
@@ -71,6 +108,8 @@ const projects = [
     headline: "Intelligent Infrastructure for Autonomous Systems",
     tags: ["Website", "SEO", "Conversion"],
     img: "/images/portfolio/mockups/saas.png",
+    w: 1122,
+    h: 1402,
     color: "#534AB7",
   },
   {
@@ -80,6 +119,8 @@ const projects = [
     headline: "Live in Privilege",
     tags: ["E-commerce", "Branding", "SEO"],
     img: "/images/portfolio/mockups/fashion.png",
+    w: 1024,
+    h: 1536,
     color: "#888780",
   },
   {
@@ -89,6 +130,8 @@ const projects = [
     headline: "Elevated Architecture. Meaningful Spaces.",
     tags: ["Portfolio", "SEO", "Performance"],
     img: "/images/portfolio/mockups/architecture.png",
+    w: 1024,
+    h: 1536,
     color: "#8B7355",
   },
   {
@@ -98,6 +141,8 @@ const projects = [
     headline: "Photographs that Feel Like Memory",
     tags: ["Portfolio", "SEO", "Performance"],
     img: "/images/portfolio/mockups/photography.png",
+    w: 1086,
+    h: 1448,
     color: "#AFA9EC",
   },
   {
@@ -107,6 +152,8 @@ const projects = [
     headline: "Spaces that Inspire Living",
     tags: ["Website", "Branding", "SEO"],
     img: "/images/portfolio/mockups/interior-design.png",
+    w: 1055,
+    h: 1491,
     color: "#C4A882",
   },
   {
@@ -116,6 +163,8 @@ const projects = [
     headline: "Beautiful Outdoor Spaces, Designed to Last",
     tags: ["Website", "SEO", "Conversion"],
     img: "/images/portfolio/mockups/landscaping.png",
+    w: 1024,
+    h: 1536,
     color: "#5DCAA5",
   },
   {
@@ -125,6 +174,8 @@ const projects = [
     headline: "Stronger Trees, Beautiful Spaces",
     tags: ["Landing Page", "SEO", "Conversion"],
     img: "/images/portfolio/mockups/tree-services.png",
+    w: 1067,
+    h: 1474,
     color: "#4A7C59",
   },
   {
@@ -134,6 +185,9 @@ const projects = [
     headline: "Begin Your Calm Retreat",
     tags: ["Website", "Booking", "SEO"],
     img: "/images/portfolio/mockups/wellness.png",
+    w: 1024,
+    h: 5874,
+    note: "Screenshot taken directly from the live site, so its resolution is limited.",
     color: "#5DCAA5",
   },
 ];
@@ -143,6 +197,25 @@ const ALL_TAGS = ["All", "Website", "Landing Page", "Portfolio", "E-commerce", "
 export default function PortfolioPage() {
   const [active, setActive] = useState<typeof projects[0] | null>(null);
   const [filter, setFilter] = useState("All");
+
+  useEffect(() => {
+    const el = document.documentElement;
+    // Lenis (smooth scroll) captura el wheel globalmente; hay que pausarlo
+    // o seguiría moviendo el fondo detrás del lightbox.
+    const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+
+    if (active) {
+      el.style.overflow = "hidden";
+      lenis?.stop();
+    } else {
+      el.style.overflow = "";
+      lenis?.start();
+    }
+    return () => {
+      el.style.overflow = "";
+      lenis?.start();
+    };
+  }, [active]);
 
   const filtered = filter === "All" ? projects : projects.filter(p => p.tags.includes(filter));
 
@@ -211,7 +284,13 @@ export default function PortfolioPage() {
                 >
                   {/* Image */}
                   <div className="relative overflow-hidden" style={{ height: "280px" }}>
-                    <Image src={p.img} alt={p.name} fill className="object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                    <Image
+                      src={p.img}
+                      alt={p.name}
+                      fill
+                      className="object-cover object-top group-hover:scale-105"
+                      style={{ transition: "transform 700ms" }}
+                    />
                     <div className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
                       style={{ background: "linear-gradient(to bottom, transparent, rgba(10,13,31,0.7))" }} />
                     {/* Hover overlay */}
@@ -327,16 +406,33 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
+              {/* Nota de contexto del mockup (opcional por proyecto) */}
+              {"note" in active && active.note && (
+                <div className="px-6 py-2.5 flex items-start gap-2 shrink-0"
+                  style={{ background: "rgba(83,74,183,0.09)", borderBottom: "1px solid rgba(83,74,183,0.18)" }}>
+                  <span aria-hidden="true" className="text-xs leading-relaxed shrink-0" style={{ color: "var(--aurora-teal)" }}>ⓘ</span>
+                  <p className="text-xs leading-relaxed" style={{ color: "rgba(175,169,236,0.75)" }}>
+                    {active.note}
+                  </p>
+                </div>
+              )}
+
               {/* Scrollable image */}
-              <div className="overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(83,74,183,0.4) transparent" }}>
+              <div data-lenis-prevent className="overflow-y-auto flex-1 min-h-0" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(83,74,183,0.4) transparent", overscrollBehavior: "contain" }}>
+                {/* Los mockups tienen resoluciones muy distintas (1024–1920 de ancho).
+                    Mostrarlos todos a 1022px estira los pequeños al doble en pantallas
+                    retina y se ven pixelados, así que cada uno se limita al ancho que
+                    sus píxeles sostienen (hasta ~1.4x) y se centra. */}
                 <Image
                   src={active.img}
                   alt={active.name}
-                  width={1920}
-                  height={2400}
-                  className="w-full h-auto"
+                  width={active.w}
+                  height={active.h}
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 1024px"
+                  className="w-full h-auto mx-auto"
                   quality={95}
-                  style={{ display: "block" }}
+                  style={{ display: "block", maxWidth: Math.round(active.w / 1.4) }}
                 />
               </div>
 
