@@ -7,6 +7,17 @@ import Navbar from "./Navbar";
 
 const projects = [
   {
+    id: -7,
+    name: "Eva Shoes",
+    category: "E-commerce / Footwear",
+    headline: "More than shoes. A brighter you.",
+    tags: ["E-commerce", "Branding", "Conversion"],
+    img: "/images/portfolio/mockups/eva-shoes.png",
+    w: 1122,
+    h: 1402,
+    color: "#F0121C",
+  },
+  {
     // Sin `url`: el sitio sigue en construcción, así que la ficha no enlaza a ningún lado.
     id: -6,
     name: "AI Magazine",
