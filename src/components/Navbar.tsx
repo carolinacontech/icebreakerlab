@@ -2,25 +2,40 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { CrackLink } from "./IceCrack";
 
-const links = [
+// About y Contact son anclas que solo existen en la home, así que fuera de ella
+// se reemplazan por un enlace a Home.
+const homeLinks = [
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
 
+const innerLinks = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Portfolio", href: "/portfolio" },
+];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const links = isHome ? homeLinks : innerLinks;
 
   useEffect(() => {
-    // ScrollVideo section is 600vh — navbar only activates after it
-    const handler = () => setScrolled(window.scrollY > window.innerHeight * 5.8);
+    // En la home el ScrollVideo ocupa 600vh, así que el navbar recién se activa
+    // después. En el resto de páginas no existe: basta un scroll normal.
+    const handler = () =>
+      setScrolled(window.scrollY > (isHome ? window.innerHeight * 5.8 : 40));
+    handler();
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
-  }, []);
+  }, [isHome]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
@@ -37,7 +52,7 @@ export default function Navbar() {
         }}
       />
       <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#">
+        <a href="/" aria-label="Icebreaker Lab — Home">
           <Image
             src="/images/logo/logo.png"
             alt="Icebreaker Lab"
@@ -60,7 +75,7 @@ export default function Navbar() {
             </a>
           ))}
           <CrackLink
-            href="#contact"
+            href={isHome ? "#contact" : "/#contact"}
             className="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300"
             style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 20px rgba(83,74,183,0.4)" }}
           >

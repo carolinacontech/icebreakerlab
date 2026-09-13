@@ -57,11 +57,8 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="relative px-6 py-8" style={{ background: "rgba(4,3,18,0.99)", borderTop: "1px solid rgba(83,74,183,0.1)" }}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center">
             <Image src="/images/logo/logo.png" alt="Icebreaker Lab" width={40} height={30} className="object-contain" unoptimized />
-            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--ice-tip)", letterSpacing: "0.2em" }}>
-              Icebreaker Lab
-            </span>
           </div>
           <p className="text-xs" style={{ color: "var(--aurora-light)", opacity: 0.3 }}>
             © 2026 Icebreaker Lab · Websites that break the ice
