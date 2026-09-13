@@ -33,8 +33,25 @@ export default function Navbar() {
     const handler = () =>
       setScrolled(window.scrollY > (isHome ? window.innerHeight * 5.8 : 40));
     handler();
+
+    // Lenis (smooth scroll) mueve la página sin emitir el evento `scroll` de
+    // window, así que hay que escuchar el suyo o el navbar nunca se entera.
+    type Lenis = { on: (e: string, cb: () => void) => void; off: (e: string, cb: () => void) => void };
+    let lenis: Lenis | undefined;
+    const attach = () => {
+      lenis = (window as unknown as { __lenis?: Lenis }).__lenis;
+      if (lenis) lenis.on("scroll", handler);
+    };
+    attach();
+    // SmoothScroll puede montar después que el navbar: reintentar una vez.
+    const retry = lenis ? undefined : window.setTimeout(attach, 300);
+
     window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
+    return () => {
+      window.removeEventListener("scroll", handler);
+      lenis?.off("scroll", handler);
+      if (retry) clearTimeout(retry);
+    };
   }, [isHome]);
 
   return (
@@ -43,10 +60,17 @@ export default function Navbar() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "rgba(10,13,31,0.92)",
+          // En las páginas internas el fondo del sitio es exactamente --night
+          // (10,13,31), así que un navbar de ese mismo color se vuelve
+          // indistinguible. Se usa un tono más oscuro, con borde y sombra que
+          // lo separan del contenido que pasa por debajo.
+          background: isHome ? "rgba(10,13,31,0.92)" : "rgba(5,7,18,0.97)",
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
-          borderBottom: "1px solid rgba(83,74,183,0.2)",
+          borderBottom: isHome
+            ? "1px solid rgba(83,74,183,0.2)"
+            : "1px solid rgba(175,169,236,0.22)",
+          boxShadow: isHome ? "none" : "0 6px 28px rgba(0,0,0,0.55)",
           opacity: scrolled ? 1 : 0,
           transition: "opacity 0.35s ease",
         }}
