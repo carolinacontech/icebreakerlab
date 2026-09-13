@@ -4,6 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
+  if (!process.env.RESEND_API_KEY) {
+    console.error("RESEND_API_KEY no está configurada: el formulario no puede enviar correos.");
+    return NextResponse.json({ error: "Email service is not configured" }, { status: 503 });
+  }
   const resend = new Resend(process.env.RESEND_API_KEY);
   const formData = await req.formData();
   const summary = formData.get("summary") as string;

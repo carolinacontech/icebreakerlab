@@ -26,10 +26,13 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Icebreaker Lab" }],
   creator: "Icebreaker Lab",
+  // icebreakerlab.com todavía no es nuestro (está a la venta), así que el
+  // sitio se anuncia con su dominio real hasta que se adquiera.
+  metadataBase: new URL("https://icebreakerlab.vercel.app"),
   openGraph: {
     type: "website",
-    locale: "es_ES",
-    url: "https://icebreakerlab.com",
+    locale: "en_US",
+    url: "https://icebreakerlab.vercel.app",
     siteName: "Icebreaker Lab",
     title: "Icebreaker Lab | Websites & SEO that break the ice",
     description:
@@ -62,7 +65,7 @@ const schemaMarkup = {
   "@type": "ProfessionalService",
   "name": "Icebreaker Lab",
   "description": "Web design agency specialized in SEO-optimized websites built to rank on Google and convert visitors into clients.",
-  "url": "https://icebreakerlab.com",
+  "url": "https://icebreakerlab.vercel.app",
   "areaServed": [
     { "@type": "Country", "name": "United States" },
     { "@type": "Country", "name": "Panama" }

@@ -168,12 +168,12 @@ export default function ServicesPage() {
           <motion.div
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.24 }}
             className="flex flex-wrap gap-4 justify-center">
-            <CrackLink href="#contact"
+            <CrackLink href="/#contact"
               className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
               style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 40px rgba(83,74,183,0.45)" }}>
               Break the ice →
             </CrackLink>
-            <CrackLink href="/#portfolio"
+            <CrackLink href="/portfolio"
               className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
               style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(175,169,236,0.3)", color: "var(--aurora-light)" }}>
               See our work →

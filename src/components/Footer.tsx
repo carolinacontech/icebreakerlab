@@ -36,15 +36,17 @@ export default function Footer() {
             No templates. No guesswork.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* Antes era mailto:hola@icebreakerlab.com, un dominio que no
+                controlamos: esos correos no llegaban a nadie. */}
             <a
-              href="mailto:hola@icebreakerlab.com"
+              href="/#contact"
               className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
               style={{ background: "var(--aurora)", color: "var(--snow)", boxShadow: "0 0 48px rgba(83,74,183,0.5)" }}
             >
               Start your project →
             </a>
             <a
-              href="#portfolio"
+              href="/portfolio"
               className="px-8 py-4 rounded-full font-semibold text-base transition-transform hover:scale-105"
               style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(175,169,236,0.3)", color: "var(--aurora-light)" }}
             >
