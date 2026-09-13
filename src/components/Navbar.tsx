@@ -5,13 +5,9 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { CrackLink } from "./IceCrack";
 
-// About y Contact son anclas que solo existen en la home, así que fuera de ella
-// se reemplazan por un enlace a Home.
 const homeLinks = [
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
 ];
 
 const innerLinks = [

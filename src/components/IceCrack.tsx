@@ -119,13 +119,16 @@ export function CrackLink({
       if (done) return;
       done = true;
       if (href.startsWith("#")) {
-        const target = document.querySelector(href);
-        if (target) {
+        const el = document.querySelector(href);
+        if (el) {
+          // Lenis ignora scrollTo() cuando se le pasa un elemento en este sitio,
+          // así que se calcula la posición y se le pasa un número, que sí respeta.
+          const top = el.getBoundingClientRect().top + window.scrollY;
           const lenis = (window as any).__lenis;
           if (lenis) {
-            lenis.scrollTo(target, { offset: 0 });
+            lenis.scrollTo(top);
           } else {
-            target.scrollIntoView({ behavior: "smooth" });
+            window.scrollTo({ top, behavior: "smooth" });
           }
         }
       } else if (target === "_blank") {
