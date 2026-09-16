@@ -168,11 +168,12 @@ export default function ScrollVideo() {
 
         {/* Video */}
         <video ref={videoRef} muted playsInline preload="auto"
-          poster="/images/hero/hero-aurora.png"
+          poster="/images/hero/hero-poster.jpg"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ willChange: "transform", transform: "translateZ(0)", filter: "contrast(1.1) saturate(1.8) brightness(0.88)" }}>
-          <source src="/video/version2-scrub.webm" type="video/webm" />
-          <source src="/video/version2-scrub.mp4" type="video/mp4" />
+          {/* Solo H.264: el scrub necesita todos los cuadros como keyframe, y así
+              VP9 pesaba el triple. Chrome elegía el WebM (12.9 MB); este pesa 2.7 MB. */}
+          <source src="/video/hero-scrub.mp4" type="video/mp4" />
         </video>
 
         {/* Overlay sutil — aumenta contraste percibido sin matar el video */}
