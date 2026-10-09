@@ -89,6 +89,27 @@ export default function Portfolio() {
                 )}
               </motion.div>
             ))}
+
+            {/* La home solo muestra 3 proyectos: sin esto no hay forma de
+                llegar al portfolio completo salvo por el menú. */}
+            <motion.a
+              href="/portfolio"
+              initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6, delay: projects.length * 0.15 }}
+              whileHover={{ x: 6 }}
+              className="rounded-2xl px-6 py-4 flex items-center justify-between group"
+              style={{
+                border: "1px dashed rgba(83,74,183,0.4)",
+                background: "rgba(83,74,183,0.06)",
+                backdropFilter: "blur(20px)",
+              }}>
+              <span className="text-sm font-semibold" style={{ color: "var(--aurora-light)" }}>
+                See all our work
+              </span>
+              <span className="text-xs" style={{ color: "var(--aurora-teal)" }}>
+                18 projects →
+              </span>
+            </motion.a>
           </div>
 
           {/* Right — mockup preview (3/5) */}
