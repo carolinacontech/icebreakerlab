@@ -58,6 +58,12 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  // Verificación de dominio de Pinterest
+  verification: {
+    other: {
+      "p:domain_verify": "a8cf3b0b066661eba013ace3c784c71d",
+    },
+  },
 };
 
 const schemaMarkup = {
