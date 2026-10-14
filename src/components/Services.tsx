@@ -387,9 +387,9 @@ export default function Services() {
                   ))}
                 </ul>
 
-                {/* CTA */}
+                {/* CTA — quien elige paquete ya decidió: va al brief (/frost) */}
                 <CrackLink
-                  href="#contact"
+                  href="/frost"
                   className="w-full py-4 rounded-full text-base font-bold text-center transition-all hover:scale-[1.02] block"
                   style={svc.featured ? {
                     background: `linear-gradient(135deg, rgba(${svc.accentRgb},0.9), rgba(${svc.accentRgb},0.65))`,

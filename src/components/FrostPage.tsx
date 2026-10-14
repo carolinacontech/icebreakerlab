@@ -213,6 +213,14 @@ export default function FrostPage() {
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
       style={{ background: "var(--night)" }}>
 
+      {/* Salida al sitio: esta página se abre desde los paquetes, y sin esto
+          quien se arrepiente queda sin forma de volver. */}
+      <a href="/" aria-label="Back to Icebreaker Lab"
+        className="absolute z-30 flex items-center gap-2 text-xs transition-opacity hover:opacity-100"
+        style={{ top: "24px", left: "24px", color: "var(--aurora-light)", opacity: 0.6 }}>
+        ← Back to site
+      </a>
+
       {/* Background layers */}
       <div className="absolute inset-0 z-0">
         <Image src="/images/textures/ice-macro.png" alt="" fill className="object-cover opacity-10" />

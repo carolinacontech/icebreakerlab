@@ -301,7 +301,8 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
-                <CrackLink href="/#contact"
+                {/* Quien elige un paquete ya decidió: va directo al brief */}
+                <CrackLink href="/frost"
                   className="w-full py-4 rounded-full text-base font-bold text-center transition-all hover:scale-[1.02] block"
                   style={pkg.featured ? {
                     background: "var(--aurora)",

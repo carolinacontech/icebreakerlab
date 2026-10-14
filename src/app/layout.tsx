@@ -10,6 +10,8 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+import WhatsAppButton from "@/components/WhatsAppButton";
+
 export const metadata: Metadata = {
   title: "Icebreaker Lab | Websites & SEO that break the ice",
   description:
@@ -96,6 +98,7 @@ export default function RootLayout({
         <SmoothScroll>
           <IceCrackProvider>{children}</IceCrackProvider>
         </SmoothScroll>
+        <WhatsAppButton />
       </body>
     </html>
   );
