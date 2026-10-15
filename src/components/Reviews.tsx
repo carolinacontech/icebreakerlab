@@ -1,9 +1,9 @@
-import { getGoogleReviews } from "@/lib/googleReviews";
+import { getReviews } from "@/lib/reviews";
 
-// Server Component: si no hay credenciales o reseñas, no renderiza nada —
-// el sitio nunca muestra un bloque vacío ni rompe el deploy.
+// Server Component: toma las reseñas en vivo si hay credenciales de Places
+// API, y si no las copiadas a mano. Sin ninguna de las dos no renderiza nada.
 export default async function Reviews() {
-  const data = await getGoogleReviews();
+  const data = await getReviews();
   if (!data) return null;
 
   const stars = (n: number) => "★".repeat(Math.round(n)) + "☆".repeat(5 - Math.round(n));
