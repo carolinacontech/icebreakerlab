@@ -8,6 +8,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Cursor from "@/components/Cursor";
+import Reviews from "@/components/Reviews";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <StatsStrip />
       <Services />
       <Portfolio />
+      <Reviews />
       <About />
       <Contact />
       <Footer />
