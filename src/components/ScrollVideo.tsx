@@ -81,8 +81,8 @@ const slides = [
     id: "slide-0",
     label: "Websites & SEO Agency",
     title: "We break\nthe ice.",
-    body: null,
-    cta: null,
+    body: "Websites that rank on Google\nand turn visitors into clients.",
+    cta: { label: "Break the ice", href: "#contact" },
     position: "bottom-left" as const,
   },
   {
@@ -163,7 +163,7 @@ export default function ScrollVideo() {
   const slide = slides[activeSlide];
 
   return (
-    <div ref={containerRef} style={{ height: "600vh" }} className="relative">
+    <div ref={containerRef} style={{ height: "300vh" }} className="relative">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
 
         {/* Video */}

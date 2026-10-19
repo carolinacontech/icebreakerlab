@@ -24,10 +24,10 @@ export default function Navbar() {
   const links = isHome ? homeLinks : innerLinks;
 
   useEffect(() => {
-    // En la home el ScrollVideo ocupa 600vh, así que el navbar recién se activa
+    // En la home el ScrollVideo ocupa 300vh, así que el navbar recién se activa
     // después. En el resto de páginas no existe: basta un scroll normal.
     const handler = () =>
-      setScrolled(window.scrollY > (isHome ? window.innerHeight * 5.8 : 40));
+      setScrolled(window.scrollY > (isHome ? window.innerHeight * 2.8 : 40));
     handler();
 
     // Lenis (smooth scroll) mueve la página sin emitir el evento `scroll` de
