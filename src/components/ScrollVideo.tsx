@@ -15,8 +15,12 @@ const wordVariants = {
 function HeroTitle({ text, style }: { text: string; style: React.CSSProperties }) {
   let wordIndex = 0;
   return (
-    <h2 style={{
+    <h1 style={{
       ...style,
+      // Color sólido de respaldo: si el navegador no soporta el degradado
+      // recortado al texto, sin esto el título queda invisible.
+      color: "var(--snow)",
+      textWrap: "balance",
       background: "linear-gradient(135deg, #ffffff 0%, #ffffff 60%, #d4d0f7 85%, #9de8cf 100%)",
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
@@ -35,12 +39,13 @@ function HeroTitle({ text, style }: { text: string; style: React.CSSProperties }
                 style={{ display: "inline-block", marginRight: "0.28em" }}
               >
                 {word}
+                {" "}
               </motion.span>
             );
           })}
         </span>
       ))}
-    </h2>
+    </h1>
   );
 }
 
@@ -63,6 +68,7 @@ function SplitTitle({ text, style }: { text: string; style: React.CSSProperties 
                 style={{ display: "inline-block", transformOrigin: "50% 100%", marginRight: "0.28em" }}
               >
                 {word}
+                {" "}
               </motion.span>
             );
           })}
