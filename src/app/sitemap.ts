@@ -2,11 +2,16 @@ import type { MetadataRoute } from "next";
 
 const SITE = "https://icebreakerlab.vercel.app";
 
+// Sin <priority> ni <changefreq>: Google los ignora (docs/06).
+// `lastModified` solo debe reflejar cambios reales de contenido; usar la fecha
+// de build en cada deploy lo vuelve una señal poco creíble, así que se fija a
+// mano cuando el contenido cambia de verdad.
+const LAST_CONTENT_UPDATE = new Date("2026-10-20");
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
   return [
-    { url: SITE, lastModified: now, changeFrequency: "monthly", priority: 1 },
-    { url: `${SITE}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE}/portfolio`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: SITE, lastModified: LAST_CONTENT_UPDATE },
+    { url: `${SITE}/services`, lastModified: LAST_CONTENT_UPDATE },
+    { url: `${SITE}/portfolio`, lastModified: LAST_CONTENT_UPDATE },
   ];
 }

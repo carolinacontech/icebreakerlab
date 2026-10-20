@@ -31,6 +31,8 @@ export const metadata: Metadata = {
   // icebreakerlab.com todavía no es nuestro (está a la venta), así que el
   // sitio se anuncia con su dominio real hasta que se adquiera.
   metadataBase: new URL("https://icebreakerlab.vercel.app"),
+  // docs/01: canonical autorreferencial en el HTML
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",

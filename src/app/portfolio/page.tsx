@@ -3,6 +3,7 @@ import Cursor from "@/components/Cursor";
 
 export const metadata = {
   title: "Portfolio | Icebreaker Lab",
+  alternates: { canonical: "/portfolio" },
   description: "Our work — websites that rank on Google and convert visitors into clients.",
 };
 

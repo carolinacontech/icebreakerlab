@@ -291,6 +291,9 @@ export default function PortfolioPage() {
       {/* Grid */}
       <section className="py-16" style={{ background: "var(--night)", minHeight: "60vh" }}>
         <div className="max-w-7xl mx-auto px-6">
+          {/* Los proyectos son h3, así que sin este h2 el nivel saltaba de h1
+              a h3: los encabezados son estructura, no tamaño (docs/04). */}
+          <h2 className="sr-only">Projects</h2>
           <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <AnimatePresence mode="popLayout">
               {filtered.map((p) => (
