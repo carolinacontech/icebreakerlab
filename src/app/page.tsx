@@ -20,7 +20,7 @@ export default function Home() {
           __html: graph([
             website,
             organization,
-            webPage("/", "Icebreaker Lab", "Websites that rank on Google and convert visitors into clients."),
+            webPage("/", "The Icebreakerlab", "Websites that rank on Google and convert visitors into clients."),
           ]),
         }}
       />

@@ -5,7 +5,7 @@ import FrostPage from "@/components/FrostPage";
 // sin contenido, porque la enlazamos desde los paquetes (docs/13).
 export const metadata = {
   robots: { index: false, follow: true },
-  title: "Start your project — Icebreaker Lab",
+  title: "Start your project — The Icebreakerlab",
   description: "Tell us about your project and we'll craft the perfect website for you.",
 };
 

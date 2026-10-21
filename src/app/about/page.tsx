@@ -7,10 +7,10 @@ import { CrackLink } from "@/components/IceCrack";
 import { graph, breadcrumbs, webPage, organization } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "About | Icebreaker Lab",
+  title: "About | The Icebreakerlab",
   alternates: { canonical: "/about" },
   description:
-    "Icebreaker Lab is a web design agency for small and medium businesses. We build custom websites in English and Spanish, optimized to rank on Google from day one.",
+    "The Icebreakerlab is a web design agency for small and medium businesses. We build custom websites in English and Spanish, optimized to rank on Google from day one.",
 };
 
 const trail = [
@@ -22,8 +22,8 @@ const trail = [
 // citarse fuera de contexto (docs/10).
 const sections = [
   {
-    q: "What Icebreaker Lab does",
-    a: "Icebreaker Lab is a web design agency that builds custom websites for small and medium businesses, optimized for Google from day one.",
+    q: "What The Icebreakerlab does",
+    a: "The Icebreakerlab is a web design agency that builds custom websites for small and medium businesses, optimized for Google from day one.",
     body: "Every site is designed and written from scratch around what the business actually needs to say. No templates, no recycled layouts. Search optimization is part of the build, not a service sold separately afterwards.",
   },
   {
@@ -60,7 +60,7 @@ export default function About() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: graph([
-            webPage("/about", "About Icebreaker Lab", metadata.description as string),
+            webPage("/about", "About The Icebreakerlab", metadata.description as string),
             organization,
             breadcrumbs(trail),
           ]),
@@ -78,7 +78,7 @@ export default function About() {
             We remove the barriers between great businesses and great websites.
           </h1>
           <p className="text-base leading-relaxed mb-14" style={{ color: "rgba(175,169,236,0.8)" }}>
-            Icebreaker Lab was born from a simple truth: communication is the number one
+            The Icebreakerlab was born from a simple truth: communication is the number one
             problem for businesses online. Great companies stay invisible because their
             website never says what they actually do. We break that ice.
           </p>

@@ -74,10 +74,10 @@ export default function Navbar() {
         }}
       />
       <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="/" aria-label="Icebreaker Lab — Home">
+        <a href="/" aria-label="The Icebreakerlab — Home">
           <Image
             src="/images/logo/logo.png"
-            alt="Icebreaker Lab"
+            alt="The Icebreakerlab"
             width={224}
             height={44}
             className="object-contain"

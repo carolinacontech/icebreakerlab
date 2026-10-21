@@ -60,10 +60,10 @@ export default function Footer() {
       <div className="relative px-6 py-8" style={{ background: "rgba(4,3,18,0.99)", borderTop: "1px solid rgba(83,74,183,0.1)" }}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center">
-            <Image src="/images/logo/logo.png" alt="Icebreaker Lab" width={40} height={30} className="object-contain" unoptimized />
+            <Image src="/images/logo/logo.png" alt="The Icebreakerlab" width={40} height={30} className="object-contain" unoptimized />
           </div>
           <p className="text-xs" style={{ color: "var(--aurora-light)", opacity: 0.3 }}>
-            © 2026 Icebreaker Lab · Websites that break the ice
+            © 2026 The Icebreakerlab · Websites that break the ice
           </p>
           <div className="flex gap-6">
             {/* Solo perfiles que existen. Instagram y Behance estaban como

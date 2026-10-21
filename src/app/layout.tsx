@@ -13,7 +13,7 @@ const outfit = Outfit({
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "Icebreaker Lab | Websites & SEO that break the ice",
+  title: "The Icebreakerlab | Websites & SEO that break the ice",
   description:
     "Premium digital agency specialized in high-converting landing pages and websites fully optimized for SEO and Google. We break the communication barriers between great businesses and their audience.",
   keywords: [
@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     "web design",
     "optimized websites",
     "Google ranking",
-    "Icebreaker Lab",
+    "The Icebreakerlab",
     "digital strategy",
   ],
-  authors: [{ name: "Icebreaker Lab" }],
-  creator: "Icebreaker Lab",
+  authors: [{ name: "The Icebreakerlab" }],
+  creator: "The Icebreakerlab",
   // icebreakerlab.com todavía no es nuestro (está a la venta), así que el
   // sitio se anuncia con su dominio real hasta que se adquiera.
   metadataBase: new URL("https://icebreakerlab.vercel.app"),
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://icebreakerlab.vercel.app",
-    siteName: "Icebreaker Lab",
-    title: "Icebreaker Lab | Websites & SEO that break the ice",
+    siteName: "The Icebreakerlab",
+    title: "The Icebreakerlab | Websites & SEO that break the ice",
     description:
       "We build websites that rank on Google and convert visitors into clients.",
     images: [
@@ -46,13 +46,13 @@ export const metadata: Metadata = {
         url: "/images/hero/hero-aurora.png",
         width: 1200,
         height: 630,
-        alt: "Icebreaker Lab — Websites & SEO",
+        alt: "The Icebreakerlab — Websites & SEO",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Icebreaker Lab | Websites & SEO",
+    title: "The Icebreakerlab | Websites & SEO",
     description:
       "Premium agency specialized in landing pages and websites optimized for Google.",
     images: ["/images/hero/hero-aurora.png"],

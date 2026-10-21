@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { error } = await resend.emails.send({
-    from: "Frost — Icebreaker Lab <onboarding@resend.dev>",
+    from: "Frost — The Icebreakerlab <onboarding@resend.dev>",
     to: "carolina@carolinaconte.com",
     subject: `New project inquiry — ${businessName || "Website project"}`,
     text: summary,

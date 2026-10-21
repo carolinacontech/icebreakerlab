@@ -19,8 +19,8 @@ const SAME_AS: string[] = [
 export const organization = {
   "@type": "ProfessionalService",
   "@id": ORG_ID,
-  name: "Icebreaker Lab",
-  alternateName: "The Icebreakerlab",
+  name: "The Icebreakerlab",
+  alternateName: "Icebreaker Lab",
   description:
     "Web design agency specialized in SEO-optimized websites built to rank on Google and convert visitors into clients.",
   url: SITE,
@@ -39,7 +39,7 @@ export const website = {
   "@type": "WebSite",
   "@id": `${SITE}/#website`,
   url: SITE,
-  name: "Icebreaker Lab",
+  name: "The Icebreakerlab",
   publisher: { "@id": ORG_ID, "@type": "ProfessionalService" },
   inLanguage: "en",
 };

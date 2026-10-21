@@ -43,7 +43,7 @@ export default function About() {
               <span style={{ color: "var(--aurora-light)" }}>great businesses and great websites.</span>
             </h2>
             <p className="text-lg leading-relaxed mb-6" style={{ color: "var(--ice-blue)" }}>
-              Icebreaker Lab was born from a simple truth: communication is the number one problem for businesses online. Great products, invisible websites.
+              The Icebreakerlab was born from a simple truth: communication is the number one problem for businesses online. Great products, invisible websites.
             </p>
             <p className="text-base leading-relaxed" style={{ color: "var(--aurora-light)" }}>
               We break that ice. We build the digital infrastructure that makes your message reach the right people, fast — and in the right place on Google.

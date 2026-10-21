@@ -7,7 +7,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { graph, breadcrumbs, webPage } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Services | Icebreaker Lab",
+  title: "Services | The Icebreakerlab",
   alternates: { canonical: "/services" },
   description: "Websites built to transmit your brand's voice — and optimized to rank on Google, dominate local search, and get cited by AI.",
 };
