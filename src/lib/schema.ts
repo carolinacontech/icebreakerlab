@@ -36,7 +36,7 @@ export const website = {
   "@id": `${SITE}/#website`,
   url: SITE,
   name: "Icebreaker Lab",
-  publisher: { "@id": ORG_ID },
+  publisher: { "@id": ORG_ID, "@type": "ProfessionalService" },
   inLanguage: "en",
 };
 
@@ -47,8 +47,8 @@ export function webPage(path: string, name: string, description: string) {
     url: `${SITE}${path}`,
     name,
     description,
-    isPartOf: { "@id": `${SITE}/#website` },
-    about: { "@id": ORG_ID },
+    isPartOf: { "@id": `${SITE}/#website`, "@type": "WebSite" },
+    about: { "@id": ORG_ID, "@type": "ProfessionalService" },
     inLanguage: "en",
   };
 }
