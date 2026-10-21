@@ -24,10 +24,11 @@ export const organization = {
   description:
     "Web design agency specialized in SEO-optimized websites built to rank on Google and convert visitors into clients.",
   url: SITE,
-  areaServed: [
-    { "@type": "Country", name: "United States" },
-    { "@type": "Country", name: "Panama" },
-  ],
+  // Área de servicio: Estados Unidos.
+  areaServed: { "@type": "Country", name: "United States" },
+  // Sin `telephone` a propósito: la captación va por formulario y agenda,
+  // no por llamada. Omitirlo es coherente; un teléfono que no se atiende
+  // sería peor que no tenerlo.
   knowsLanguage: ["en", "es"],
   serviceType: ["Web Design", "SEO", "E-commerce Development", "Landing Pages"],
   priceRange: "$$",

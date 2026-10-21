@@ -38,7 +38,7 @@ const sections = [
   },
   {
     q: "Where we work",
-    a: "We work remotely with clients in Panama and the United States.",
+    a: "We work remotely with clients across the United States.",
     body: "Projects run over video calls and shared documents, with a single point of contact from the first call to launch.",
   },
 ];
