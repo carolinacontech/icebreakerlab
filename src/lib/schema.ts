@@ -66,6 +66,10 @@ export function breadcrumbs(trail: { name: string; path: string }[]) {
   };
 }
 
+// Cada entidad se emite como nodo propio con su @context y su @type. Un
+// contenedor @graph deja un nodo raíz sin @type, que los validadores marcan.
 export function graph(nodes: object[]) {
-  return JSON.stringify({ "@context": "https://schema.org", "@graph": nodes });
+  return JSON.stringify(
+    nodes.map((n) => ({ "@context": "https://schema.org", ...n }))
+  );
 }
