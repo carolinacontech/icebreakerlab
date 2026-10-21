@@ -9,7 +9,7 @@ Herramienta: `seo-audit.mjs` · base de conocimiento `docs/01`–`docs/17`
 
 | | Antes | Ahora |
 |---|---|---|
-| SEO Score (tool) | 90/100 | **99/100** |
+| SEO Score (tool) | 90/100 | **99/100** (4 páginas) |
 | P1 | 0 | 0 |
 | P2 | 3 | **0** |
 | P3 | 5 | **1** |
@@ -33,6 +33,15 @@ commiteado en `main` e importaba `three` / `@react-three/fiber`, ausentes del
 desde la rama `hero-3d`, pero Vercel instala desde cero y **el build fallaba**:
 los deploys no salían y producción seguía sin los arreglos. Resuelto en
 `c738b1b`; el prototipo sigue intacto en `hero-3d`.
+
+## Segunda ronda (mejora de puntuación)
+
+| Cambio | Regla | Evidencia en producción |
+|---|---|---|
+| `@graph` por página: `WebSite` + `WebPage` + `ProfessionalService` | `docs/08` | 5 tipos distintos en `/portfolio` |
+| `BreadcrumbList` + migas **visibles** en `/services`, `/portfolio`, `/about` | `docs/08` | `aria-label="Breadcrumb"` presente |
+| Nodos anidados sin `@type` (publisher, isPartOf, about) | `docs/08` | 0 nodos sin tipo en las 4 páginas |
+| Nueva `/about` como hogar de la entidad, con respuestas citables y tabla de datos | `docs/10` | canonical propio, en sitemap, enlazada desde el navbar |
 
 ## Abierto
 
