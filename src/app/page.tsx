@@ -9,10 +9,21 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Cursor from "@/components/Cursor";
 import Reviews from "@/components/Reviews";
+import { graph, organization, website, webPage } from "@/lib/schema";
 
 export default function Home() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: graph([
+            website,
+            organization,
+            webPage("/", "Icebreaker Lab", "Websites that rank on Google and convert visitors into clients."),
+          ]),
+        }}
+      />
       <Cursor />
       <Navbar />
       <ScrollVideo />

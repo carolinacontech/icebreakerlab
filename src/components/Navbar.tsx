@@ -8,12 +8,14 @@ import { CrackLink } from "./IceCrack";
 const homeLinks = [
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
 ];
 
 const innerLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "About", href: "/about" },
 ];
 
 export default function Navbar() {

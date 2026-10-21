@@ -13,5 +13,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: SITE, lastModified: LAST_CONTENT_UPDATE },
     { url: `${SITE}/services`, lastModified: LAST_CONTENT_UPDATE },
     { url: `${SITE}/portfolio`, lastModified: LAST_CONTENT_UPDATE },
+    { url: `${SITE}/about`, lastModified: LAST_CONTENT_UPDATE },
   ];
 }
