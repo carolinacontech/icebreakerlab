@@ -10,7 +10,7 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-import WhatsAppButton from "@/components/WhatsAppButton";
+import ChatBot from "@/components/ChatBot";
 
 export const metadata: Metadata = {
   title: "The Icebreakerlab | Websites & SEO that break the ice",
@@ -80,7 +80,7 @@ export default function RootLayout({
         <SmoothScroll>
           <IceCrackProvider>{children}</IceCrackProvider>
         </SmoothScroll>
-        <WhatsAppButton />
+        <ChatBot />
       </body>
     </html>
   );
