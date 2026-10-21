@@ -66,8 +66,14 @@ export default function Footer() {
             © 2026 Icebreaker Lab · Websites that break the ice
           </p>
           <div className="flex gap-6">
-            {["Instagram", "LinkedIn", "Behance"].map((s) => (
-              <a key={s} href="#" className="text-xs transition-all duration-200"
+            {/* Solo perfiles que existen. Instagram y Behance estaban como
+                href="#": un enlace muerto en el footer de una agencia web
+                resta más de lo que suma. Se reponen cuando haya URL real. */}
+            {[
+              { name: "LinkedIn", href: "https://www.linkedin.com/company/theicebreakerlab" },
+              { name: "Google", href: "https://www.google.com/search?kgmid=/g/11zzxcy2k_" },
+            ].map(({ name: s, href }) => (
+              <a key={s} href={href} target="_blank" rel="noopener noreferrer" className="text-xs transition-all duration-200"
                 style={{ color: "var(--aurora-light)", opacity: 0.4 }}
                 onMouseEnter={(e) => { (e.target as HTMLElement).style.opacity = "1"; }}
                 onMouseLeave={(e) => { (e.target as HTMLElement).style.opacity = "0.4"; }}>

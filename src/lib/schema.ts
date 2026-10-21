@@ -10,14 +10,17 @@ export const ORG_ID = `${SITE}/#organization`;
 
 // Perfiles externos de la marca. docs/10: `sameAs` es la señal más fuerte para
 // que buscadores y motores de IA resuelvan QUIÉN responde, no solo qué se dijo.
-// Vacío a propósito hasta tener las URLs reales: inventarlas sería peor que
-// omitirlas.
-const SAME_AS: string[] = [];
+const SAME_AS: string[] = [
+  "https://www.linkedin.com/company/theicebreakerlab",
+  // Entidad en el Knowledge Graph de Google (ficha de empresa)
+  "https://www.google.com/search?kgmid=/g/11zzxcy2k_",
+];
 
 export const organization = {
   "@type": "ProfessionalService",
   "@id": ORG_ID,
   name: "Icebreaker Lab",
+  alternateName: "The Icebreakerlab",
   description:
     "Web design agency specialized in SEO-optimized websites built to rank on Google and convert visitors into clients.",
   url: SITE,
